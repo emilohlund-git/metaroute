@@ -1,3 +1,5 @@
+export * from "./metadata-keys.constants";
+
 export const KNOWN_IP_HEADERS = [
   "fastly-client-ip",
   "cf-connecting-ip",

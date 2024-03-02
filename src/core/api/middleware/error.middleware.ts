@@ -3,7 +3,7 @@ import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
 import { NextFunction } from "../server/types";
 
-export function ErrorMiddleware(
+export function LogErrorMiddleware(
   err: Error,
   req: MetaRouteRequest,
   res: MetaRouteResponse,

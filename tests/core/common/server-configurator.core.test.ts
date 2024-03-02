@@ -3,7 +3,6 @@ import { MetaRouteRouter } from "@core/api/server/routing/basic-http.router.core
 import { EventRouter } from "@core/api/server/routing/event.router";
 import { HttpRouter } from "@core/api/server/routing/http.router";
 import { AppConfiguration } from "@core/common/interfaces/app-configuration.interface";
-import { Controller } from "@core/common/interfaces/controller.interface";
 import { ServerConfigurator } from "@core/common/server-configurator.core";
 import { ConfigService } from "@core/common/services/config.service";
 import { EnvironmentStore } from "@core/common/services/environment-store.service";
@@ -12,8 +11,8 @@ import { mock } from "ts-mockito";
 describe("ServerConfigurator", () => {
   let serverConfigurator: ServerConfigurator;
   let configService: ConfigService;
-  let httpRouter: HttpRouter<Controller>;
-  let eventRouter: EventRouter<Controller>;
+  let httpRouter: HttpRouter<any>;
+  let eventRouter: EventRouter<any>;
   let server: MetaRouteServer;
   let appConfiguration: AppConfiguration;
   let environmentStore: EnvironmentStore;

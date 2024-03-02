@@ -4,12 +4,11 @@ import {
   SOCKETIO_SERVER_METADATA_KEY,
 } from "../../../common/constants/metadata-keys.constants";
 import { Router } from "./router.abstract";
-import { Controller } from "../../../common/interfaces/controller.interface";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { Configurator } from "../../../common/decorators/configurator.decorator";
 
 @Configurator
-export class EventRouter<T extends Controller> extends Router<T> {
+export class EventRouter<T extends Function> extends Router<T> {
   private readonly logger = new ConsoleLogger(EventRouter.name);
 
   constructor() {
@@ -45,7 +44,11 @@ export class EventRouter<T extends Controller> extends Router<T> {
     io: SocketServer
   ): void {
     socket.on(event, async (data: any) => {
-      const result = await controller[key].bind(controller)(data, socket, io);
+      const result = await controller[key as keyof Function].bind(controller)(
+        data,
+        socket,
+        io
+      );
       socket.emit(event, result);
     });
   }

@@ -1,12 +1,15 @@
 {
-  "name": "metaroute",
+  "name": "@emilohlund-git/metaroute",
   "version": "1.0.0",
   "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
-  "main": "dist/src/boot/application.boot.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/emilohlund-git"
+  },
   "scripts": {
-    "start": "node dist/src/boot/application.boot.js",
     "build": "tsc",
-    "dev": "set NODE_ENV=development && nodemon",
+    "prepare": "npm run build",
     "test": "jest --detectOpenHandles",
     "test:coverage": "jest --coverage"
   },

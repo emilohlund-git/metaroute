@@ -1,7 +1,4 @@
-import { ErrorMiddleware } from "@core/api/middleware/error.middleware";
-import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
-import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
-import { ConsoleLogger } from "@core/common/services/console-logger.service";
+import { ConsoleLogger, LogErrorMiddleware, MetaRouteRequest, MetaRouteResponse } from "src";
 
 jest.mock("@core/common/services/console-logger.service");
 
@@ -30,7 +27,7 @@ describe("ErrorMiddleware", () => {
   it("should log the error and call next", () => {
     const error = new Error("Test error");
 
-    ErrorMiddleware(error, req as MetaRouteRequest, res as MetaRouteResponse, next);
+    LogErrorMiddleware(error, req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(res.on).toHaveBeenCalledWith("finish", expect.any(Function));
 
