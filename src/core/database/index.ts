@@ -5,5 +5,5 @@ export * from "./exceptions";
 export * from "./executors";
 export * from "./interfaces";
 export * from "./code-first-database.abstract";
-export * from "./database-connection.abstract";
-export * from "./database-executor.abstract";
+export * from "./connections/database-connection.abstract";
+export * from "./executors/database-executor.abstract";

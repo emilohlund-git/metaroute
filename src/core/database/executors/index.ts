@@ -1,1 +1,1 @@
-export * from "./sql.executor";
+export * from "./database-executor.abstract";
