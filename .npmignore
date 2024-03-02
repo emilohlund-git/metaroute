@@ -8,3 +8,4 @@ jest.setup.ts
 cert.pem
 key.pem
 docker-compose.yml
+commitlint.config.js
