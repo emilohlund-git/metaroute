@@ -25,7 +25,7 @@ export class MetaRouteServer {
       if (config.engine) {
         response.engine(config.engine);
       }
-      
+
       this.router.handleRequest(request, response);
     };
     this.server = this.createServer(config, reqHandler);
@@ -112,6 +112,10 @@ export class MetaRouteServer {
 
   use(middleware: UnifiedMiddleware) {
     this.router.registerMiddleware(middleware);
+  }
+
+  close() {
+    this.server.close();
   }
 
   get serverInstance() {

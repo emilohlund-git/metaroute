@@ -17,7 +17,7 @@ export class MetaRouteCore implements Initializable {
     private readonly importHandler: ImportHandler,
     private readonly codeFirstConfigurator: CodeFirstConfigurator,
     private readonly serverConfigurator: ServerConfigurator,
-    private readonly mememoryManager: MemoryManager
+    private readonly memoryManager: MemoryManager
   ) {}
 
   public async setup(configuration: AppConfiguration) {
@@ -25,6 +25,6 @@ export class MetaRouteCore implements Initializable {
     await this.importHandler.setup();
     await this.serverConfigurator.setup(configuration);
     await this.codeFirstConfigurator.setup();
-    await this.mememoryManager.setup();
+    await this.memoryManager.setup();
   }
 }

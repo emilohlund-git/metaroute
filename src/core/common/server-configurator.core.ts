@@ -32,10 +32,10 @@ export class ServerConfigurator implements Initializable {
   ) {}
 
   async setup(configuration: AppConfiguration): Promise<void> {
+    this.startServer(configuration);
     this.initializeIO();
     this.registerMiddlewares(configuration.middleware);
     await this.registerRoutes();
-    this.startServer(configuration);
     this.registerMiddlewares(configuration.errorMiddleware);
   }
 
