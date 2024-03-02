@@ -22,23 +22,18 @@ export class ImportHandler implements Initializable {
 
   protected handleImports = async () => {
     this.logger.debug(`Current working directory: ${process.cwd()}`);
-    const srcDirectory = path.join(
-      process.cwd(),
-      this.configService.get("SRC_DIRECTORY")
-    );
+    const srcDirectory = path.join(process.cwd(), "src");
 
-    const fileTypes = this.configService.get("IMPORT_TYPES").split(",");
+    const fileType = ".ts";
 
-    for (const fileType of fileTypes) {
-      try {
-        this.logger.debug(
-          `Importing ${fileType} files. Directory: ${srcDirectory}.`
-        );
-        await this.importFiles(srcDirectory, fileType);
-      } catch (error: any) {
-        this.logger.error(`Error importing ${fileType} files`);
-        throw new Error(error.message);
-      }
+    try {
+      this.logger.debug(
+        `Importing ${fileType} files. Directory: ${srcDirectory}.`
+      );
+      await this.importFiles(srcDirectory, fileType);
+    } catch (error: any) {
+      this.logger.error(`Error importing ${fileType} files`);
+      throw new Error(error.message);
     }
   };
 

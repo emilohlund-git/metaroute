@@ -1,6 +1,6 @@
 {
   "name": "@emilohlund-git/metaroute",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
