@@ -8,11 +8,10 @@ import { DatabaseTableException } from "@core/database/exceptions/database-table
 import { DATABASE_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import { ColumnDecoratorInterface } from "@core/common/interfaces/column-decorator-properties.interface";
 import { Entity } from "@core/common/types";
-import { DatabaseConnection } from "@core/database/database-connection.abstract";
-import { DatabaseCommandExecutor } from "@core/database/database-executor.abstract";
 import { DatabaseEntity } from "@core/database/decorators/database-entity.decorator";
 import { Column } from "@core/database/decorators/column.decorator";
 import { TableCreationException } from "@core/database/exceptions/table-creation.exception";
+import { DatabaseCommandExecutor, DatabaseConnection } from "src";
 
 @DatabaseEntity()
 class TestEntity {

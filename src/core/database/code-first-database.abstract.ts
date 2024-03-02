@@ -1,19 +1,14 @@
 import { ENTITY_METADATA_KEY } from "../common/constants/metadata-keys.constants";
-import { DatabaseConnection } from "./database-connection.abstract";
-import { DatabaseCommandExecutor } from "./database-executor.abstract";
+import { DatabaseConnection } from "./connections/database-connection.abstract";
+import { DatabaseCommandExecutor } from "./executors/database-executor.abstract";
 import { TableCreationException } from "./exceptions/table-creation.exception";
 import { ColumnDecoratorInterface } from "../common/interfaces/column-decorator-properties.interface";
 import { ConsoleLogger } from "../common/services/console-logger.service";
-import { InsertCommand } from "./commands/sql/insert.command";
-import { CreateTableCommand } from "./commands/sql/create-table.command";
-import { UpdateCommand } from "./commands/sql/update.command";
-import { FindCommand } from "./commands/sql/find.command";
-import { RemoveCommand } from "./commands/sql/remove.command";
 import { Crud } from "../common/interfaces/crud.interface";
 import { TableNotFoundException } from "./exceptions/table-not-found.exception";
 import { DatabaseResponse } from "./interfaces/database-response.interface";
 import { Entity } from "../common/types";
-import { FindAllCommand } from "./commands/sql/find-all.command";
+import { DatabaseCommand } from "./commands";
 
 export abstract class CodeFirstDatabase<T> implements Crud<T> {
   protected entityConstructor: new (...args: any[]) => any;
@@ -40,7 +35,14 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     }
 
     try {
-      const command = new InsertCommand<T>(table, entity);
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
+
       return await this.commandExecutor.executeCommand(command);
     } catch (error: any) {
       this.logger.error(
@@ -56,7 +58,14 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     const table = this.getTableForEntity();
 
     try {
-      const command = new FindCommand(table, criteria);
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
+
       return await this.commandExecutor.executeCommand(command);
     } catch (error: any) {
       return { success: false, error: error.message };
@@ -67,7 +76,14 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     const table = this.getTableForEntity();
 
     try {
-      const command = new FindAllCommand(table);
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
+
       return await this.commandExecutor.executeCommand(command);
     } catch (error: any) {
       this.logger.error(
@@ -83,7 +99,14 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     const table = this.getTableForEntity();
 
     try {
-      const command = new UpdateCommand(table, entity, id);
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
+
       return await this.commandExecutor.executeCommand(command);
     } catch (error: any) {
       this.logger.error(
@@ -99,7 +122,14 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     const table = this.getTableForEntity();
 
     try {
-      const command = new RemoveCommand(table, id);
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
+
       return await this.commandExecutor.executeCommand(command);
     } catch (error: any) {
       return { success: false, error: error.message };
@@ -111,10 +141,13 @@ export abstract class CodeFirstDatabase<T> implements Crud<T> {
     properties: ColumnDecoratorInterface[]
   ) {
     try {
-      const command = new CreateTableCommand(
-        entity.constructor.name.toUpperCase(),
-        properties
-      );
+      const command: DatabaseCommand = {
+        command: "",
+        parameters: [],
+        generate() {
+          return "";
+        },
+      };
 
       await this.commandExecutor.executeCommand(command);
     } catch (error) {

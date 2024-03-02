@@ -1,6 +1,6 @@
 {
   "name": "@emilohlund-git/metaroute",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,7 +35,6 @@
   "author": "Emil Ölund",
   "license": "ISC",
   "dependencies": {
-    "mysql2": "^3.9.1",
     "reflect-metadata": "^0.2.1",
     "socket.io": "^4.7.4"
   },

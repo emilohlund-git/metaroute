@@ -1,6 +1,6 @@
-import { DatabaseConnection } from "./database-connection.abstract";
-import { DatabaseCommand } from "./commands/database-command.abstract";
-import { DatabaseResponse } from "./interfaces/database-response.interface";
+import { DatabaseConnection } from "../connections/database-connection.abstract";
+import { DatabaseCommand } from "../commands/database-command.abstract";
+import { DatabaseResponse } from "../interfaces/database-response.interface";
 
 /**
  * `DatabaseCommandExecutor` is an abstract class that represents a command executor for a database.

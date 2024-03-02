@@ -1,1 +1,1 @@
-export * from "./sql.connector";
+export * from "./database-connection.abstract";
