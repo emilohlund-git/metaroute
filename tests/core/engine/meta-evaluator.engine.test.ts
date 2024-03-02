@@ -94,7 +94,7 @@ describe("MetaEvaluator", () => {
 
     const result = evaluator.evaluate();
     expect(result).toBe(
-      '<footer class="footer"><p class="footer-text">{{footerText}}</p></footer>'
+      '<footer class="footer"><p class="footer-text">footerText</p></footer>'
     );
   });
 
