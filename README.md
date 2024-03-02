@@ -14,23 +14,23 @@
 
 ## Table of Contents 📖
 
-- [Installation 🛠️](#installation-%F0%9F%9B%A0%EF%B8%8F)
-- [Usage 🔧](#usage-%F0%9F%94%A7)
-- [Features 🚀](#features-%F0%9F%9A%80)
-  - [Route Caching 🔒](#route-caching-%F0%9F%94%92)
-  - [JWT Authorization 🔐](#jwt-authorization-%F0%9F%94%90)
-  - [Email Server 📧](#email-server-%F0%9F%93%A7)
-  - [Templating Engine 🎨](#templating-engine-%F0%9F%8E%A8)
-  - [Memory Manager 🧠](#memory-manager-%F0%9F%A7%A0)
-  - [Data Validation ✅](#data-validation-%E2%9C%85)
-  - [API Key Guard 🛡️](#api-key-guard-%F0%9F%9B%A1%EF%B8%8F)
-  - [Logging Service 📝](#logging-service-%F0%9F%93%9D)
-  - [Configuration Service ⚙️](#configuration-service-%E2%9A%99%EF%B8%8F)
-  - [Decorative Approach to Controller/Route Management 🎀](#decorative-approach-to-controllerroute-management-%F0%9F%8E%80)
-  - [Socket.IO Server Implementation 📡](#socketio-server-implementation-%F0%9F%93%A1)
-- [Contributing 🤝](#contributing-%F0%9F%A4%9D)
-- [License 📄](#license-%F0%9F%93%84)
-- [Contact 📧](#contact-%F0%9F%93%A7)
+- [Installation 🛠️](#installation)
+- [Usage 🔧](#usage)
+- [Features 🚀](#features)
+  - [Route Caching 🔒](#route-caching)
+  - [JWT Authorization 🔐](#jwt-authorization)
+  - [Email Server 📧](#email-server)
+  - [Templating Engine 🎨](#templating-engine)
+  - [Memory Manager 🧠](#memory-manager)
+  - [Data Validation ✅](#data-validation)
+  - [API Key Guard 🛡️](#api-key-guard)
+  - [Logging Service 📝](#logging-service)
+  - [Configuration Service ⚙️](#configuration-service)
+  - [Decorative Approach to Controller/Route Management 🎀](#decorative-approach-to-controllerroute-management)
+  - [Socket.IO Server Implementation 📡](#socketio-server-implementation)
+- [Contributing 🤝](#contributing)
+- [License 📄](#license)
+- [Contact 📧](#contact)
 
 ## Installation 🛠️
 
@@ -38,7 +38,7 @@ Since the package is currently deployed to Github Packages, you're going to need
 
 ```bash
 # if you don't have an .npmrc file in your project root specifying the github registry.
-npm install @emilohlund-git/metaroute@latest --registry https://npm.pkg.github.com 
+npm install @emilohlund-git/metaroute@latest --registry https://npm.pkg.github.com
 ```
 
 This is also going to make you authenticate with github, so you will have to log in using your github email address and a personal access token.
@@ -48,7 +48,13 @@ This is also going to make you authenticate with github, so you will have to log
 To use the package simply import what you need from the package.
 
 ```typescript
-import { Get, Controller, App, ResponseEntity, MetaResponse } from "@emilohlund-git/metaroute";
+import {
+  Get,
+  Controller,
+  App,
+  ResponseEntity,
+  MetaResponse,
+} from "@emilohlund-git/metaroute";
 import { TestService } from "../services/test.service.ts";
 
 @Controller("/test")
@@ -78,7 +84,7 @@ export class TestService {
 
 ## Features 🚀
 
-### Route Caching 🔒 
+### Route Caching 🔒
 
 To enable Route caching, use the `@Cache()` decorator on the route. The cache stores responses and uses the `maxSize` option to remove the oldest entries when full.
 
@@ -98,7 +104,7 @@ async getTest(): MetaResponse<string> {
 
 Secure your API endpoints with JSON Web Token (JWT) authorization. Use the `@Auth` annotation to restrict access based on user authentication.
 
-First of all you would need to create a service to handle the basic authentication logic. Example: 
+First of all you would need to create a service to handle the basic authentication logic. Example:
 
 ```typescript
 import { CryptService, ConfigService, JwtService } from "@emilohlund-git/metaroute";
@@ -124,7 +130,7 @@ export class AuthService {
 
     // Compare the hashed passwords
     const passwordMatches = await this.encryptionService.comparePasswords(password, user.password);
-    
+
     if (!passwordMatches) return {
       success: false,
       error: "Invalid password"
@@ -158,7 +164,7 @@ export class AuthService {
     } catch (error) {
       throw new DatabaseException(error.message);
     }
-    
+
     return {
       success: true,
       data: { token, refreshToken }
@@ -231,7 +237,7 @@ async send(email: Email, options: SmtpOptions) {
 }
 ```
 
-### Templating Engine 🎨 
+### Templating Engine 🎨
 
 Documentation to be added.
 
@@ -261,7 +267,21 @@ Documentation to be added.
 
 ### Socket.IO Server Implementation 📡
 
-Documentation to be added.
+You can implement a socket server using the `@SocketServer` decorator.
+It will create a namespace with the parameter name. The `@OnMessage` decorator will listen to events on said namespace with the parameter event name. 
+
+```typescript
+import { SocketServer, OnMessage } from "@emilohlund-git/metaroute";
+
+@SocketServer("namespace")
+export class SocketController {
+
+  @OnMessage("hello")
+  async hello(data: any, socket: Socket): Promise<string> {
+    return "world!";
+  }
+}
+```
 
 ## Contributing 🤝
 

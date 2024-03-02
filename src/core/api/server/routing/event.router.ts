@@ -30,6 +30,9 @@ export class EventRouter<T extends Function> extends Router<T> {
         );
 
         namespace.on("connection", (socket: Socket) => {
+          this.logger.success(
+            `[🔌 ${socket.id}]: Joined namespace: [${namespacePath}]`
+          );
           this.registerEvent(socket, metadata, controller, key, io);
         });
       }
