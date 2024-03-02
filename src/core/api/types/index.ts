@@ -23,13 +23,6 @@ export type JwtRequest<T> = Request & {
   headers: JwtHeaders;
   user?: Partial<T>;
 };
-export type JwtPayloadUser = {
-  data: any;
-  username: string;
-  exp: number;
-  iat: number;
-  email: string;
-};
 export type HttpHeaders = {
   [key: string]: string;
 };

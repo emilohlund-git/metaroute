@@ -11,7 +11,6 @@ import {
   ROUTE_METADATA_KEY,
 } from "../../../common/constants/metadata-keys.constants";
 import { Router } from "./router.abstract";
-import { Controller } from "../../../common/interfaces/controller.interface";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { RateLimiterOptions } from "../../../common/interfaces/rate-limiter.interface";
 import { createRateLimiterMiddleware } from "../../middleware/functions/create-rate-limiter-middleware";
@@ -25,7 +24,7 @@ import { CacheOptions } from "@core/cache/interfaces/cache-options.interface";
 import { createCacheMiddleware } from "@core/cache/functions/create-cache-middleware";
 
 @Configurator
-export class HttpRouter<T extends Controller> extends Router<T> {
+export class HttpRouter<T extends Function> extends Router<T> {
   private readonly logger = new ConsoleLogger(HttpRouter.name);
 
   constructor() {
@@ -108,7 +107,9 @@ export class HttpRouter<T extends Controller> extends Router<T> {
           `Handling request for ${controller.constructor.name}.${key}`
         );
         const args = this.buildArgs(controller, key, req, res);
-        const result = await controller[key].bind(controller)(...args);
+        const result = await controller[key as keyof Function].bind(controller)(
+          ...args
+        );
         res.status(result.status).send(result.body);
       } catch (error) {
         next(error);

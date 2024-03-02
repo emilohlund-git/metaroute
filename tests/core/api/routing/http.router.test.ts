@@ -19,7 +19,7 @@ import "reflect-metadata";
 import { mock, instance } from "ts-mockito";
 
 @Controller("test")
-class MockController {
+class MockController extends Function {
   @Get("")
   testMethod(req: MetaRouteRequest, res: MetaRouteResponse) {
     return ResponseEntity.ok();

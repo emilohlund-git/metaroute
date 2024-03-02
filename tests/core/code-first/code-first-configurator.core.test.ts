@@ -1,4 +1,4 @@
-import { mock, instance, when, verify, anyString, anything } from "ts-mockito";
+import { mock, instance, verify, anyString } from "ts-mockito";
 import "reflect-metadata";
 import { CodeFirstConfigurator } from "@core/code-first/code-first-configurator.core";
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
@@ -13,7 +13,6 @@ import { DatabaseCommandExecutor } from "@core/database/database-executor.abstra
 import { DatabaseEntity } from "@core/database/decorators/database-entity.decorator";
 import { Column } from "@core/database/decorators/column.decorator";
 import { TableCreationException } from "@core/database/exceptions/table-creation.exception";
-import { User } from "src/domain/entities/user.entity";
 
 @DatabaseEntity()
 class TestEntity {

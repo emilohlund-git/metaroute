@@ -1,0 +1,10 @@
+node_modules/
+*.map
+tests/
+.git/
+.github/
+jest.config.ts
+jest.setup.ts
+cert.pem
+key.pem
+docker-compose.yml

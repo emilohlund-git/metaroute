@@ -1,6 +1,5 @@
 import { EventRouter } from "@core/api/server/routing/event.router";
 import { ON_MESSAGE_METADATA_KEY, SOCKETIO_SERVER_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
-import { Controller } from "@core/common/interfaces/controller.interface";
 import "reflect-metadata";
 
 import { Server as SocketServer, Socket, Server } from "socket.io";
@@ -9,9 +8,9 @@ jest.mock("socket.io");
 
 describe("EventRouter", () => {
   let io: jest.Mocked<Server<SocketServer>> & { of: jest.Mock };
-  let controller: Partial<Controller>;
+  let controller: Partial<any>;
   let socket: Partial<Socket> & { on: jest.Mock; emit: jest.Mock };
-  let eventRouter: EventRouter<Controller>;
+  let eventRouter: EventRouter<any>;
 
   beforeEach(() => {
     io = {
@@ -47,7 +46,7 @@ describe("EventRouter", () => {
   });
 
   it("should register events", () => {
-    eventRouter.register(io as SocketServer, controller as Controller);
+    eventRouter.register(io as SocketServer, controller);
 
     expect(io.of).toHaveBeenCalledWith("/test");
     expect(socket.on).toHaveBeenCalledWith(
@@ -59,7 +58,7 @@ describe("EventRouter", () => {
   it("should emit event with result", async () => {
     controller.test = jest.fn().mockResolvedValue("result");
 
-    eventRouter.register(io as SocketServer, controller as Controller);
+    eventRouter.register(io as SocketServer, controller);
 
     // Call the socket event callback
     const socketCallback = socket.on.mock.calls[0][1];
@@ -81,7 +80,7 @@ describe("EventRouter", () => {
       Object.getPrototypeOf(controller)
     );
 
-    eventRouter.register(io as SocketServer, controller as Controller);
+    eventRouter.register(io as SocketServer, controller);
 
     expect(socket.on).toHaveBeenCalledWith(
       [
@@ -99,7 +98,7 @@ describe("EventRouter", () => {
       Object.getPrototypeOf(controller)
     );
 
-    eventRouter.register(io as SocketServer, controller as Controller);
+    eventRouter.register(io as SocketServer, controller);
 
     expect(io.of).toHaveBeenCalledWith("/different");
   });
