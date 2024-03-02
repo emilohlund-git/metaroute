@@ -12,30 +12,265 @@
   MetaRoute is a passion project made for personal experience and exploration. It's a fully fleged API framework with tons of built in features. It operates through the use of decorators. The biggest reason for building this project was to try to make an API framework with next to no dependencies. The only dependencies used currently is Socket.IO & reflect-metadata.
 </p>
 
+## Table of Contents 📖
+
+- [Installation 🛠️](#installation-%F0%9F%9B%A0%EF%B8%8F)
+- [Usage 🔧](#usage-%F0%9F%94%A7)
+- [Features 🚀](#features-%F0%9F%9A%80)
+  - [Route Caching 🔒](#route-caching-%F0%9F%94%92)
+  - [JWT Authorization 🔐](#jwt-authorization-%F0%9F%94%90)
+  - [Email Server 📧](#email-server-%F0%9F%93%A7)
+  - [Templating Engine 🎨](#templating-engine-%F0%9F%8E%A8)
+  - [Memory Manager 🧠](#memory-manager-%F0%9F%A7%A0)
+  - [Data Validation ✅](#data-validation-%E2%9C%85)
+  - [API Key Guard 🛡️](#api-key-guard-%F0%9F%9B%A1%EF%B8%8F)
+  - [Logging Service 📝](#logging-service-%F0%9F%93%9D)
+  - [Configuration Service ⚙️](#configuration-service-%E2%9A%99%EF%B8%8F)
+  - [Decorative Approach to Controller/Route Management 🎀](#decorative-approach-to-controllerroute-management-%F0%9F%8E%80)
+  - [Socket.IO Server Implementation 📡](#socketio-server-implementation-%F0%9F%93%A1)
+- [Contributing 🤝](#contributing-%F0%9F%A4%9D)
+- [License 📄](#license-%F0%9F%93%84)
+- [Contact 📧](#contact-%F0%9F%93%A7)
+
+## Installation 🛠️
+
+Since the package is currently deployed to Github Packages, you're going to need to specify using the github packages registry when installing the package.
+
+```bash
+# if you don't have an .npmrc file in your project root specifying the github registry.
+npm install @emilohlund-git/metaroute@latest --registry https://npm.pkg.github.com 
+```
+
+This is also going to make you authenticate with github, so you will have to log in using your github email address and a personal access token.
+
+## Usage 🔧
+
+To use the package simply import what you need from the package.
+
+```typescript
+import { Get, Controller, App, ResponseEntity, MetaResponse } from "@emilohlund-git/metaroute";
+import { TestService } from "../services/test.service.ts";
+
+@Controller("/test")
+class TestController {
+  constructor(private readonly testService: TestService) {}
+
+  @Get("")
+  async getTest(): MetaResponse<string> {
+    const data = this.testService.getTest();
+    return ResponseEntity.ok(data);
+  }
+}
+```
+
+The framework operates with the use of decorators. Which means you can for example have your `TestService` class injected to the `TestController` by decorating it with a `@Injectable()` decorator.
+
+```typescript
+import { Injectable } from "@emilohlund-git/metaroute";
+
+@Injectable()
+export class TestService {
+  getTest() {
+    return "Test";
+  }
+}
+```
+
 ## Features 🚀
 
-- 🏗️ **Code-First Database Implementation:** Define your database schema directly in your code using annotations like @DatabaseEntity, @Column, @NullableColumn, and more.
+### Route Caching 🔒 
 
-- 🔒 **Route Caching:** Optimize performance by caching frequently accessed routes with support for time-to-live (TTL) and maximum size settings.
+To enable Route caching, use the `@Cache()` decorator on the route. The cache stores responses and uses the `maxSize` option to remove the oldest entries when full.
 
-- 🔐 **JWT Authorization:** Secure your API endpoints with JSON Web Token (JWT) authorization. Use the @Auth annotation to restrict access based on user authentication.
+```typescript
+@Get("")
+@Cache({
+  ttl: 60,
+  maxSize: 100
+})
+async getTest(): MetaResponse<string> {
+  const data = this.testService.getTest();
+  return ResponseEntity.ok(data);
+}
+```
 
-- 📧 **Email Server:** Send emails effortlessly using MetaRoute's built-in SMTP email server. Streamline communication with users by integrating email functionality into your applications.
+### JWT Authorization 🔐
 
-- 🎨 **Templating Engine:** Generate dynamic content with ease using MetaRoute's templating engine. Create HTML templates with embedded logic, variables, and expressions for dynamic rendering.
+Secure your API endpoints with JSON Web Token (JWT) authorization. Use the `@Auth` annotation to restrict access based on user authentication.
 
-- 🧠 **Memory Manager:** Manage memory efficiently with MetaRoute's memory manager. Optimize resource usage and prevent memory leaks in your applications.
+First of all you would need to create a service to handle the basic authentication logic. Example: 
 
-- ✅ **Data Validation:** Ensure data integrity and validity using MetaRoute's data validation features. Annotate your data models with validation rules and enforce them in API routes.
+```typescript
+import { CryptService, ConfigService, JwtService } from "@emilohlund-git/metaroute";
+import { UserService } from "../services/user.service.ts";
+import { User } from "../entities/user.entity.ts";
 
-- 🛡️ **API Key Guard:** Protect your API endpoints with API key authentication. Safeguard sensitive data and restrict access to authorized users by validating API keys.
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly encryptionService: CryptService,
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService
+  ) {}
 
-- 📝 **Logging Service:** Track and analyze application activity with MetaRoute's logging service. Monitor system events, errors, and user interactions to maintain visibility and troubleshoot issues effectively.
+  async login(credentials: Credentials): Promise<LoginUserResponse> {
+    // Check if user exists in the database
+    const user = await this.db.find({ username: credentials.username });
+    if (!user) return {
+      status: HttpStatus.BAD_REQUEST,
+      message: "User does not exist"
+    }
 
-- ⚙️ **Configuration Service:** Simplify environment configuration management with MetaRoute's configuration service. Seamlessly handle environment variables across different deployment environments.
+    // Compare the hashed passwords
+    const passwordMatches = await this.encryptionService.comparePasswords(password, user.password);
+    
+    if (!passwordMatches) return {
+      success: false,
+      error: "Invalid password"
+    }
 
-- 🔄 **Auto-Loading Files:** Automatically load files at runtime with MetaRoute's file auto-loading feature. Eliminate the need for explicit imports and streamline file management in your projects.
+    const { password: _, refreshToken: __, ...userWithoutPassword } = user;
 
-- 🎀 **Decorative Approach to Controller/Route Management:** Organize and manage your API routes with a decorative approach. Use annotations like @Controller, @Get, @Post, etc., to define controllers and routes intuitively.
+    // Create access and refresh tokens
+    const token = await JwtService.signTokenAsync(
+      userWithoutPassword,
+      this.configService.get("JWT_SECRET"),
+      "15m"
+    )
 
-- 📡 **Socket.IO Server Implementation:** Enable real-time communication with MetaRoute's Socket.IO server implementation. Define socket namespaces and handle events for seamless event-based communication.
+    const refreshToken = await JwtService.signTokenAsync(
+      userWithoutPassword,
+      this.configService.get("REFRESH_SECRET"),
+      "7d"
+    )
+
+    if (!token || !refreshToken) return {
+      success: false,
+      error: "Failed creating tokens"
+    }
+
+    // Save refreshToken to user in database
+    user.refreshToken = refreshToken;
+
+    try {
+      await this.userService.update(user);
+    } catch (error) {
+      throw new DatabaseException(error.message);
+    }
+    
+    return {
+      success: true,
+      data: { token, refreshToken }
+    }
+  }
+
+  async register(user: CreateUserDto): Promise<RegisterUserResponse> {
+    // Check if user exists in the database
+    const userExists = await this.db.find(user);
+    if (userExists) return {
+      status: HttpStatus.BAD_REQUEST,
+      message: "User already exists"
+    }
+
+    // Encrypt the users password
+    const salt = this.encryptionService.generateSalt();
+    const hashedPassword = this.encryptionService.hashPassword(user.password, salt);
+
+    // Save the user in the database
+    try {
+      await this.db.save(user);
+    catch (error) {
+      throw new DatabaseException(error.message);
+    }
+
+    return {
+      status: HttpStatus.CREATED,
+      message: "User registeredsuccesfully"
+    }
+  }
+}
+```
+
+The `@Auth` decorator enforces authentication on a route. It intercepts the `MetaRouteRequest` object and adds the token user object to it. For this to work there needs to be some environment variables set:
+
+`JWT_SECRET=` and `REFRESH_SECRET=`
+
+```typescript
+import { Get, Auth, Req, MetaRouteRequest, ResponseEntity } from "@emilohlund-git/metaroute";
+
+@Get("/me")
+@Auth()
+async me(@Req() req: JwtRequest<User>): MetaResponse<CreateUserResponse> {
+  const data = await this.authService.me(req);
+  return ResponseEntity.ok(data);
+}
+```
+
+### Email Server 📧
+
+The built-in SmtpClient only works only works on port 465 and uses the SMTP protocol. But it should be a quick-start approach to handle emails if you can make use of SMTP.
+
+```typescript
+import { SmtpClient, SmtpOptions } from "@emilohlund-git/metaroute";
+
+export interface SmtpOptions {
+  host: string;
+  user: string;
+  password: string;
+}
+
+async send(email: Email, options: SmtpOptions) {
+  const smptClient = new SmtpClient(options);
+  try {
+    const result = await smtpClient.send(email);
+    return result;
+  } catch (error) {
+    // Handle error
+  }
+}
+```
+
+### Templating Engine 🎨 
+
+Documentation to be added.
+
+### Memory Manager 🧠
+
+Documentation to be added.
+
+### Data Validation ✅
+
+Documentation to be added.
+
+### API Key Guard 🛡️
+
+Documentation to be added.
+
+### Logging Service 📝
+
+Documentation to be added.
+
+### Configuration Service ⚙️
+
+Documentation to be added.
+
+### Decorative Approach to Controller/Route Management 🎀
+
+Documentation to be added.
+
+### Socket.IO Server Implementation 📡
+
+Documentation to be added.
+
+## Contributing 🤝
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
+
+## License 📄
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Contact 📧
+
+If you have any questions or need further clarification, feel free to reach out to me at [emil@emilohlund.dev](mailto:emil@emilohlund.dev).
