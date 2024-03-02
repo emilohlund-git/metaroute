@@ -1,5 +1,5 @@
-import { ErrorMiddleware, Middleware } from "@core/api/server/types";
-import { Engine } from "@core/engine/engine.abstract";
+import { ErrorMiddleware, Middleware } from "../../api/server/types";
+import { Engine } from "../../engine/engine.abstract";
 
 export interface AppConfiguration {
   middleware?: Middleware[];

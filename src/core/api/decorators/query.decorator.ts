@@ -1,4 +1,4 @@
-import { QUERY_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
+import { QUERY_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
 
 export function Query(
   key?: string,

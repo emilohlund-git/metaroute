@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@core/common/services/console-logger.service";
+import { ConsoleLogger } from "../common/services/console-logger.service";
 import { MEMORY_POLICY_METADATA_KEY } from "../common/constants/metadata-keys.constants";
 import { Configurator } from "../common/decorators/configurator.decorator";
 import { Initializable } from "../common/interfaces/initializable.interface";

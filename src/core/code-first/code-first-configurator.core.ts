@@ -10,7 +10,6 @@ import { Initializable } from "../common/interfaces/initializable.interface";
 import { ConsoleLogger } from "../common/services/console-logger.service";
 import { DatabaseTableException } from "../database/exceptions/database-table.exception";
 import { Entity, Instance } from "../common/types";
-import { TableCreationException } from "@core/database/exceptions/table-creation.exception";
 
 @Configurator
 export class CodeFirstConfigurator implements Initializable {

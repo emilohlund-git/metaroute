@@ -1,6 +1,6 @@
-import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
-import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
-import { CheckFunction, GuardFunction } from "@core/api/types";
+import { MetaRouteRequest } from "../../api/server/interfaces/meta-route.request";
+import { MetaRouteResponse } from "../../api/server/interfaces/meta-route.response";
+import { CheckFunction, GuardFunction } from "../../api/types";
 
 function isMetaRouteRequest(arg: any): arg is MetaRouteRequest {
   return arg && arg.headers && typeof arg.parseCookies === "function";
