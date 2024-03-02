@@ -4,6 +4,7 @@
   "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "https://github.com/emilohlund-git/metaroute.git",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/emilohlund-git"
   },
