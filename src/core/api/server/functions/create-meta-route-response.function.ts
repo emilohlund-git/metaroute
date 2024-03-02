@@ -1,9 +1,9 @@
 import { ServerResponse } from "http";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import fs from "fs";
-import { HttpStatus } from "@core/api/enums/http.status";
+import { HttpStatus } from "../../../api/enums/http.status";
 import path from "path";
-import { Engine } from "@core/engine/engine.abstract";
+import { Engine } from "../../../engine/engine.abstract";
 
 export function createMetaRouteResponses(res: ServerResponse) {
   const metaRouteResponse = res as MetaRouteResponse;

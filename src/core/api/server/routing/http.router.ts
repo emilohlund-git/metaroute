@@ -20,8 +20,8 @@ import { MetaRouteServer } from "../basic-http-server.core";
 import { NextFunction, RequestHandler } from "../types";
 import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
-import { CacheOptions } from "@core/cache/interfaces/cache-options.interface";
-import { createCacheMiddleware } from "@core/cache/functions/create-cache-middleware";
+import { CacheOptions } from "../../../cache/interfaces/cache-options.interface";
+import { createCacheMiddleware } from "../../../cache/functions/create-cache-middleware";
 
 @Configurator
 export class HttpRouter<T extends Function> extends Router<T> {

@@ -1,4 +1,4 @@
-import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
+import { MetaRouteRequest } from "../../api/server/interfaces/meta-route.request";
 import { IP_REGEX, KNOWN_IP_HEADERS, X_FORWARDED_FOR } from "../constants";
 
 function isIp(ip?: string | string[] | undefined): boolean {

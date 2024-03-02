@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@core/common/services/console-logger.service";
+import { ConsoleLogger } from "../common/services/console-logger.service";
 import { Node } from "./entities/node.entity";
 import { NodeType } from "./enums/node-type.enum";
 import * as path from "path";

@@ -1,4 +1,4 @@
-import { Engine } from "@core/engine/engine.abstract";
+import { Engine } from "../../../engine/engine.abstract";
 import { ServerResponse } from "http";
 
 export interface MetaRouteResponse extends ServerResponse {

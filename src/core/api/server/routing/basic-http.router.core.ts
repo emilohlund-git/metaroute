@@ -12,7 +12,7 @@ import { RouteRegistry } from "./route-registry.core";
 import { HttpStatus } from "../../enums/http.status";
 import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
-import { getClientIp } from "@core/common/functions/get-client-ip.function";
+import { getClientIp } from "../../../common/functions/get-client-ip.function";
 
 @Injectable
 export class MetaRouteRouter {

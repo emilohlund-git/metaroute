@@ -6,7 +6,7 @@ import { HttpMethod } from "../enums/http.method";
 import { createMetaRouteRequest } from "./functions/create-meta-route-request.function";
 import { createMetaRouteResponses } from "./functions/create-meta-route-response.function";
 import { RequestHandler, UnifiedMiddleware } from "./types";
-import { AppConfiguration } from "@core/common/interfaces/app-configuration.interface";
+import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 
 @Injectable
 export class MetaRouteServer {
