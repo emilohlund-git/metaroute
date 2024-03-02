@@ -1,0 +1,41 @@
+import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
+import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
+import { CheckFunction, GuardFunction } from "@core/api/types";
+
+function isMetaRouteRequest(arg: any): arg is MetaRouteRequest {
+  return arg && arg.headers && typeof arg.parseCookies === "function";
+}
+
+function isMetaRouteResponse(arg: any): arg is MetaRouteResponse {
+  return arg && typeof arg.status === "number";
+}
+
+function extractReqRes(
+  args: any[]
+): [MetaRouteRequest | undefined, MetaRouteResponse | undefined] {
+  let req = args.find(isMetaRouteRequest);
+  let res = args.find(isMetaRouteResponse);
+
+  return [req, res];
+}
+
+export function createInterceptor(check: CheckFunction): GuardFunction {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    const originalMethod = descriptor.value;
+
+    descriptor.value = async function (...args: any[]) {
+      const [req, res] = extractReqRes(args);
+
+      const result = await check(target, propertyKey, req, res);
+      if (result) {
+        return result;
+      }
+
+      return originalMethod.apply(this, args);
+    };
+  };
+}

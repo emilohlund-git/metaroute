@@ -1,0 +1,10 @@
+export enum SmtpCodes {
+  GREETING = "220",
+  BYE = "221",
+  AUTH_LOGIN = "334",
+  AUTH_SUCCESS = "235",
+  MAIL_FROM_SUCCESS = "250",
+  RCPT_TO_SUCCESS = "250",
+  DATA_SUCCESS = "354",
+  MAILBOX_UNAVAILABLE = "550",
+}
