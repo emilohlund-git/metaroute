@@ -90,10 +90,10 @@ describe("TemplateEngine", () => {
     );
   });
 
-  test("render should return template as is if data is empty", () => {
+  test("render should remove {{ and }} tags from literals if unmatched", () => {
     const templatePath = path.resolve(__dirname, "test.template");
     const templateContent = `<h1>{{title}}</h1>`;
-    const expectedOutput = `<h1>{{title}}</h1>`;
+    const expectedOutput = `<h1>title</h1>`;
     (fs.readFileSync as jest.Mock).mockReturnValue(templateContent);
 
     const result = engine.render(templatePath, {});

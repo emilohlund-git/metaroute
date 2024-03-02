@@ -1,17 +1,21 @@
 {
-  "name": "backend",
+  "name": "metaroute",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
+  "main": "dist/src/boot/application.boot.js",
   "scripts": {
-    "start": "node dist/src/server.js",
+    "start": "node dist/src/boot/application.boot.js",
     "build": "tsc",
     "dev": "set NODE_ENV=development && nodemon",
     "test": "jest --detectOpenHandles",
     "test:coverage": "jest --coverage"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "framework",
+    "typescript",
+    "api"
+  ],
+  "author": "Emil Ölund",
   "license": "ISC",
   "dependencies": {
     "mysql2": "^3.9.1",

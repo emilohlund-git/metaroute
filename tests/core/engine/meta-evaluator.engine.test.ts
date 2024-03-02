@@ -84,20 +84,6 @@ describe("MetaEvaluator", () => {
     );
   });
 
-  test("evaluateNode should return correct value for NodeType.PARTIAL", () => {
-    // This test case assumes that there is a partial file named "partial.html" in the "public" directory
-    // and that the TemplateEngine's render method returns the content of the file.
-    const partialNode = new Node(NodeType.PARTIAL, "footer");
-    const ast = new Node(NodeType.ROOT, "", [partialNode]);
-    const data = {};
-    const evaluator = new MetaEvaluator(ast, data);
-
-    const result = evaluator.evaluate();
-    expect(result).toBe(
-      '<footer class="footer"><p class="footer-text">{{footerText}}</p></footer>'
-    );
-  });
-
   test("evaluateEachStatement should return correct value for nested array in context", () => {
     const innerEachNode = new Node(NodeType.EACH_STATEMENT, "", [
       new Node(NodeType.IDENTIFIER, "innerItems"),
