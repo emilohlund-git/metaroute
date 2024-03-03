@@ -98,10 +98,10 @@ export class ServerConfigurator implements Initializable {
       if (allowedOrigins.includes(",")) {
         return allowedOrigins.split(",");
       } else {
-        return allowedOrigins;
+        return [allowedOrigins];
       }
     } else {
-      return "*";
+      return ["*"];
     }
   }
 }

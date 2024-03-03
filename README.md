@@ -32,7 +32,7 @@
 - [License 📄](#license)
 - [Contact 📧](#contact)
 
-## Installation 🛠️
+## Installation
 
 Since the package is currently deployed to Github Packages, you're going to need to specify using the github packages registry when installing the package.
 
@@ -43,9 +43,40 @@ npm install @emilohlund-git/metaroute@latest --registry https://npm.pkg.github.c
 
 This is also going to make you authenticate with github, so you will have to log in using your github email address and a personal access token.
 
-## Usage 🔧
+## Usage
 
-To use the package simply import what you need from the package.
+To use the package simply import what you need from the package. The first thing you have to do is to establish an Application, which will be the starting-point of the framework. You can do it like so:
+
+```typescript
+import { Application, App } from "@emilohlund-git/metaroute";
+
+@App({
+  middleware: [JsonMiddleware, CorsMiddleware, LoggingMiddleware],
+  errorMiddleware: [LogErrorMiddleware]
+})
+export class MetaRouteApplication extends Application {}
+```
+
+The `@App` decorator handles setting up the different systems that the framework is built up from. It's all done behind the scenes.
+The `@App` decorator can also take a configuration object `AppConfiguration` as an argument.
+
+```typescript
+interface AppConfiguration {
+  middleware?: Middleware[];
+  errorMiddleware?: ErrorMiddleware[];
+  // Defaults to 3000.
+  port?: number; 
+  // If you pass a cert.pem and key.pem the application will create a https server instead, defaults to http.
+  ssl?: {
+    key: string;
+    cert: string;
+  }; 
+  // The rendering engine for dynamic HTML content, defaults to the built-in MetaEngine.
+  engine?: Engine; 
+}
+```
+
+After you've established your application starting point you can go ahead and create controllers to define routes for your API:
 
 ```typescript
 import {
@@ -82,9 +113,9 @@ export class TestService {
 }
 ```
 
-## Features 🚀
+## Features
 
-### Route Caching 🔒
+### Route Caching
 
 To enable Route caching, use the `@Cache()` decorator on the route. The cache stores responses and uses the `maxSize` option to remove the oldest entries when full.
 
@@ -100,7 +131,7 @@ async getTest(): MetaResponse<string> {
 }
 ```
 
-### JWT Authorization 🔐
+### JWT Authorization
 
 Secure your API endpoints with JSON Web Token (JWT) authorization. Use the `@Auth` annotation to restrict access based on user authentication.
 
@@ -213,7 +244,7 @@ async me(@Req() req: JwtRequest<User>): MetaResponse<CreateUserResponse> {
 }
 ```
 
-### Email Server 📧
+### Email Server
 
 The built-in SmtpClient only works only works on port 465 and uses the SMTP protocol. But it should be a quick-start approach to handle emails if you can make use of SMTP.
 
@@ -237,45 +268,220 @@ async send(email: Email, options: SmtpOptions) {
 }
 ```
 
-### Templating Engine 🎨
+### Templating Engine
 
-Documentation to be added.
+It's possible to set up an a controller that renders dynamic HTML content. The framework will look for returned data from a route handler that matches the following shape:
 
-### Memory Manager 🧠
+```typescript
+// Hypothetical controller:
+@Controller("/ui")
 
-Documentation to be added.
+@Get("/")
+async renderHtml() {
+  return ResponseEntity.ok({
+    template: path.join(process.cwd(), "static", "template.html"),
+    data: {
+      variableToPassToRenderEngine: "Hello!",
+      aLotOfData: [
+        {
+          hello: "hi!",
+          world: "universe"
+        },
+        {
+          hello: "dogs",
+          world: "cats"
+        }
+      ],
+      isCool: true
+    }
+  })
+}
+```
 
-### Data Validation ✅
+The template syntax is as follows:
 
-Documentation to be added.
+```html
+<!DOCTYPE html>
+  <body>
+    {{variableToPassToRenderEngine}}
 
-### API Key Guard 🛡️
+    <ul>
+    {{#each aLotOfData}}
+      <li>{{this.hello}}</li>
+      <li>{{this.world}}</li>
+    {{/each}}
+    </ul>
 
-Documentation to be added.
+    {{#if isCool}}
+      <p>Very cool!</p>
+    {{else}}
+      <p>Not so cool.</p>
+    {{/if}}
+  </body>
+</html>
+```
 
-### Logging Service 📝
+Which would render:
 
-Documentation to be added.
+```html
+<!DOCTYPE html>
+  <body>
+    Hello!
 
-### Configuration Service ⚙️
+    <ul>
+      <li>hi!</li>
+      <li>universe</li>
+      <li>dogs</li>
+      <li>cats</li>
+    </ul>
 
-Documentation to be added.
+    <p>Very cool!</p>
+  </body>
+</html>
+```
 
-### Decorative Approach to Controller/Route Management 🎀
+### Memory Manager
 
-Documentation to be added.
+The memory manager works by applying it policies, which can be done by extending the abstract `MetaRouteMemoryPolicy` class:
 
-### Socket.IO Server Implementation 📡
+```typescript
+import { MemoryUsage } from "../dtos/memory.usage.dto";
+
+export abstract class MetaRouteMemoryPolicy {
+  abstract setup(): void;
+  abstract check(memoryUsage: MemoryUsage): boolean;
+}
+```
+
+And decorating the policy with a `@MemoryPolicy` decorator:
+
+```typescript
+import { MetaRouteMemoryPolicy, MemoryUsage, ConsoleLogger, MemoryPolicy, MemoryManager } from "@emilohlund-git/metaroute";
+
+@MemoryPolicy
+export class PrintMemoryUsagePolicy extends MetaRouteMemoryPolicy {
+  private readonly logger = new ConsoleLogger(MemoryManager.name);
+
+  setup(): void {}
+
+  check(memoryUsage: MemoryUsage): boolean {
+    const formattedMemoryUsage = `Memory usage: [rssInMb]: ${memoryUsage.rssInMB.toFixed(
+      2
+    )}, [heapTotalInMb]: ${memoryUsage.heapTotalInMB.toFixed(
+      2
+    )}, [heapUsedInMb]: ${memoryUsage.heapUsedInMB.toFixed(
+      2
+    )}, [externalInMb]: ${memoryUsage.externalInMB.toFixed(2)}`;
+    this.logger.info(formattedMemoryUsage);
+    return false; // This rule never reports a violation
+  }
+}
+```
+
+The default behavior of the `MemoryManager` is to console log an error message if a memory violation has occured (returning true in the check method of the memory policy).
+
+### Data Validation
+
+There is a selection of validation property decorators available with the framework. Such as:
+
+```typescript
+export class UserEntity {
+  @IsBoolean()
+  verified: boolean;
+
+  @IsString()
+  name: string;
+
+  @IsPassword()
+  password: string;
+
+  @IsNumber()
+  age: number;
+
+  @IsDate()
+  birthYear: Date;
+
+  @IsUsername()
+  username: string;
+
+  @IsEmail()
+  email: string;
+}
+```
+
+They will be used in conjunction with the `@Validate()` method decorator.
+
+```typescript
+@Get("/")
+@Validate(UserEntity) // This will validate the user entity based on the validation property decorators attached to the entities properties.
+async createUser(@Body() user: UserEntity) {
+  return user;
+}
+```
+
+If the validations fail a detailed array of objects based on the failing property will be returned, with a message declaring what went wrong with the validation.
+
+### API Key Guard
+
+If you have an API key specified in your .env.[NODE_ENV] file the ApiKey will try to match the incoming `x-api-key` header towards it, and return an unauthorized http status if it fails.  
+
+```typescript
+@Get("/")
+@ApiKey()
+async getSecretData() {
+  return "Super secret!";
+}
+```
+
+### Logging Service
+
+There is a built in logging service available with the framework. You simply instantiate it where you want to use it and give it a context.
+
+```typescript
+import { ConsoleLogger } from "@emilohlund-git/metaroute";
+
+const logger = new ConsoleLogger("ContextName");
+
+logger.info("Hello there world!");
+
+// The logged message will look like:
+`[⚡ MetaRoute] - 2024-03-02T23:05:28.822Z - INFO - [EventRouter] - Hello there world!`
+```
+
+It is possible to change the format of the logging message from the `.env` file:
+
+```bash
+LOG_FORMAT="[⚡ MetaRoute] - {timestamp} - {level} - {context} - {message}{data}"
+```
+
+There is an additional parameter to pass in to the logger, which is a data object. The logger will stringify the object and print it out.
+
+### Configuration Service
+
+The purpose of the `ConfigService` is simply to enforce existance of environment variables, it will throw an `EnvironmentException` with a message if which key failed if it fails to get a key from the `process.env` object.
+
+```typescript
+import { ConfigService } from "@emilohlund-git/metaroute";
+
+// Either get the service from the global dependency container
+const configService = MetaRoute.get(ConfigService);
+
+const envVariable = configService.get("ENV_VARIABLE_NAME");
+
+// Or by dependency injection
+constructor(private readonly configService: ConfigService) {}
+```
+
+### Socket.IO Server Implementation
 
 You can implement a socket server using the `@SocketServer` decorator.
-It will create a namespace with the parameter name. The `@OnMessage` decorator will listen to events on said namespace with the parameter event name. 
+It will create a namespace with the parameter name. The `@OnMessage` decorator will listen to events on said namespace with the parameter event name.
 
 ```typescript
 import { SocketServer, OnMessage } from "@emilohlund-git/metaroute";
 
 @SocketServer("namespace")
 export class SocketController {
-
   @OnMessage("hello")
   async hello(data: any, socket: Socket): Promise<string> {
     return "world!";
@@ -283,14 +489,14 @@ export class SocketController {
 }
 ```
 
-## Contributing 🤝
+## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 
-## License 📄
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Contact 📧
+## Contact
 
 If you have any questions or need further clarification, feel free to reach out to me at [emil@emilohlund.dev](mailto:emil@emilohlund.dev).
