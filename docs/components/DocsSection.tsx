@@ -8,7 +8,7 @@ type Props = {
 export default function DocsSection({ children, id }: Props) {
   return (
     <section id={id} className="mb-8">
-      {children}
+      <article className="prose-base">{children}</article>
     </section>
   );
 }
