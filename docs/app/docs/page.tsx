@@ -45,14 +45,13 @@ export default function Docs() {
           To install MetaRoute in your project, follow these simple steps:
         </DocsPageParagraph>
         <DocsCode language="bash">
-          npm install @emilohlund-git/metaroute@latest --registry
-          https://npm.pkg.github.com
+          npm install metaroute-ts
         </DocsCode>
         <DocsPageParagraph>
           Alternatively, if you&apos;re using Yarn:
         </DocsPageParagraph>
         <DocsCode language="bash">
-          yarn add metaroute --registry https://npm.pkg.github.com
+          yarn add metaroute-ts
         </DocsCode>
         <DocsPageParagraph>
           Once MetaRoute is installed, you&apos;re ready to start building your
