@@ -4,6 +4,7 @@
   "description": "A simple framework for building APIs in TypeScript, with a focus on simplicity and no dependencies.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://metaroute.vercel.app/",
   "repository": {
     "url": "git+https://github.com/emilohlund-git/metaroute.git"
   },
@@ -21,7 +22,7 @@
     "build": "tsc",
     "prepare": "npm run build",
     "test": "jest --detectOpenHandles",
-    "test:coverage": "jest --coverage"
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "keywords": [
     "framework",
@@ -41,6 +42,7 @@
     "@types/node": "^20.11.19",
     "@types/supertest": "^6.0.2",
     "babel-plugin-module-resolver": "^5.0.0",
+    "coveralls": "^3.1.1",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "jest-openapi": "^0.14.2",
