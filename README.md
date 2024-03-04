@@ -43,7 +43,7 @@ npm install metaroute-ts
 To use the package simply import what you need from the package. The first thing you have to do is to establish an Application, which will be the starting-point of the framework. You can do it like so:
 
 ```typescript
-import { Application, App } from "@emilohlund-git/metaroute";
+import { Application, App } from "metaroute-ts";
 
 @App({
   middleware: [JsonMiddleware, CorsMiddleware, LoggingMiddleware],
@@ -80,7 +80,7 @@ import {
   App,
   ResponseEntity,
   MetaResponse,
-} from "@emilohlund-git/metaroute";
+} from "metaroute-ts";
 import { TestService } from "../services/test.service.ts";
 
 @Controller("/test")
@@ -98,7 +98,7 @@ class TestController {
 The framework operates with the use of decorators. Which means you can for example have your `TestService` class injected to the `TestController` by decorating it with a `@Injectable()` decorator.
 
 ```typescript
-import { Injectable } from "@emilohlund-git/metaroute";
+import { Injectable } from "metaroute-ts";
 
 @Injectable()
 export class TestService {
@@ -133,7 +133,7 @@ Secure your API endpoints with JSON Web Token (JWT) authorization. Use the `@Aut
 First of all you would need to create a service to handle the basic authentication logic. Example:
 
 ```typescript
-import { CryptService, ConfigService, JwtService } from "@emilohlund-git/metaroute";
+import { CryptService, ConfigService, JwtService } from "metaroute-ts";
 import { UserService } from "../services/user.service.ts";
 import { User } from "../entities/user.entity.ts";
 
@@ -229,7 +229,7 @@ The `@Auth` decorator enforces authentication on a route. It intercepts the `Met
 `JWT_SECRET=` and `REFRESH_SECRET=`
 
 ```typescript
-import { Get, Auth, Req, MetaRouteRequest, ResponseEntity } from "@emilohlund-git/metaroute";
+import { Get, Auth, Req, MetaRouteRequest, ResponseEntity } from "metaroute-ts";
 
 @Get("/me")
 @Auth()
@@ -244,7 +244,7 @@ async me(@Req() req: JwtRequest<User>): MetaResponse<CreateUserResponse> {
 The built-in SmtpClient only works only works on port 465 and uses the SMTP protocol. But it should be a quick-start approach to handle emails if you can make use of SMTP.
 
 ```typescript
-import { SmtpClient, SmtpOptions } from "@emilohlund-git/metaroute";
+import { SmtpClient, SmtpOptions } from "metaroute-ts";
 
 export interface SmtpOptions {
   host: string;
@@ -351,7 +351,7 @@ export abstract class MetaRouteMemoryPolicy {
 And decorating the policy with a `@MemoryPolicy` decorator:
 
 ```typescript
-import { MetaRouteMemoryPolicy, MemoryUsage, ConsoleLogger, MemoryPolicy, MemoryManager } from "@emilohlund-git/metaroute";
+import { MetaRouteMemoryPolicy, MemoryUsage, ConsoleLogger, MemoryPolicy, MemoryManager } from "metaroute-ts";
 
 @MemoryPolicy
 export class PrintMemoryUsagePolicy extends MetaRouteMemoryPolicy {
@@ -433,7 +433,7 @@ async getSecretData() {
 There is a built in logging service available with the framework. You simply instantiate it where you want to use it and give it a context.
 
 ```typescript
-import { ConsoleLogger } from "@emilohlund-git/metaroute";
+import { ConsoleLogger } from "metaroute-ts";
 
 const logger = new ConsoleLogger("ContextName");
 
@@ -456,7 +456,7 @@ There is an additional parameter to pass in to the logger, which is a data objec
 The purpose of the `ConfigService` is simply to enforce existance of environment variables, it will throw an `EnvironmentException` with a message if which key failed if it fails to get a key from the `process.env` object.
 
 ```typescript
-import { ConfigService } from "@emilohlund-git/metaroute";
+import { ConfigService } from "metaroute-ts";
 
 // Either get the service from the global dependency container
 const configService = MetaRoute.get(ConfigService);
@@ -473,7 +473,7 @@ You can implement a socket server using the `@SocketServer` decorator.
 It will create a namespace with the parameter name. The `@OnMessage` decorator will listen to events on said namespace with the parameter event name.
 
 ```typescript
-import { SocketServer, OnMessage } from "@emilohlund-git/metaroute";
+import { SocketServer, OnMessage } from "metaroute-ts";
 
 @SocketServer("namespace")
 export class SocketController {
