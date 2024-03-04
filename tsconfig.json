@@ -26,6 +26,6 @@
       "@validation/*": ["./src/core/validation/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -13,7 +13,7 @@ const config: Config = {
   transform: { "^.+\\.(t|j)s$": "ts-jest" },
   setupFiles: ["<rootDir>/jest.setup.ts"],
   collectCoverage: true,
-  coverageReporters: ["lcov"],
+  coverageReporters: ["lcov", "text"],
 };
 
 export default config;
