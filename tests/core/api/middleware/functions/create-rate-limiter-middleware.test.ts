@@ -33,6 +33,19 @@ describe("createRateLimiterMiddleware", () => {
     };
 
     (TokenBucket as jest.Mock).mockReturnValue(tokenBucket);
+
+    tokenBucket.consume = jest.fn().mockImplementation(() => {
+      /* @ts-ignore */
+      const tokens = tokenBucket.availableTokens();
+      if (tokens > 0) {
+        tokenBucket.availableTokens = jest.fn().mockReturnValue(tokens - 1);
+        return true;
+      }
+      return false;
+    });
+    tokenBucket.availableTokens = jest.fn().mockReturnValue(10);
+    tokenBucket.limit = jest.fn().mockReturnValue(10);
+    tokenBucket.timeToNextRefill = jest.fn().mockReturnValue(1);
   });
 
   it("should call next if no user IP", () => {
@@ -80,18 +93,6 @@ describe("createRateLimiterMiddleware", () => {
 
   it("should handle multiple requests and rate limit correctly", () => {
     jest.useFakeTimers();
-    tokenBucket.consume = jest.fn().mockImplementation(() => {
-      /* @ts-ignore */
-      const tokens = tokenBucket.availableTokens();
-      if (tokens > 0) {
-        tokenBucket.availableTokens = jest.fn().mockReturnValue(tokens - 1);
-        return true;
-      }
-      return false;
-    });
-    tokenBucket.availableTokens = jest.fn().mockReturnValue(10);
-    tokenBucket.limit = jest.fn().mockReturnValue(10);
-    tokenBucket.timeToNextRefill = jest.fn().mockReturnValue(1);
 
     const middleware = createRateLimiterMiddleware(options, "test");
 
