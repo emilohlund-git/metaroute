@@ -7,13 +7,17 @@ export class TokenBucket {
     this.last = Date.now();
   }
 
-  consume(count: number = 1) {
+  private refill() {
     const now = Date.now();
-    const delta = (now - this.last) / 1000; 
+    const delta = (now - this.last) / 1000;
     const refill = delta * this.rate;
 
     this.tokens = Math.min(this.tokens + refill, this.size);
     this.last = now;
+  }
+
+  consume(count: number = 1) {
+    this.refill();
 
     if (this.tokens < count) {
       return false;
@@ -21,5 +25,21 @@ export class TokenBucket {
 
     this.tokens -= count;
     return true;
+  }
+
+  availableTokens() {
+    this.refill();
+    return this.tokens;
+  }
+
+  limit() {
+    return this.size;
+  }
+
+  timeToNextRefill() {
+    const tokensAfterRefill =
+      this.tokens + this.rate * ((Date.now() - this.last) / 1000);
+    const deficit = Math.max(0, 1 - tokensAfterRefill);
+    return Math.ceil(deficit / this.rate);
   }
 }

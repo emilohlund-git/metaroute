@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function DocsDrawer({ children }: Props) {
-  const { isDrawerOpen } = useDrawer();
+  const { isDrawerOpen, setDrawerOpen } = useDrawer();
 
   return (
     <div className={`drawer bg-base-200 ${isDrawerOpen ? "drawer-open" : ""}`}>
@@ -18,6 +18,7 @@ export default function DocsDrawer({ children }: Props) {
         type="checkbox"
         checked={isDrawerOpen}
         className="drawer-toggle"
+        onChange={() => setDrawerOpen(!isDrawerOpen)}
       />
       <div className="drawer-content w-full bg-base-200 flex flex-col items-center">
         <div className="flex h-full overflow-hidden mt-16">{children}</div>

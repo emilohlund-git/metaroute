@@ -27,6 +27,13 @@ export function createRateLimiterMiddleware(
       buckets[bucketKey] = bucket;
     }
 
+    res.setHeader("X-Ratelimit-Remaining", bucket.availableTokens().toString());
+    res.setHeader("X-Ratelimit-Limit", bucket.limit().toString());
+    res.setHeader(
+      "X-Ratelimit-Retry-After",
+      bucket.timeToNextRefill().toString()
+    );
+
     if (!bucket.consume()) {
       res.status(429).send(ResponseEntity.tooManyRequests("Too many requests"));
     } else {
