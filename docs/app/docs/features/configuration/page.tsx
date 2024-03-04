@@ -23,8 +23,8 @@ export default function Configuration() {
       <DocsSection>
         <DocsHeader text="How it works" />
         <p className="text-lg">
-          MetaRoute&apos;s Configuration Service loads configuration settings from
-          environment variables and configuration files during application
+          MetaRoute&apos;s Configuration Service loads configuration settings
+          from environment variables and configuration files during application
           startup. It provides methods to access these settings and ensures that
           the required configuration values are available for your application
           to function properly.
@@ -42,22 +42,35 @@ export default function Configuration() {
         <p className="text-lg">
           To use the Configuration Service in MetaRoute, you can define
           configuration settings in environment variables or configuration files
-          and access them using the provided methods.
+          and access them using the provided methods. You can also specify the
+          expected type for each configuration setting to ensure that the
+          retrieved value matches the expected data type.
         </p>
 
         <DocsCode>
           {`import { ConfigService } from 'metaroute'; 
+import { EnvironmentStore } from 'metaroute';
 
-const configService = new ConfigService();
+const environmentStore = new EnvironmentStore();
+const configService = new ConfigService(environmentStore);
 
 const apiUrl = configService.get('API_URL');
-const port = configService.getInt('PORT', 3000);`}
+const port = configService.get<number>('PORT');
+const isProduction = configService.get<boolean>('IS_PRODUCTION');
+const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGINS');
+const startDate = configService.get<Date>('START_DATE');`}
         </DocsCode>
 
         <p className="text-lg mt-4">
           You can then use the retrieved configuration settings throughout your
           application to customize its behavior and ensure consistent
           configuration across different environments.
+        </p>
+
+        <p className="text-lg mt-4">
+          Commonly the configuration service would be retrieved from the
+          dependency injection container, but for the purposes of this example
+          we are instantiating it directly.
         </p>
       </DocsSection>
     </DocsContainer>

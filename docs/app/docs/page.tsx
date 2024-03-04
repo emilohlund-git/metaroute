@@ -70,6 +70,11 @@ export default function Docs() {
           framework configurators, as well as start the http / https server.
         </p>
 
+        <DocsCode>
+          {`@App({} // Configuration object)
+export class MetaApp extends Application {}`}
+        </DocsCode>
+
         <p className="text-lg">
           The <DocsCodeSnippet snippet="@App" /> decorator takes an{" "}
           <DocsCodeSnippet snippet="AppConfiguration" /> parameter which is an
