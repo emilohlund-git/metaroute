@@ -2,6 +2,8 @@ import DocsCode from "@/components/DocsCode";
 import DocsCodeSnippet from "@/components/DocsCodeSnippet";
 import DocsContainer from "@/components/DocsContainer";
 import DocsHeader from "@/components/DocsHeader";
+import { DocsPageParagraph } from "@/components/DocsPageParagraph";
+import { DocsPageTitle } from "@/components/DocsPageTitle";
 import DocsSection from "@/components/DocsSection";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
 import React from "react";
@@ -11,75 +13,73 @@ export default function Docs() {
     <DocsContainer>
       <ScrollToAnchor />
       <DocsSection id="introduction">
-        <h1 className="text-3xl font-bold mb-4">
-          👋 Welcome to MetaRoute Documentation
-        </h1>
-        <i className="text-lg text-neutral-400">
+        <DocsPageTitle title="👋 Welcome to MetaRoute Documentation" />
+        <DocsPageParagraph color="text-neutral-400" italic>
           * This documentation is currently a work in progress and will be
           updated frequently. If you have any questions or suggestions, feel
           free to open an issue on the Github repository.
-        </i>
-        <p className="text-lg">
+        </DocsPageParagraph>
+        <DocsPageParagraph>
           MetaRoute is a passion project made for personal experience and
           exploration. It&apos;s a fully fleged API framework with tons of built
           in features. It operates through the use of decorators. The biggest
           reason for building this project was to try to make an API framework
           with next to no dependencies. The only dependencies used currently is
           Socket.IO & reflect-metadata.
-        </p>
-        <p className="text-lg">
+        </DocsPageParagraph>
+        <DocsPageParagraph>
           This documentation provides guidance on how to use MetaRoute. Whether
           you&apos;re a beginner getting started with API development or an
           experienced developer looking to streamline your workflow.
-        </p>
+        </DocsPageParagraph>
       </DocsSection>
 
       <DocsSection id="installation">
         <DocsHeader text="Installation" />
-        <i className="text-md text-red-400">
+        <DocsPageParagraph color="text-red-400" italic size="sm">
           * Since the package is currently deployed to Github Packages,
           you&apos;re going to need to specify using the github packages
           registry when installing the package.
-        </i>
-        <p className="text-lg">
+        </DocsPageParagraph>
+        <DocsPageParagraph>
           To install MetaRoute in your project, follow these simple steps:
-        </p>
+        </DocsPageParagraph>
         <DocsCode language="bash">
           npm install @emilohlund-git/metaroute@latest --registry
           https://npm.pkg.github.com
         </DocsCode>
-        <p className="text-lg mt-4">
+        <DocsPageParagraph>
           Alternatively, if you&apos;re using Yarn:
-        </p>
+        </DocsPageParagraph>
         <DocsCode language="bash">
           yarn add metaroute --registry https://npm.pkg.github.com
         </DocsCode>
-        <p className="text-lg mt-4">
+        <DocsPageParagraph>
           Once MetaRoute is installed, you&apos;re ready to start building your
           API&apos;s.
-        </p>
+        </DocsPageParagraph>
       </DocsSection>
 
       <DocsSection id="usage">
         <DocsHeader text="Usage" />
-        <p className="text-lg">
+        <DocsPageParagraph>
           To start using MetaRoute you first have to decorate a class with the{" "}
           <DocsCodeSnippet snippet="@App" /> decorator and extend the abstract
           class <DocsCodeSnippet snippet="Application" />. This will expose the
           class to the MetaRoute dependency container and setup all the
           framework configurators, as well as start the http / https server.
-        </p>
+        </DocsPageParagraph>
 
         <DocsCode>
           {`@App({} // Configuration object)
 export class MetaApp extends Application {}`}
         </DocsCode>
 
-        <p className="text-lg">
+        <DocsPageParagraph>
           The <DocsCodeSnippet snippet="@App" /> decorator takes an{" "}
           <DocsCodeSnippet snippet="AppConfiguration" /> parameter which is an
           object with the following properties:
-        </p>
+        </DocsPageParagraph>
 
         <DocsCode>
           {`interface AppConfiguration {
