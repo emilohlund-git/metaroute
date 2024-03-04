@@ -24,8 +24,8 @@ import { CacheOptions } from "../../../cache/interfaces/cache-options.interface"
 import { createCacheMiddleware } from "../../../cache/functions/create-cache-middleware";
 
 @Configurator
-export class HttpRouter<T extends Function> extends Router<T> {
-  private readonly logger = new ConsoleLogger(HttpRouter.name);
+export class ControllerHandler<T extends Function> extends Router<T> {
+  private readonly logger = new ConsoleLogger(ControllerHandler.name);
 
   constructor() {
     super();

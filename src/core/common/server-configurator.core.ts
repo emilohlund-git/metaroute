@@ -6,7 +6,7 @@ import {
 import { Configurator } from "./decorators/configurator.decorator";
 import { MetaRoute } from "./meta-route.container";
 import { EventRouter } from "../api/server/routing/event.router";
-import { HttpRouter } from "../api/server/routing/http.router";
+import { ControllerHandler } from "../api/server/routing/controller-handler.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { ConsoleLogger } from "./services/console-logger.service";
 import { Server as SocketServer } from "socket.io";
@@ -26,7 +26,7 @@ export class ServerConfigurator implements Initializable {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly httpRouter: HttpRouter<any>,
+    private readonly httpRouter: ControllerHandler<any>,
     private readonly eventRouter: EventRouter<any>,
     private readonly server: MetaRouteServer
   ) {}

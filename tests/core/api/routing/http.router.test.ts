@@ -12,7 +12,7 @@ import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
 import { MiddlewareHandler } from "@core/api/server/middleware-handler.core";
 import { MetaRouteRouter } from "@core/api/server/routing/basic-http.router.core";
-import { HttpRouter } from "@core/api/server/routing/http.router";
+import { ControllerHandler } from "@core/api/server/routing/controller-handler.core";
 import { RouteRegistry } from "@core/api/server/routing/route-registry.core";
 import "reflect-metadata";
 
@@ -49,14 +49,14 @@ class MockController extends Function {
 describe("HttpRouter", () => {
   let app: MetaRouteServer;
   let controller: MockController;
-  let router: HttpRouter<MockController>;
+  let router: ControllerHandler<MockController>;
   let basicRouter: MetaRouteRouter;
   let registry: RouteRegistry;
   let middlewareHandler: MiddlewareHandler;
 
   beforeEach(() => {
     controller = new MockController();
-    router = new HttpRouter();
+    router = new ControllerHandler();
     registry = new RouteRegistry();
     middlewareHandler = new MiddlewareHandler();
     basicRouter = new MetaRouteRouter(registry, middlewareHandler);
