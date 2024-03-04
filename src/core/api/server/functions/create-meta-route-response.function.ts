@@ -5,7 +5,7 @@ import { HttpStatus } from "../../../api/enums/http.status";
 import path from "path";
 import { Engine } from "../../../engine/engine.abstract";
 
-export function createMetaRouteResponses(res: ServerResponse) {
+export function createMetaRouteResponse(res: ServerResponse) {
   const metaRouteResponse = res as MetaRouteResponse;
 
   metaRouteResponse.status = function (code: number) {
