@@ -34,14 +34,9 @@
 
 ## Installation
 
-Since the package is currently deployed to Github Packages, you're going to need to specify using the github packages registry when installing the package.
-
 ```bash
-# if you don't have an .npmrc file in your project root specifying the github registry.
-npm install @emilohlund-git/metaroute@latest --registry https://npm.pkg.github.com
+npm install metaroute-ts
 ```
-
-This is also going to make you authenticate with github, so you will have to log in using your github email address and a personal access token.
 
 ## Usage
 
