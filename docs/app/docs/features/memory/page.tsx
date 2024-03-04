@@ -1,32 +1,36 @@
-import DocsCode from "@/components/DocsCode";
-import DocsContainer from "@/components/DocsContainer";
-import DocsHeader from "@/components/DocsHeader";
-import DocsSection from "@/components/DocsSection";
-import ScrollToAnchor from "@/components/ScrollToAnchor";
 import React from "react";
+import DocsContainer from "@/components/DocsContainer";
+import DocsSection from "@/components/DocsSection";
+import DocsHeader from "@/components/DocsHeader";
+import DocsCodeSnippet from "@/components/DocsCodeSnippet";
+import DocsCode from "@/components/DocsCode";
+import ScrollToAnchor from "@/components/ScrollToAnchor";
+import { DocsPageTitle } from "@/components/DocsPageTitle";
+import { DocsPageParagraph } from "@/components/DocsPageParagraph";
 
 export default function Memory() {
   return (
     <DocsContainer>
       <ScrollToAnchor />
-      <DocsSection>
-        <h1 className="text-3xl font-bold mb-4">Memory Management</h1>
-        <p className="text-lg">
+
+      <DocsSection id="introduction">
+        <DocsPageTitle title="Memory Management" />
+        <DocsPageParagraph>
           Memory management in MetaRoute allows you to monitor and control
           memory usage within your application. It provides features for setting
           up memory policies, checking memory usage, and enforcing memory limits
           to ensure optimal performance and prevent memory leaks.
-        </p>
+        </DocsPageParagraph>
       </DocsSection>
 
-      <DocsSection>
+      <DocsSection id="memory-policies">
         <DocsHeader text="Memory Policies" />
-        <p className="text-lg">
+        <DocsPageParagraph>
           Memory policies in MetaRoute define rules and behaviors for managing
           memory usage. You can set up custom memory policies to enforce
           specific constraints and actions based on memory usage metrics.
-        </p>
-        <DocsCode>
+        </DocsPageParagraph>
+        <DocsCode language="javascript">
           {`import { MetaRouteMemoryPolicy, MemoryUsage } from "@emilohlund-git/metaroute";
 
 @MemoryPolicy
@@ -43,20 +47,17 @@ export class PrintMemoryUsagePolicy extends MetaRouteMemoryPolicy {
         </DocsCode>
       </DocsSection>
 
-      <DocsSection>
+      <DocsSection id="memory-manager">
         <DocsHeader text="Memory Manager" />
-        <p className="text-lg">
+        <DocsPageParagraph>
           The memory manager in MetaRoute coordinates memory policies and
           monitors memory usage in real-time. It provides utilities for
           registering and managing memory policies, checking memory usage
-          metrics, and enforcing memory limits across your application.
-        </p>
-        <DocsCode>
-          {`import { MemoryManager } from "@emilohlund-git/metaroute";
-
-const memoryManager = new MemoryManager();
-memoryManager.registerPolicy(PrintMemoryUsagePolicy);`}
-        </DocsCode>
+          metrics, and enforcing memory limits across your application. The
+          framework will look for classes annotated with{" "}
+          <DocsCodeSnippet snippet="@MemoryPolicy" /> and register them
+          automatically.
+        </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
   );

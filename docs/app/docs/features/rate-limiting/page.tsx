@@ -4,44 +4,42 @@ import DocsSection from "@/components/DocsSection";
 import DocsHeader from "@/components/DocsHeader";
 import DocsCode from "@/components/DocsCode";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
-import DocsCodeSnippet from "@/components/DocsCodeSnippet";
+import { DocsPageTitle } from "@/components/DocsPageTitle";
+import { DocsPageParagraph } from "@/components/DocsPageParagraph";
 
 export default function RateLimiting() {
   return (
     <DocsContainer>
       <ScrollToAnchor />
 
-      {/* Introduction Section */}
-      <DocsSection>
-        <h1 className="text-3xl font-bold mb-4">Rate Limiting</h1>
-        <p className="text-lg">
+      <DocsSection id="introduction">
+        <DocsPageTitle title="Rate Limiting" />
+        <DocsPageParagraph>
           Rate Limiting in MetaRoute allows you to control the number of
           requests a client can make to your API within a certain timeframe.
           This is crucial for protecting your API from abuse and ensuring fair
           usage.
-        </p>
+        </DocsPageParagraph>
       </DocsSection>
 
-      {/* How it works Section */}
-      <DocsSection>
+      <DocsSection id="how-it-works">
         <DocsHeader text="How it Works" />
-        <p className="text-lg">
+        <DocsPageParagraph>
           MetaRoute uses the Token Bucket algorithm for rate limiting. Each
           client is assigned a bucket of tokens, with each token representing a
           single request. Tokens are refilled at a specified rate up to the
           bucket&apos;s capacity. When a request is made, a token is consumed. If the
           bucket is empty, the request is denied.
-        </p>
+        </DocsPageParagraph>
       </DocsSection>
 
-      {/* Usage Section */}
-      <DocsSection>
+      <DocsSection id="usage">
         <DocsHeader text="Usage" />
-        <p className="text-lg">
-          To use rate limiting in MetaRoute, you need to decorate a controller handler with the <DocsCodeSnippet snippet="@RateLimit" />{" "}
-          decorator. This decorator takes in rate limiter options and a key as
-          arguments.
-        </p>
+        <DocsPageParagraph>
+          To use rate limiting in MetaRoute, you need to decorate a controller
+          handler with the `@RateLimit` decorator. This decorator takes in rate
+          limiter options and a key as arguments.
+        </DocsPageParagraph>
         <DocsCode language="javascript">
           {`import { RateLimit } from 'metaroute';
 
@@ -49,14 +47,13 @@ export default function RateLimiting() {
 @Get('/')
 async getPosts() {
     // Retrieve and return list of posts
-}
-`}
+}`}
         </DocsCode>
-        <p className="text-lg mt-4">
+        <DocsPageParagraph>
           The middleware will limit the number of requests based on the IP
           address of the client. It also sets the following headers in the
           response:
-        </p>
+        </DocsPageParagraph>
         <ul className="list-disc pl-6 mt-2">
           <li>
             <code>X-Ratelimit-Remaining</code>: The number of remaining requests
@@ -71,8 +68,6 @@ async getPosts() {
             client should wait before making another request.
           </li>
         </ul>
-
-        <p className="text-lg mt-4"></p>
       </DocsSection>
     </DocsContainer>
   );
