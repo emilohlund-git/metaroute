@@ -6,7 +6,14 @@ import DocsVersionDropdown from "./DocsVersionDropdown";
 import { useDrawer } from "@/context/DrawerProvider";
 import { RxCross2 } from "react-icons/rx";
 
-export default function Navbar() {
+type Props = {
+  versions: {
+    name: string;
+    url: string;
+  }[];
+};
+
+export default function Navbar({ versions }: Props) {
   const { isDrawerOpen, setDrawerOpen } = useDrawer();
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -28,7 +35,7 @@ export default function Navbar() {
           <a className="btn btn-ghost cursor-default text-xl font-extrabold">
             MetaRoute
           </a>
-          <DocsVersionDropdown />
+          <DocsVersionDropdown versions={versions} />
           <div className="badge badge-error badge-outline mt-[1px]">
             Under development
           </div>

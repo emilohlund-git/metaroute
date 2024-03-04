@@ -32,6 +32,11 @@ export default function Sidebar() {
             </SmoothScrollLink>
           </li>
           <li>
+            <SmoothScrollLink href="/docs/features/rate-limiting">
+              Rate Limiting
+            </SmoothScrollLink>
+          </li>
+          <li>
             <SmoothScrollLink href="/docs/features/auth">
               Authentication
             </SmoothScrollLink>
@@ -67,7 +72,9 @@ export default function Sidebar() {
             </SmoothScrollLink>
           </li>
           <li>
-            <summary>Routing</summary>
+            <SmoothScrollLink href="/docs/features/routing#introduction">
+              <summary>Routing</summary>
+            </SmoothScrollLink>
             <ul>
               <li>
                 <SmoothScrollLink href="/docs/features/routing#http">

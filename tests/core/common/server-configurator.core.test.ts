@@ -19,9 +19,8 @@ describe("ServerConfigurator", () => {
   let metaRouteRouter: MetaRouteRouter;
 
   beforeEach(() => {
-    process.env.ALLOWED_ORIGINS = "http://localhost:3000";
     environmentStore = mock(EnvironmentStore);
-    configService = new ConfigService(environmentStore);
+    configService = mock(ConfigService);
     httpRouter = mock(HttpRouter);
     eventRouter = mock(EventRouter);
     metaRouteRouter = mock(MetaRouteRouter);

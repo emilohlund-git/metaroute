@@ -9,7 +9,7 @@ export default function Routing() {
   return (
     <DocsContainer>
       <ScrollToAnchor />
-      <DocsSection>
+      <DocsSection id="introduction">
         <h1 className="text-3xl font-bold mb-4">Routing</h1>
         <p className="text-lg">
           Routing in MetaRoute allows you to define and manage API routes for
@@ -34,7 +34,7 @@ export default function Routing() {
           resources, making it easier to build scalable and maintainable APIs.
         </p>
         <DocsCode>
-          {`import { Controller, Get, Post, Delete, Put, Body } from "@emilohlund-git/metaroute";
+          {`import { Controller, Param, Get, Post, Delete, Put, Body } from "@emilohlund-git/metaroute";
 
 @Controller("/api/posts")
 export class PostController {
@@ -44,7 +44,7 @@ export class PostController {
   }
 
   @Get("/:id")
-  async getPostById(id: string) {
+  async getPostById(@Param("id") id: string) {
     // Retrieve and return post by ID
   }
 
