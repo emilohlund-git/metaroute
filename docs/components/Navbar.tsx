@@ -5,6 +5,7 @@ import { FaGithub, FaHamburger } from "react-icons/fa";
 import DocsVersionDropdown from "./DocsVersionDropdown";
 import { useDrawer } from "@/context/DrawerProvider";
 import { RxCross2 } from "react-icons/rx";
+import { DocsSearch } from "./DocsSearch";
 
 type Props = {
   versions: {
@@ -36,9 +37,10 @@ export default function Navbar({ versions }: Props) {
             MetaRoute
           </a>
           <DocsVersionDropdown versions={versions} />
-          <div className="badge badge-error badge-outline mt-[1px]">
+          <div className="badge badge-error badge-outline mt-[1px] truncate">
             Under development
           </div>
+          <DocsSearch />
         </div>
       </div>
       <div className="navbar-center"></div>

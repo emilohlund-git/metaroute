@@ -75,18 +75,6 @@ export default function Sidebar() {
             <SmoothScrollLink href="/docs/features/routing#introduction">
               <summary>Routing</summary>
             </SmoothScrollLink>
-            <ul>
-              <li>
-                <SmoothScrollLink href="/docs/features/routing#http">
-                  HTTP
-                </SmoothScrollLink>
-              </li>
-              <li>
-                <SmoothScrollLink href="/docs/features/routing#event">
-                  Event
-                </SmoothScrollLink>
-              </li>
-            </ul>
           </li>
         </ul>
       </li>
