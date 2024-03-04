@@ -63,13 +63,19 @@ export class ServerConfigurator implements Initializable {
   };
 
   protected startServer(config: AppConfiguration) {
-    const appPort = config.port
-      ? config.port
-      : parseInt(this.configService.get("PORT"));
-    this.server.listen(appPort, config, () => {
+    let port: number;
+    try {
+      port = this.configService.get<number>("PORT");
+    } catch (error) {
+      this.logger.warn(
+        `No PORT environment variable found, using app configuration or default port 3000`
+      );
+      port = config.port ? config.port : 3000;
+    }
+    this.server.listen(port, config, () => {
       config.ssl
-        ? this.logger.success(`[HTTPS] - 🚀 Server running on port ${appPort}`)
-        : this.logger.success(`[HTTP] - 🚀 Server running on port ${appPort}`);
+        ? this.logger.success(`[HTTPS] - 🚀 Server running on port ${port}`)
+        : this.logger.success(`[HTTP] - 🚀 Server running on port ${port}`);
     });
   }
 
@@ -93,7 +99,16 @@ export class ServerConfigurator implements Initializable {
   };
 
   private getAllowedOrigins() {
-    const allowedOrigins = this.configService.get("ALLOWED_ORIGINS");
+    let allowedOrigins;
+
+    try {
+      allowedOrigins = this.configService.get("ALLOWED_ORIGINS");
+    } catch (error) {
+      this.logger.warn(
+        `No ALLOWED_ORIGINS environment variable found, using default value '*'`
+      );
+    }
+
     if (allowedOrigins && typeof allowedOrigins === "string") {
       if (allowedOrigins.includes(",")) {
         return allowedOrigins.split(",");
