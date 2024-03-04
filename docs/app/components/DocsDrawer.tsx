@@ -2,23 +2,25 @@
 
 import { ReactNode } from "react";
 import Sidebar from "./Sidebar";
-import { useDrawer } from "@/context/DrawerProvider";
+import { useAppDispatch, useAppSelector } from "../store";
+import { setOpen } from "../store/slices/drawerSlice";
 
 type Props = {
   children: ReactNode;
 };
 
 export default function DocsDrawer({ children }: Props) {
-  const { isDrawerOpen, setDrawerOpen } = useDrawer();
+  const drawerState = useAppSelector((state) => state.drawer);
+  const dispatch = useAppDispatch();
 
   return (
-    <div className={`drawer bg-base-200 ${isDrawerOpen ? "drawer-open" : ""}`}>
+    <div className={`drawer bg-base-200 ${drawerState ? "drawer-open" : ""}`}>
       <input
         id="sidebar-drawer"
         type="checkbox"
-        checked={isDrawerOpen}
+        checked={drawerState}
         className="drawer-toggle"
-        onChange={() => setDrawerOpen(!isDrawerOpen)}
+        onChange={(e) => dispatch(setOpen(e.target.checked))}
       />
       <div className="drawer-content w-full bg-base-200 flex flex-col items-center">
         <div className="flex h-full overflow-hidden mt-16">{children}</div>

@@ -21,8 +21,8 @@ export default function Docs() {
         </i>
         <p className="text-lg">
           MetaRoute is a passion project made for personal experience and
-          exploration. It&apos;s a fully fleged API framework with tons of built in
-          features. It operates through the use of decorators. The biggest
+          exploration. It&apos;s a fully fleged API framework with tons of built
+          in features. It operates through the use of decorators. The biggest
           reason for building this project was to try to make an API framework
           with next to no dependencies. The only dependencies used currently is
           Socket.IO & reflect-metadata.
@@ -37,9 +37,9 @@ export default function Docs() {
       <DocsSection id="installation">
         <DocsHeader text="Installation" />
         <i className="text-md text-red-400">
-          * Since the package is currently deployed to Github Packages, you&apos;re
-          going to need to specify using the github packages registry when
-          installing the package.
+          * Since the package is currently deployed to Github Packages,
+          you&apos;re going to need to specify using the github packages
+          registry when installing the package.
         </i>
         <p className="text-lg">
           To install MetaRoute in your project, follow these simple steps:

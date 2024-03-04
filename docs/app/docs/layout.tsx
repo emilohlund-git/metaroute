@@ -1,25 +1,22 @@
-import type { Metadata } from "next";
+"use client";
+
 import "../globals.css";
-import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
-import { useState } from "react";
 import DocsDrawer from "@/components/DocsDrawer";
+import { DrawerProvider } from "@/context/DrawerProvider";
 
-export const metadata: Metadata = {
-  title: "MetaRoute - Documentation",
-  description: "API framework",
-};
-
-export default function RootLayout({
+export default function DrawerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className="bg-white">
-        <Navbar />
-        <DocsDrawer>{children}</DocsDrawer>
+      <body>
+        <DrawerProvider>
+          <Navbar />
+          <DocsDrawer>{children}</DocsDrawer>
+        </DrawerProvider>
       </body>
     </html>
   );

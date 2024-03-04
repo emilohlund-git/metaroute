@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DrawerProvider } from "@/context/DrawerProvider";
 
 export const metadata: Metadata = {
   title: "MetaRoute",
@@ -14,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <DrawerProvider>
-        <body className="">{children}</body>
-      </DrawerProvider>
+      <body>{children}</body>
     </html>
   );
 }
