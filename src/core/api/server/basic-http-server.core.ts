@@ -4,7 +4,7 @@ import { Injectable } from "../../common/decorators/injectable.decorator";
 import { MetaRouteRouter } from "./routing/basic-http.router.core";
 import { HttpMethod } from "../enums/http.method";
 import { createMetaRouteRequest } from "./functions/create-meta-route-request.function";
-import { createMetaRouteResponses } from "./functions/create-meta-route-response.function";
+import { createMetaRouteResponse } from "./functions/create-meta-route-response.function";
 import { RequestHandler, UnifiedMiddleware } from "./types";
 import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 
@@ -20,7 +20,7 @@ export class MetaRouteServer {
       res: http.ServerResponse
     ) => {
       const request = createMetaRouteRequest(req);
-      const response = createMetaRouteResponses(res);
+      const response = createMetaRouteResponse(res);
 
       if (config.engine) {
         response.engine(config.engine);
