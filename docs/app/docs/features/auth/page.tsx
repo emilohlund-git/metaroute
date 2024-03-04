@@ -28,7 +28,7 @@ export default function Authentication() {
         <p className="text-lg">
           MetaRoute provides built-in authentication mechanisms such as JSON Web
           Tokens (JWT) and OAuth to authenticate users. When a request is made
-          to an authenticated route, MetaRoute validates the user's credentials
+          to an authenticated route, MetaRoute validates the user&apos;s credentials
           and grants access if authentication is successful.
         </p>
         <p className="text-lg mt-4">
@@ -48,7 +48,7 @@ export default function Authentication() {
         <p className="text-lg mt-4">
           Authentication can be customized to support various authentication
           methods and user authentication flows, allowing you to implement
-          secure authentication solutions tailored to your application's
+          secure authentication solutions tailored to your application&apos;s
           requirements.
         </p>
       </DocsSection>
@@ -84,7 +84,7 @@ const user = await JwtService.verifyTokenAsync(
         <p className="text-lg">
           By using the <DocsCodeSnippet snippet="@Auth()" /> guard, you can
           ensure that the user is authenticated before the method is executed.
-          Here's how you can use it in a controller:
+          Here&apos;s how you can use it in a controller:
         </p>
         <DocsCode language="javascript">
           {`import { Auth } from 'metaroute';

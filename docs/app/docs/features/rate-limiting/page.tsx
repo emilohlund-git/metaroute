@@ -29,7 +29,7 @@ export default function RateLimiting() {
           MetaRoute uses the Token Bucket algorithm for rate limiting. Each
           client is assigned a bucket of tokens, with each token representing a
           single request. Tokens are refilled at a specified rate up to the
-          bucket's capacity. When a request is made, a token is consumed. If the
+          bucket&apos;s capacity. When a request is made, a token is consumed. If the
           bucket is empty, the request is denied.
         </p>
       </DocsSection>
