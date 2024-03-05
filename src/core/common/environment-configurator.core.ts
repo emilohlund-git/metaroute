@@ -12,9 +12,8 @@ export class EnvironmentConfigurator implements Initializable {
   async setup() {
     try {
       await this.configureEnvironment();
-    } catch (error) {
-      this.logger.error("Error configuring environment");
-      throw error;
+    } catch (error: any) {
+      this.logger.error("Error configuring environment " + error.message);
     }
   }
 
@@ -39,8 +38,6 @@ export class EnvironmentConfigurator implements Initializable {
       try {
         envFile = readFileSync(envFilePath, "utf-8");
       } catch (error) {
-        this.logger.error(`Error reading environment file:`);
-        this.logger.debug(`Environment file: ${envFilePath}`);
         throw new FileParseException("Error reading environment file");
       }
 
