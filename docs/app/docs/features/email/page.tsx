@@ -44,7 +44,7 @@ export default function Email() {
           provided methods along with the SMTP configuration options.
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { SmtpClient } from 'metaroute'; 
+          {`import { SmtpClient } from 'metaroute-ts'; 
 
 async function sendEmail(email, options) {
     const smtpClient = new SmtpClient(options);

@@ -50,8 +50,7 @@ export default function Configuration() {
           retrieved value matches the expected data type.
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { ConfigService } from 'metaroute'; 
-import { EnvironmentStore } from 'metaroute';
+          {`import { ConfigService, EnvironmentStore } from 'metaroute-ts'; 
 
 const environmentStore = new EnvironmentStore();
 const configService = new ConfigService(environmentStore);
