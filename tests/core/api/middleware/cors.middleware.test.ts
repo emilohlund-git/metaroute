@@ -4,6 +4,7 @@ import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
 import { MetaRoute } from "@core/common/meta-route.container";
 import { ConfigService } from "@core/common/services/config.service";
+import { HttpStatus } from "src";
 
 jest.mock("@core/common/meta-route.container");
 
@@ -23,7 +24,10 @@ describe("CorsMiddleware", () => {
     res = {
       headers: {},
       setHeader: jest.fn(),
-      status: jest.fn(),
+      status: jest.fn().mockImplementation(function (this: any) {
+        return this;
+      }),
+      send: jest.fn(),
     };
     next = jest.fn();
     configService = {
@@ -95,5 +99,17 @@ describe("CorsMiddleware", () => {
     CorsMiddleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(next).not.toHaveBeenCalled();
+  });
+
+  it("should return 403 status if origin is not allowed", () => {
+    req.headers!.origin = "http://not-allowed.com";
+
+    CorsMiddleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
+
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.FORBIDDEN);
+    expect(res.send).toHaveBeenCalledWith({
+      success: false,
+      message: "The origin is not allowed",
+    });
   });
 });
