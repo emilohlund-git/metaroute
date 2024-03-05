@@ -14,6 +14,19 @@ export class ConfigService {
     return value;
   }
 
+  getString(key: string, defaultValue?: string): string {
+    const value = this.get(key);
+    if (!value && defaultValue) {
+      return defaultValue;
+    }
+
+    if (!value && !defaultValue) {
+      throw new EnvironmentVariableException(key);
+    }
+
+    return value;
+  }
+
   getInteger(key: string, defaultValue?: number): number {
     const value = this.get(key);
     if (!value && defaultValue) {

@@ -24,7 +24,12 @@ export class ImportHandler implements Initializable {
     this.logger.debug(`Current working directory: ${process.cwd()}`);
     const srcDirectory = path.join(process.cwd(), "src");
 
-    const fileType = ".ts";
+    let fileType: string = "";
+    if (this.configService.getEnvironment() === "development") {
+      fileType = ".ts";
+    } else {
+      fileType = ".js";
+    }
 
     try {
       this.logger.debug(
