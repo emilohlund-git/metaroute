@@ -47,7 +47,7 @@ export default function Validation() {
         </DocsPageParagraph>
 
         <DocsCode>
-          {`import { IsString, IsEmail, Validate } from 'metaroute'; 
+          {`import { IsString, IsEmail, Validate } from 'metaroute-ts'; 
 
 class UserEntity {
   @IsString({ message: 'Name must be a string' })

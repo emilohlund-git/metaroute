@@ -36,7 +36,7 @@ export default function Routing() {
           resources, making it easier to build scalable and maintainable APIs.
         </DocsPageParagraph>
         <DocsCode>
-          {`import { Controller, Param, Get, Post, Delete, Put, Body } from "@emilohlund-git/metaroute";
+          {`import { Controller, Param, Get, Post, Delete, Put, Body } from "metaroute-ts";
 
 @Controller("/api/DocsPageParagraphosts")
 export class PostController {
