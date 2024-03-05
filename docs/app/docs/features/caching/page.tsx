@@ -49,7 +49,7 @@ export default function Caching() {
           to customize the caching behavior.
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { Cache } from 'metaroute'; 
+          {`import { Cache } from 'metaroute-ts'; 
 
 @Cache({ ttl: 60, maxSize: 100 }) 
 async function getPosts(req, res) { 

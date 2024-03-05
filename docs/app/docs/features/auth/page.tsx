@@ -60,7 +60,7 @@ export default function Authentication() {
           token using the following method:
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { JwtService } from 'metaroute';
+          {`import { JwtService } from 'metaroute-ts';
 
 const token = await JwtService.signTokenAsync(
   userData,
@@ -72,7 +72,7 @@ const token = await JwtService.signTokenAsync(
           To verify the token, use the following method:
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { JwtService } from 'metaroute';
+          {`import { JwtService } from 'metaroute-ts';
 
 const token = JwtService.extractToken(req.headers.authorization);
 const user = await JwtService.verifyTokenAsync(
@@ -86,7 +86,7 @@ const user = await JwtService.verifyTokenAsync(
           Here&apos;s how you can use it in a controller:
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { Auth } from 'metaroute';
+          {`import { Auth } from 'metaroute-ts';
 
 @Get()
 @Auth()
