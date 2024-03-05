@@ -7,9 +7,7 @@ export const Validate: Guard = (schema: new () => any) => {
   return createInterceptor(async (target, propertyKey, req, res) => {
     let errors: Record<string, string[]> = {};
 
-    if (req === undefined) {
-      errors = validator(req, schema);
-    } else {
+    if (req !== undefined) {
       errors = validator(req!.body, schema);
     }
 
