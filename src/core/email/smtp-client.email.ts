@@ -25,6 +25,9 @@ export class SmtpClient extends SmtpProtocol {
   protected connectToServer(): Promise<tls.TLSSocket> {
     return new Promise((resolve, reject) => {
       const client = tls.connect(this.options, () => {
+        console.log(
+          `Connected to server: ${this.options.host}:${this.options.port}`
+        );
         client.write(`${SmtpCommands.HELO}`);
         resolve(client);
       });
@@ -37,9 +40,9 @@ export class SmtpClient extends SmtpProtocol {
       this.logger.debug(`Received data: ${data}`);
       try {
         await this.handleResponse(client, data.toString(), email);
-      } catch (error) {
+      } catch (error: any) {
+        this.logger.error(`Error handling response: ${error.message}`);
         client.end();
-        throw error;
       }
     });
     client.on("end", () => this.logger.debug(`Connection ended`));

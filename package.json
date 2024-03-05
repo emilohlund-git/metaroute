@@ -47,6 +47,7 @@
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "jest-openapi": "^0.14.2",
+    "node-mocks-http": "^1.14.1",
     "nodemon": "^3.0.3",
     "openapi-enforcer": "^1.22.3",
     "openapi-types": "^12.1.3",

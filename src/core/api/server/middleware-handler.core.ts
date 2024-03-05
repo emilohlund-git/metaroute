@@ -70,10 +70,10 @@ export class MiddlewareHandler {
             await nextMiddleware(error);
           }
         } else {
-          await nextMiddleware();
+          await nextMiddleware(err);
         }
       } else {
-        next();
+        next(err);
       }
     };
   }

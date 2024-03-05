@@ -6,6 +6,7 @@ describe("Email", () => {
   it("should create a valid Email object", async () => {
     const email = new Email();
     email.to = "test@example.com";
+    email.from = "test@example.com";
     email.subject = "Test Subject";
     email.body = "Test Body";
 
@@ -16,14 +17,16 @@ describe("Email", () => {
   it("should fail validation if any property is not a string", async () => {
     const email = new Email();
     email.to = 123 as any;
+    email.from = 123 as any;
     email.subject = { key: "value" } as any;
     email.body = false as any;
 
     const validationErrors = validator(email, Email);
     expect(validationErrors).toEqual({
       body: ["Must be a string."],
+      from: ["Not a valid email."],
       subject: ["Must be a string."],
-      to: ["Must be a string."],
+      to: ["Not a valid email."],
     });
   });
 });
