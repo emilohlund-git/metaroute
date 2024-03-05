@@ -28,8 +28,8 @@ export default function RateLimiting() {
           MetaRoute uses the Token Bucket algorithm for rate limiting. Each
           client is assigned a bucket of tokens, with each token representing a
           single request. Tokens are refilled at a specified rate up to the
-          bucket&apos;s capacity. When a request is made, a token is consumed. If the
-          bucket is empty, the request is denied.
+          bucket&apos;s capacity. When a request is made, a token is consumed.
+          If the bucket is empty, the request is denied.
         </DocsPageParagraph>
       </DocsSection>
 
@@ -38,12 +38,12 @@ export default function RateLimiting() {
         <DocsPageParagraph>
           To use rate limiting in MetaRoute, you need to decorate a controller
           handler with the `@RateLimit` decorator. This decorator takes in rate
-          limiter options and a key as arguments.
+          limiter options as an argument.
         </DocsPageParagraph>
         <DocsCode language="javascript">
           {`import { RateLimit } from 'metaroute-ts';
 
-@RateLimit({ tokensPerSecond: 2, bucketSize: 5 }, 'rate-limit')
+@RateLimit({ tokensPerSecond: 2, bucketSize: 5 })
 @Get('/')
 async getPosts() {
     // Retrieve and return list of posts
