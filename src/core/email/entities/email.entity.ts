@@ -1,4 +1,4 @@
-import { IsEmail } from "@core/validation";
+import { IsEmail } from "../../validation";
 import { IsString } from "../../validation/decorators/string.validation";
 
 export class Email {
