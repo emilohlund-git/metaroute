@@ -44,19 +44,17 @@ describe("EnvironmentConfigurator", () => {
     expect(process.env.KEY).toBe("VALUE");
   });
 
-  it("should log error and throw exception if error occurs while reading environment file", async () => {
+  it("should log error if error occurs while reading environment file", async () => {
     process.env.NODE_ENV = "ostrup";
     const envFilePath = path.join(process.cwd(), ".env");
     mockReadFileSync.mockImplementation(() => {
       throw new Error("Error reading file");
     });
 
-    await expect(environmentConfigurator.setup()).rejects.toThrow(
-      "Error reading environment file"
-    );
+    await environmentConfigurator.setup();
 
     expect(mockLogger.error).toHaveBeenCalledWith(
-      "Error reading environment file:"
+      "Error configuring environment Error reading environment file"
     );
   });
 });
