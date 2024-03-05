@@ -41,7 +41,7 @@ export default function RateLimiting() {
           limiter options and a key as arguments.
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { RateLimit } from 'metaroute';
+          {`import { RateLimit } from 'metaroute-ts';
 
 @RateLimit({ tokensPerSecond: 2, bucketSize: 5 }, 'rate-limit')
 @Get('/')

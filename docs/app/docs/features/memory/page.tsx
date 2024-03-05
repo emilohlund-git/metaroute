@@ -31,7 +31,7 @@ export default function Memory() {
           specific constraints and actions based on memory usage metrics.
         </DocsPageParagraph>
         <DocsCode language="javascript">
-          {`import { MetaRouteMemoryPolicy, MemoryUsage } from "@emilohlund-git/metaroute";
+          {`import { MetaRouteMemoryPolicy, MemoryUsage } from "metaroute-ts";
 
 @MemoryPolicy
 export class PrintMemoryUsagePolicy extends MetaRouteMemoryPolicy {
