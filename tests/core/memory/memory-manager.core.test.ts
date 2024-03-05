@@ -4,12 +4,24 @@ import { MetaRoute } from "@core/common/meta-route.container";
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import { jest } from "@jest/globals";
 
-jest.mock("@core/common/services/console-logger.service");
+jest.mock("@core/common/services/console-logger.service", () => {
+  return {
+    ConsoleLogger: jest.fn().mockImplementation(() => {
+      return {
+        debug: jest.fn(),
+        error: jest.fn(),
+        warn: jest.fn(),
+      };
+    }),
+  };
+});
+
+jest.useFakeTimers();
 
 describe("MemoryManager", () => {
   let memoryManager: MemoryManager;
   let mockPolicy: jest.Mocked<MetaRouteMemoryPolicy>;
-  let loggerMock: jest.Mocked<ConsoleLogger>;
+  let warnSpy: any;
 
   beforeEach(() => {
     mockPolicy = {
@@ -17,7 +29,7 @@ describe("MemoryManager", () => {
     } as any;
     jest.spyOn(MetaRoute, "getAllByDecorator").mockReturnValue([mockPolicy]);
     memoryManager = new MemoryManager();
-    loggerMock = new ConsoleLogger("TEST") as jest.Mocked<ConsoleLogger>;
+    warnSpy = jest.spyOn(memoryManager['logger'], 'warn');
   });
 
   afterEach(() => {
@@ -29,6 +41,13 @@ describe("MemoryManager", () => {
     it("should initialize policies", async () => {
       await memoryManager.setup();
       expect(memoryManager["policies"]).toEqual([mockPolicy]);
+    });
+
+    it("should check memory usage and log warning if policy check returns true", async () => {
+      mockPolicy.check.mockReturnValue(true);
+      await memoryManager.setup();
+      jest.advanceTimersByTime(11000); // Advance time by 11 seconds to trigger the interval
+      expect(warnSpy).toHaveBeenCalled();
     });
   });
 });

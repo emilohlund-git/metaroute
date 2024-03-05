@@ -1,17 +1,17 @@
-import { mock, instance, verify, when, anything } from "ts-mockito";
+import { mock, instance } from "ts-mockito";
 import * as http from "http";
 import * as https from "https";
 import {
   AppConfiguration,
   HttpMethod,
+  MetaEngine,
   MetaRouteRouter,
   MetaRouteServer,
   MiddlewareHandler,
   RouteRegistry,
-  createMetaRouteRequest,
-  createMetaRouteResponse,
 } from "src";
 import { EventEmitter } from "events";
+import * as responseCreator from "src/core/api/server/functions/create-meta-route-response.function";
 
 jest.mock("https", () => ({
   createServer: jest.fn().mockReturnValue({
@@ -41,7 +41,7 @@ describe("MetaRouteServer", () => {
     appConfig = {
       engine: undefined,
       ssl: undefined,
-    };
+    } as AppConfiguration;
     mockServer = new EventEmitter() as any;
     mockServer.listen = jest.fn();
   });
@@ -175,5 +175,38 @@ describe("MetaRouteServer", () => {
     mockServer.emit("request", req, instance(res));
 
     expect(handleRequestSpy).toHaveBeenCalled();
+  });
+
+  it("should use engine if provided in config", () => {
+    const req = mock(http.IncomingMessage);
+    req.method = "GET";
+    req.url = "/test";
+    req.headers = { host: "localhost:3000" };
+
+    const engineSpy = jest.fn();
+    const res = {
+      engine: engineSpy,
+      statusCode: 200,
+      end: jest.fn(),
+      status: jest.fn().mockReturnThis(), // Change this line
+      send: jest.fn()
+    };
+    jest.spyOn(http, "createServer").mockImplementation((reqHandler: any) => {
+      mockServer.on("request", (req, res) => reqHandler(req, res));
+      return mockServer as any;
+    });
+
+    jest
+      .spyOn(responseCreator, "createMetaRouteResponse")
+      .mockReturnValue(res as any);
+
+    const engine = new MetaEngine();
+    appConfig.engine = engine;
+
+    server.listen(3000, appConfig, () => {});
+
+    mockServer.emit("request", req, res);
+
+    expect(engineSpy).toHaveBeenCalledWith(engine);
   });
 });
