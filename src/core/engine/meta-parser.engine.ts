@@ -49,7 +49,6 @@ export class MetaParser {
       !endTokenTypes.includes(this.tokens[this.pos].type)
     ) {
       const token = this.tokens[this.pos];
-      console.log(token);
       switch (token.type) {
         case TokenType.DISCARD:
           break;

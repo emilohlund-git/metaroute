@@ -6,41 +6,108 @@ import { EnvironmentStore } from "./environment-store.service";
 export class ConfigService {
   constructor(private readonly environmentStore: EnvironmentStore) {}
 
-  get<T = string>(key: string): T {
+  get(key: string): string {
     const value = this.environmentStore.get(key);
-    if (!value) {
+    if (value === undefined) {
+      throw new EnvironmentVariableException(key);
+    }
+    return value;
+  }
+
+  getInteger(key: string, defaultValue?: number): number {
+    const value = this.get(key);
+    if (!value && defaultValue) {
+      return defaultValue;
+    }
+
+    if (!value && !defaultValue) {
+      throw new EnvironmentVariableException(key);
+    }
+
+    try {
+      return parseInt(value);
+    } catch (error: any) {
+      throw new EnvironmentVariableException(error.message);
+    }
+  }
+
+  getFloat(key: string, defaultValue?: number): number {
+    const value = this.get(key);
+    if (!value && defaultValue) {
+      return defaultValue;
+    }
+
+    if (!value && !defaultValue) {
+      throw new EnvironmentVariableException(key);
+    }
+
+    try {
+      return parseFloat(value);
+    } catch (error: any) {
+      throw new EnvironmentVariableException(error.message);
+    }
+  }
+
+  getBoolean(key: string, defaultValue?: boolean): boolean {
+    const value = this.get(key);
+    if (value === undefined && defaultValue !== undefined) {
+      return defaultValue;
+    }
+
+    if (
+      value !== "true" &&
+      value !== "false" &&
+      value !== "1" &&
+      value !== "0"
+    ) {
       throw new EnvironmentVariableException(
-        `Config error: ${key} is not defined`
+        `Invalid boolean value for key: ${key}`
       );
     }
+
+    return value === "true" || value === "1";
+  }
+
+  getArray(key: string, defaultValue?: string[]): string[] {
+    const value = this.get(key);
+    if (value === undefined && defaultValue !== undefined) {
+      return defaultValue;
+    }
+
     try {
-      return this.convertToType<T>(value);
-    } catch (error) {
+      const parsedValue = JSON.parse(value);
+      if (!Array.isArray(parsedValue)) {
+        throw new EnvironmentVariableException(`
+          Invalid array value for key: ${key}
+          `);
+      }
+      return parsedValue;
+    } catch {
       throw new EnvironmentVariableException(
-        `Config error: ${key} could not be converted to the specified type`
+        `Invalid array value for key: ${key}`
       );
     }
   }
 
-  private convertToType<T>(value: string): T {
-    if (value.toLowerCase() === "true" || value.toLowerCase() === "false") {
-      return (value.toLowerCase() === "true") as unknown as T;
+  getObject(
+    key: string,
+    defaultValue?: Record<string, unknown>
+  ): Record<string, unknown> {
+    const value = this.get(key);
+    if (value === undefined && defaultValue !== undefined) {
+      return defaultValue;
     }
 
-    if (!isNaN(+value)) {
-      return +value as unknown as T;
+    try {
+      return JSON.parse(value);
+    } catch {
+      throw new EnvironmentVariableException(
+        `Invalid object value for key: ${key}`
+      );
     }
+  }
 
-    if (value.startsWith("[") && value.endsWith("]")) {
-      console.log(value);
-      return value.slice(1, -1).split(",") as unknown as T;
-    }
-
-    const date = new Date(value);
-    if (!isNaN(date.getTime())) {
-      return date as unknown as T;
-    }
-
-    return value as unknown as T;
+  getEnvironment(): string {
+    return this.environmentStore.get("NODE_ENV") || "development";
   }
 }

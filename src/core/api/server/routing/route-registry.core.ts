@@ -30,9 +30,6 @@ export class RouteRegistry {
     pathParams: Record<string, string>;
     queryParams: Record<string, string>;
   } {
-    console.log("method", method)
-    console.log("path", path)
-    console.log("host", host)
     const url = new URL(path, `http://${host}`);
     const pathParts = this.getPathParts(url);
     const queryParams = this.getQueryParams(url);

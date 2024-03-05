@@ -1,7 +1,5 @@
-import { EnvironmentVariableException } from "@core/common/exceptions/invalid-environment-variable.exception";
-import { ConfigService } from "@core/common/services/config.service";
-import { EnvironmentStore } from "@core/common/services/environment-store.service";
-import { mock, instance, when, verify } from "ts-mockito";
+import { ConfigService, EnvironmentStore } from "src";
+import { instance, mock, verify, when } from "ts-mockito";
 
 describe("ConfigService", () => {
   let configService: ConfigService;
@@ -12,73 +10,69 @@ describe("ConfigService", () => {
     configService = new ConfigService(instance(environmentStore));
   });
 
-  it("should return the value when the key exists", () => {
+  it("should return the integer value when the key exists", () => {
     const key = "testKey";
-    const value = "testValue";
+    const value = "123";
     when(environmentStore.get(key)).thenReturn(value);
 
-    const result = configService.get(key);
-
-    expect(result).toEqual(value);
-    verify(environmentStore.get(key)).once();
-  });
-
-  it("should throw an error when the key does not exist", () => {
-    const key = "testKey";
-    when(environmentStore.get(key)).thenReturn(undefined);
-
-    expect(() => configService.get(key)).toThrow(EnvironmentVariableException);
-    verify(environmentStore.get(key)).once();
-  });
-
-  it("should return a boolean when the value is 'true' or 'false'", () => {
-    const key = "testKey";
-    when(environmentStore.get(key)).thenReturn("true");
-
-    const result = configService.get<boolean>(key);
-
-    expect(result).toEqual(true);
-    verify(environmentStore.get(key)).once();
-  });
-
-  it("should return a number when the value is a numeric string", () => {
-    const key = "testKey";
-    when(environmentStore.get(key)).thenReturn("123");
-
-    const result = configService.get<number>(key);
+    const result = configService.getInteger(key);
 
     expect(result).toEqual(123);
     verify(environmentStore.get(key)).once();
   });
 
-  it("should return an array when the value is a comma-separated string", () => {
+  it("should return the float value when the key exists", () => {
     const key = "testKey";
-    when(environmentStore.get(key)).thenReturn("[a,b,c]");
+    const value = "123.45";
+    when(environmentStore.get(key)).thenReturn(value);
 
-    const result = configService.get<string[]>(key);
+    const result = configService.getFloat(key);
+
+    expect(result).toEqual(123.45);
+    verify(environmentStore.get(key)).once();
+  });
+
+  it("should return the boolean value when the key exists", () => {
+    const key = "testKey";
+    const value = "true";
+    when(environmentStore.get(key)).thenReturn(value);
+
+    const result = configService.getBoolean(key);
+
+    expect(result).toEqual(true);
+    verify(environmentStore.get(key)).once();
+  });
+
+  it("should return the array value when the key exists", () => {
+    const key = "testKey";
+    const value = '["a","b","c"]';
+    when(environmentStore.get(key)).thenReturn(value);
+
+    const result = configService.getArray(key);
 
     expect(result).toEqual(["a", "b", "c"]);
     verify(environmentStore.get(key)).once();
   });
 
-  it("should return a date when the value is a date string", () => {
+  it("should return the object value when the key exists", () => {
     const key = "testKey";
-    const date = new Date();
-    when(environmentStore.get(key)).thenReturn(date.toISOString());
+    const value = '{"a":1,"b":2,"c":3}';
+    when(environmentStore.get(key)).thenReturn(value);
 
-    const result = configService.get<Date>(key);
+    const result = configService.getObject(key);
 
-    expect(result).toEqual(date);
+    expect(result).toEqual({ a: 1, b: 2, c: 3 });
     verify(environmentStore.get(key)).once();
   });
 
-  it("should return the original string when the value cannot be converted to the specified type", () => {
-    const key = "testKey";
-    when(environmentStore.get(key)).thenReturn("not a number");
+  it("should return the environment value", () => {
+    const key = "NODE_ENV";
+    const value = "development";
+    when(environmentStore.get(key)).thenReturn(value);
 
-    const result = configService.get<number>(key);
+    const result = configService.getEnvironment();
 
-    expect(typeof result).toEqual("string");
+    expect(result).toEqual(value);
     verify(environmentStore.get(key)).once();
   });
 });

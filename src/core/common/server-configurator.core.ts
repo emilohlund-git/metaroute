@@ -65,7 +65,7 @@ export class ServerConfigurator implements Initializable {
   protected startServer(config: AppConfiguration) {
     let port: number;
     try {
-      port = this.configService.get<number>("PORT");
+      port = this.configService.getInteger("PORT");
     } catch (error) {
       this.logger.warn(
         `No PORT environment variable found, using app configuration or default port 3000`
@@ -113,10 +113,10 @@ export class ServerConfigurator implements Initializable {
       if (allowedOrigins.includes(",")) {
         return allowedOrigins.split(",");
       } else {
-        return [allowedOrigins];
+        return allowedOrigins;
       }
     } else {
-      return ["*"];
+      return "*";
     }
   }
 }
