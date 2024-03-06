@@ -39,7 +39,7 @@ export abstract class Application {
    * Stops the server.
    */
   public stop(): void {
-    this._server.close();
+    this.server.close();
   }
 
   get server(): Server<typeof IncomingMessage, typeof ServerResponse> {
