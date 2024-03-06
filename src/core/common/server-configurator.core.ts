@@ -21,6 +21,7 @@ import {
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
+import { HomeController } from "src/test";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {

@@ -8,7 +8,7 @@ import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Scope } from "../../../common/enums/scope.enum";
 
-@Injectable({ scope: Scope.CONFIGURATOR })
+@Injectable({ scope: Scope.SINGLETON })
 export class EventRouter<T extends Function> extends Router<T> {
   constructor(private readonly logger: ConsoleLogger) {
     super();
