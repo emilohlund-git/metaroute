@@ -54,14 +54,22 @@ export function MetaRouteHero() {
           </div>
         </>
       ) : (
-        <button
-          onClick={() => setShowingPreview(!showingPreview)}
-          className="btn btn-accent absolute bottom-2 left-2"
-        >
-          Hide preview
-        </button>
+        <>
+          <div
+            className={`w-full z-20 flex items-center justify-center transition-all ${
+              showingPreview ? "top-0" : "-top-96"
+            }`}
+          >
+            <MetaRoutePreview />
+          </div>
+          <button
+            onClick={() => setShowingPreview(!showingPreview)}
+            className="btn btn-accent absolute bottom-2 left-2 z-40"
+          >
+            Hide preview
+          </button>
+        </>
       )}
-      <MetaRoutePreview />
       <div className="mb-16"></div>
     </div>
   );
