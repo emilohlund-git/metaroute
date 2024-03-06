@@ -4,16 +4,19 @@ import {
   DATABASE_METADATA_KEY,
   ENTITY_METADATA_KEY,
 } from "../common/constants/metadata-keys.constants";
-import { Configurator } from "../common/decorators/configurator.decorator";
 import { MetaRoute } from "../common/meta-route.container";
 import { Initializable } from "../common/interfaces/initializable.interface";
 import { ConsoleLogger } from "../common/services/console-logger.service";
 import { DatabaseTableException } from "../database/exceptions/database-table.exception";
-import { Entity, Instance } from "../common/types";
+import { Entity, ServiceIdentifier } from "../common/types";
+import { Injectable } from "../common/decorators/injectable.decorator";
+import { Scope } from "../common/enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class CodeFirstConfigurator implements Initializable {
-  private readonly logger = new ConsoleLogger(CodeFirstConfigurator.name);
+  constructor(private readonly logger: ConsoleLogger) {
+    this.logger.setContext(CodeFirstConfigurator.name);
+  }
 
   async setup() {
     try {
@@ -57,7 +60,7 @@ export class CodeFirstConfigurator implements Initializable {
 
   protected async createTableForEntity(
     database: CodeFirstDatabase<Entity>,
-    instance: Instance
+    instance: ServiceIdentifier<Entity>
   ) {
     const columns = Reflect.getMetadata(DATABASE_COLUMN_METADATA_KEY, instance);
 

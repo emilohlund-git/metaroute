@@ -15,6 +15,7 @@ import { MetaRouteRouter } from "@core/api/server/routing/basic-http.router.core
 import { ControllerHandler } from "@core/api/server/routing/controller-handler.core";
 import { RouteRegistry } from "@core/api/server/routing/route-registry.core";
 import "reflect-metadata";
+import { ConsoleLogger } from "src";
 
 import { mock, instance } from "ts-mockito";
 
@@ -53,12 +54,14 @@ describe("HttpRouter", () => {
   let basicRouter: MetaRouteRouter;
   let registry: RouteRegistry;
   let middlewareHandler: MiddlewareHandler;
+  let logger: ConsoleLogger;
 
   beforeEach(() => {
+    logger = new ConsoleLogger("TEST");
     controller = new MockController();
-    router = new ControllerHandler();
+    router = new ControllerHandler(logger);
     registry = new RouteRegistry();
-    middlewareHandler = new MiddlewareHandler();
+    middlewareHandler = new MiddlewareHandler(logger);
     basicRouter = new MetaRouteRouter(registry, middlewareHandler);
     app = new MetaRouteServer(basicRouter);
   });

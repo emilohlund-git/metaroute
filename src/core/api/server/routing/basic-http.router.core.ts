@@ -14,7 +14,7 @@ import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import { getClientIp } from "../../../common/functions/get-client-ip.function";
 
-@Injectable
+@Injectable()
 export class MetaRouteRouter {
   private readonly logger = new ConsoleLogger(MetaRouteRouter.name);
 

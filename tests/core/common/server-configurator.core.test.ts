@@ -7,6 +7,7 @@ import { ServerConfigurator } from "@core/common/server-configurator.core";
 import { ConfigService } from "@core/common/services/config.service";
 import { EnvironmentStore } from "@core/common/services/environment-store.service";
 import { mock } from "ts-mockito";
+import { ConsoleLogger } from "src";
 
 describe("ServerConfigurator", () => {
   let serverConfigurator: ServerConfigurator;
@@ -17,8 +18,10 @@ describe("ServerConfigurator", () => {
   let appConfiguration: AppConfiguration;
   let environmentStore: EnvironmentStore;
   let metaRouteRouter: MetaRouteRouter;
+  let logger: ConsoleLogger;
 
   beforeEach(() => {
+    logger = new ConsoleLogger("TEST");
     environmentStore = mock(EnvironmentStore);
     configService = mock(ConfigService);
     httpRouter = mock(ControllerHandler);
@@ -29,7 +32,8 @@ describe("ServerConfigurator", () => {
       configService,
       httpRouter,
       eventRouter,
-      server
+      server,
+      logger
     );
     appConfiguration = {
       errorMiddleware: [],

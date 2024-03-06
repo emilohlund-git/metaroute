@@ -2,7 +2,7 @@ import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Middleware, RequestHandler, Route } from "../types";
 import { HttpMethod } from "../../enums/http.method";
 
-@Injectable
+@Injectable()
 export class RouteRegistry {
   private routes: Record<string, Record<string, Route>> = {};
 

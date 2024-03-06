@@ -3,6 +3,7 @@ import * as http from "http";
 import * as https from "https";
 import {
   AppConfiguration,
+  ConsoleLogger,
   HttpMethod,
   MetaEngine,
   MetaRouteRouter,
@@ -32,9 +33,11 @@ describe("MetaRouteServer", () => {
   let server: MetaRouteServer;
   let appConfig: AppConfiguration;
   let mockServer: EventEmitter & { listen: jest.Mock };
+  let logger: ConsoleLogger;
 
   beforeEach(() => {
-    const middlewareHandler = new MiddlewareHandler();
+    logger = new ConsoleLogger("TEST");
+    const middlewareHandler = new MiddlewareHandler(logger);
     routeRegistry = new RouteRegistry();
     router = new MetaRouteRouter(routeRegistry, middlewareHandler);
     server = new MetaRouteServer(router);

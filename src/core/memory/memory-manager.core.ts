@@ -1,18 +1,18 @@
 import { ConsoleLogger } from "../common/services/console-logger.service";
-import { MEMORY_POLICY_METADATA_KEY } from "../common/constants/metadata-keys.constants";
-import { Configurator } from "../common/decorators/configurator.decorator";
 import { Initializable } from "../common/interfaces/initializable.interface";
 import { MetaRoute } from "../common/meta-route.container";
 import { MetaRouteMemoryPolicy } from "./policies/memory-policy.abstract";
+import { Scope } from "@core/common/enums/scope.enum";
+import { Injectable } from "../common/decorators/injectable.decorator";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class MemoryManager implements Initializable {
   private readonly logger = new ConsoleLogger(MemoryManager.name);
   private intervalId?: NodeJS.Timeout;
   private policies: MetaRouteMemoryPolicy[] = [];
 
   async setup() {
-    this.policies = MetaRoute.getAllByDecorator(MEMORY_POLICY_METADATA_KEY);
+    this.policies = MetaRoute.getAllByScope(Scope.MEMORY_POLICY);
 
     this.intervalId = setInterval(() => {
       const { rss, heapTotal, heapUsed, external } = process.memoryUsage();

@@ -36,7 +36,7 @@ describe("CodeFirstConfigurator", () => {
   beforeEach(() => {
     logger = mock(ConsoleLogger);
     database = mock(CodeFirstDatabase);
-    configurator = new CodeFirstConfigurator();
+    configurator = new CodeFirstConfigurator(logger);
     (configurator as any).logger = instance(logger);
   });
 

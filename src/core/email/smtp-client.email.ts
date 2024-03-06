@@ -25,9 +25,6 @@ export class SmtpClient extends SmtpProtocol {
   protected connectToServer(): Promise<tls.TLSSocket> {
     return new Promise((resolve, reject) => {
       const client = tls.connect(this.options, () => {
-        console.log(
-          `Connected to server: ${this.options.host}:${this.options.port}`
-        );
         client.write(`${SmtpCommands.HELO}`);
         resolve(client);
       });

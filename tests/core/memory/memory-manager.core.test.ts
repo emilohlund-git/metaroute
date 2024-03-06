@@ -1,7 +1,6 @@
 import { MemoryManager } from "@core/memory/memory-manager.core";
 import { MetaRouteMemoryPolicy } from "@core/memory/policies/memory-policy.abstract";
 import { MetaRoute } from "@core/common/meta-route.container";
-import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import { jest } from "@jest/globals";
 
 jest.mock("@core/common/services/console-logger.service", () => {
@@ -27,9 +26,9 @@ describe("MemoryManager", () => {
     mockPolicy = {
       check: jest.fn(),
     } as any;
-    jest.spyOn(MetaRoute, "getAllByDecorator").mockReturnValue([mockPolicy]);
+    jest.spyOn(MetaRoute, "getAllByScope").mockReturnValue([mockPolicy]);
     memoryManager = new MemoryManager();
-    warnSpy = jest.spyOn(memoryManager['logger'], 'warn');
+    warnSpy = jest.spyOn(memoryManager["logger"], "warn");
   });
 
   afterEach(() => {

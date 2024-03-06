@@ -1,4 +1,5 @@
 import {
+  ConsoleLogger,
   ErrorMiddleware,
   MetaRouteRequest,
   MetaRouteResponse,
@@ -14,9 +15,11 @@ describe("MiddlewareHandler", () => {
   let mockNext: jest.Mock;
   let mockMiddleware: Middleware;
   let mockErrorMiddleware: ErrorMiddleware;
+  let logger: ConsoleLogger;
 
   beforeEach(() => {
-    middlewareHandler = new MiddlewareHandler();
+    logger = new ConsoleLogger("TEST");
+    middlewareHandler = new MiddlewareHandler(logger);
     mockRequest = {} as MetaRouteRequest;
     mockResponse = {} as MetaRouteResponse;
     mockNext = jest.fn();

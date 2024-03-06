@@ -1,16 +1,16 @@
-import { ConsoleLogger } from "./services/console-logger.service";
+import "reflect-metadata";
+
 import { EnvironmentConfigurator } from "./environment-configurator.core";
-import { Configurator } from "./decorators/configurator.decorator";
 import { CodeFirstConfigurator } from "../code-first/code-first-configurator.core";
 import { ServerConfigurator } from "./server-configurator.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { MemoryManager } from "../memory/memory-manager.core";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
+import { Injectable } from "./decorators/injectable.decorator";
+import { Scope } from "./enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class MetaRouteCore implements Initializable {
-  private readonly logger = new ConsoleLogger(MetaRouteCore.name);
-
   constructor(
     private readonly environmentConfigurator: EnvironmentConfigurator,
     private readonly codeFirstConfigurator: CodeFirstConfigurator,

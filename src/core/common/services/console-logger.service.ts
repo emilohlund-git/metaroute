@@ -1,6 +1,9 @@
+import { Injectable } from "../decorators/injectable.decorator";
 import { LogLevel } from "../enums/log.level.enum";
+import { Scope } from "../enums/scope.enum";
 import { Logger } from "./logger.service";
 
+@Injectable({ scope: Scope.TRANSIENT })
 export class ConsoleLogger extends Logger {
   constructor(context: string) {
     super(context);

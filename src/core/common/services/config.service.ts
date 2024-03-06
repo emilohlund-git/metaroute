@@ -1,8 +1,9 @@
 import { Injectable } from "../decorators/injectable.decorator";
+import { Scope } from "../enums/scope.enum";
 import { EnvironmentVariableException } from "../exceptions/invalid-environment-variable.exception";
 import { EnvironmentStore } from "./environment-store.service";
 
-@Injectable
+@Injectable({ scope: Scope.SINGLETON })
 export class ConfigService {
   constructor(private readonly environmentStore: EnvironmentStore) {}
 

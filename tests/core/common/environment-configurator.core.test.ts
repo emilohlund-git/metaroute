@@ -14,7 +14,7 @@ describe("EnvironmentConfigurator", () => {
   beforeEach(() => {
     mockLogger = new ConsoleLogger("TEST") as jest.Mocked<ConsoleLogger>;
     mockReadFileSync = fs.readFileSync as jest.Mock;
-    environmentConfigurator = new EnvironmentConfigurator();
+    environmentConfigurator = new EnvironmentConfigurator(mockLogger);
     (environmentConfigurator as any).logger = mockLogger;
   });
 
@@ -46,15 +46,14 @@ describe("EnvironmentConfigurator", () => {
 
   it("should log error if error occurs while reading environment file", async () => {
     process.env.NODE_ENV = "ostrup";
-    const envFilePath = path.join(process.cwd(), ".env");
     mockReadFileSync.mockImplementation(() => {
       throw new Error("Error reading file");
     });
 
     await environmentConfigurator.setup();
 
-    expect(mockLogger.error).toHaveBeenCalledWith(
-      "Error configuring environment Error reading environment file"
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      "Error configuring environment: Could not find environment file"
     );
   });
 });

@@ -1,9 +1,7 @@
 import "reflect-metadata";
 import { MetaRoute } from "@core/common/meta-route.container";
-import { CONFIGURATOR_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
-import { Configurator } from "@core/common/decorators/configurator.decorator";
-
-class TestClass {}
+import { Injectable } from "src";
+import { Scope } from "@core/common/enums/scope.enum";
 
 describe("Configurator", () => {
   let registerSpy: jest.SpyInstance;
@@ -17,11 +15,12 @@ describe("Configurator", () => {
   });
 
   it("should define metadata and register target", () => {
-    Configurator(TestClass);
+    @Injectable({ scope: Scope.CONFIGURATOR })
+    class TestClass {}
 
-    expect(Reflect.getMetadata(CONFIGURATOR_METADATA_KEY, TestClass)).toEqual(
-      {}
-    );
+    const configurator = MetaRoute.resolve(TestClass);
+
+    expect(configurator).toBeInstanceOf(TestClass);
 
     expect(registerSpy).toHaveBeenCalledWith(TestClass);
   });

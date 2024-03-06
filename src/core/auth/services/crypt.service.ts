@@ -2,7 +2,7 @@ import { Injectable } from "../../common/decorators/injectable.decorator";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import crypto from "crypto";
 
-@Injectable
+@Injectable()
 export class CryptService {
   private readonly logger = new ConsoleLogger(CryptService.name);
 
