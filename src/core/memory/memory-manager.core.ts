@@ -2,7 +2,7 @@ import { ConsoleLogger } from "../common/services/console-logger.service";
 import { Initializable } from "../common/interfaces/initializable.interface";
 import { MetaRoute } from "../common/meta-route.container";
 import { MetaRouteMemoryPolicy } from "./policies/memory-policy.abstract";
-import { Scope } from "@core/common/enums/scope.enum";
+import { Scope } from "../common/enums/scope.enum";
 import { Injectable } from "../common/decorators/injectable.decorator";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
