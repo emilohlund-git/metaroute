@@ -13,8 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "tests/**/*.ts"]
 }
