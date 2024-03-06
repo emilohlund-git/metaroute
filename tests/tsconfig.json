@@ -1,6 +1,7 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "rootDir": "../",
     "types": ["jest", "node"],
     "paths": {
       "@core/*": ["./src/core/*"],
@@ -14,6 +15,6 @@
       "@validation/*": ["./src/core/validation/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["../src/**/*.ts", "../tests/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
