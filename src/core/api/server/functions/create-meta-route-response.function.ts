@@ -96,7 +96,7 @@ export function createMetaRouteResponse(res: ServerResponse) {
     name: string,
     value: string,
     options?: any
-  ): void {
+  ): MetaRouteResponse {
     let cookie = `${name}=${value}`;
     if (options) {
       if (options.maxAge) {
@@ -121,7 +121,8 @@ export function createMetaRouteResponse(res: ServerResponse) {
         cookie += `; SameSite=${options.sameSite}`;
       }
     }
-    this.setHeader("Set-Cookie", cookie);
+    this.set("Set-Cookie", cookie);
+    return this;
   };
 
   return metaRouteResponse;

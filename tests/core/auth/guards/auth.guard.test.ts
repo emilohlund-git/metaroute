@@ -64,4 +64,50 @@ describe("Auth Guard", () => {
 
     expect(result).toBeUndefined();
   });
+
+  it("should return unauthorized if the token is expired", async () => {
+    const expiredToken = JwtService.signTokenAsync(
+      { userId: 1 },
+      process.env.JWT_SECRET!,
+      "-1h"
+    );
+    req.headers.authorization = `Bearer ${expiredToken}`;
+
+    const mockObject = {
+      mockMethod: async (_req: any, _res: any) => {},
+    };
+
+    const descriptor = {
+      value: mockObject.mockMethod,
+    };
+
+    const guard = Auth();
+    guard(mockObject, "mockMethod", descriptor);
+
+    mockObject.mockMethod = descriptor.value;
+
+    const result = await mockObject.mockMethod(req, res);
+    expect(result).toEqual(ResponseEntity.unauthorized());
+  });
+
+  it("should return forbidden if token verification throws an error", async () => {
+    const invalidToken = "invalid-token";
+    req.headers.authorization = `Bearer ${invalidToken}`;
+
+    const mockObject = {
+      mockMethod: async (_req: any, _res: any) => {},
+    };
+
+    const descriptor = {
+      value: mockObject.mockMethod,
+    };
+
+    const guard = Auth();
+    guard(mockObject, "mockMethod", descriptor);
+
+    mockObject.mockMethod = descriptor.value;
+
+    const result = await mockObject.mockMethod(req, res);
+    expect(result).toEqual(ResponseEntity.forbidden());
+  });
 });
