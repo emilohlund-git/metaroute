@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node"],
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@api/*": ["./src/core/api/*"],
+      "@auth/*": ["./src/core/auth/*"],
+      "@code-first/*": ["./src/core/code-first/*"],
+      "@common/*": ["./src/core/common/*"],
+      "@database/*": ["./src/core/database/*"],
+      "@email/*": ["./src/core/email/*"],
+      "@memory/*": ["./src/core/memory/*"],
+      "@validation/*": ["./src/core/validation/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
