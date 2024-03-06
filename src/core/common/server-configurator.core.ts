@@ -1,9 +1,10 @@
+import "reflect-metadata";
+
 import {
   CONTROLLER_METADATA_KEY,
   DATABASE_METADATA_KEY,
   SOCKETIO_SERVER_METADATA_KEY,
 } from "./constants/metadata-keys.constants";
-import { Configurator } from "./decorators/configurator.decorator";
 import { MetaRoute } from "./meta-route.container";
 import { EventRouter } from "../api/server/routing/event.router";
 import { ControllerHandler } from "../api/server/routing/controller-handler.core";
@@ -18,18 +19,22 @@ import {
   UnifiedMiddleware,
 } from "../api/server/types";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
+import { Injectable } from "./decorators/injectable.decorator";
+import { Scope } from "./enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {
-  private readonly logger = new ConsoleLogger(ServerConfigurator.name);
   private io: SocketServer;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly httpRouter: ControllerHandler<any>,
     private readonly eventRouter: EventRouter<any>,
-    private readonly server: MetaRouteServer
-  ) {}
+    private readonly server: MetaRouteServer,
+    private readonly logger: ConsoleLogger
+  ) {
+    this.logger.setContext(ServerConfigurator.name);
+  }
 
   async setup(configuration: AppConfiguration): Promise<void> {
     this.startServer(configuration);

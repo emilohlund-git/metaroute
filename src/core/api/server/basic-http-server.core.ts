@@ -8,7 +8,7 @@ import { createMetaRouteResponse } from "./functions/create-meta-route-response.
 import { RequestHandler, UnifiedMiddleware } from "./types";
 import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 
-@Injectable
+@Injectable()
 export class MetaRouteServer {
   private server: http.Server | https.Server;
 

@@ -5,14 +5,15 @@ import {
 } from "../../../common/constants/metadata-keys.constants";
 import { Router } from "./router.abstract";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
-import { Configurator } from "../../../common/decorators/configurator.decorator";
+import { Injectable } from "../../../common/decorators/injectable.decorator";
+import { Scope } from "../../../common/enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class EventRouter<T extends Function> extends Router<T> {
-  private readonly logger = new ConsoleLogger(EventRouter.name);
-
-  constructor() {
+  constructor(private readonly logger: ConsoleLogger) {
     super();
+
+    this.logger.setContext(EventRouter.name);
   }
 
   public register(io: SocketServer, controller: T): void {

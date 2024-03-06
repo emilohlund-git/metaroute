@@ -2,9 +2,10 @@ import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { MetaRouteMemoryPolicy } from "./memory-policy.abstract";
 import { MemoryUsage } from "../dtos/memory.usage.dto";
 import { ConfigService } from "../../common/services/config.service";
-import { MemoryPolicy } from "../decorators/memory-policy.decorator";
+import { Injectable } from "@core/common";
+import { Scope } from "@core/common/enums/scope.enum";
 
-@MemoryPolicy
+@Injectable({ scope: Scope.MEMORY_POLICY })
 export class ThresholdExceededRule extends MetaRouteMemoryPolicy {
   private readonly logger = new ConsoleLogger(ThresholdExceededRule.name);
   private thresholdInMb: number;

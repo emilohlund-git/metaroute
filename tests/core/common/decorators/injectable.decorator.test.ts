@@ -1,11 +1,10 @@
 import { INJECTABLE_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import { Injectable } from "@core/common/decorators/injectable.decorator";
+import { Scope } from "@core/common/enums/scope.enum";
 import { MetaRoute } from "@core/common/meta-route.container";
 import "reflect-metadata";
 
 describe("Injectable Decorator", () => {
-  class TestClass {}
-
   beforeEach(() => {
     jest.spyOn(MetaRoute, "register");
   });
@@ -15,13 +14,17 @@ describe("Injectable Decorator", () => {
   });
 
   it("should define metadata", () => {
-    Injectable(TestClass);
+    @Injectable({ scope: Scope.CONFIGURATOR })
+    class TestClass {}
 
-    expect(Reflect.getMetadata(INJECTABLE_METADATA_KEY, TestClass)).toEqual({});
+    expect(Reflect.getMetadata(INJECTABLE_METADATA_KEY, TestClass)).toEqual({
+      scope: Scope.CONFIGURATOR,
+    });
   });
 
   it("should register target", () => {
-    Injectable(TestClass);
+    @Injectable()
+    class TestClass {}
 
     expect(MetaRoute.register).toHaveBeenCalledWith(TestClass);
   });

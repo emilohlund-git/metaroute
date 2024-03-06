@@ -9,9 +9,11 @@ import {
   UnifiedMiddleware,
 } from "./types";
 
-@Injectable
+@Injectable()
 export class MiddlewareHandler {
-  private readonly logger = new ConsoleLogger(MiddlewareHandler.name);
+  constructor(private readonly logger: ConsoleLogger) {
+    this.logger.setContext(MiddlewareHandler.name);
+  }
 
   private globalMiddleware: Middleware[] | ErrorMiddleware[] = [];
 

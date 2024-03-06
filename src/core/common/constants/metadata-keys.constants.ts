@@ -19,6 +19,5 @@ export const CONFIGURATOR_METADATA_KEY = Symbol("__configurator__");
 export const APP_METADATA_KEY = Symbol("__app__");
 export const IO_METADATA_KEY = Symbol("__io__");
 export const EXPRESS_METADATA_KEY = Symbol("__express__");
-export const MEMORY_POLICY_METADATA_KEY = Symbol("__memorypolicy__");
 export const QUERY_METADATA_KEY = Symbol("__query__");
 export const CACHE_METADATA_KEY = Symbol("__cache__");

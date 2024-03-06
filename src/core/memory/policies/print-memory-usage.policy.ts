@@ -1,10 +1,11 @@
 import { MetaRouteMemoryPolicy } from "./memory-policy.abstract";
 import { MemoryUsage } from "../dtos/memory.usage.dto";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
-import { MemoryPolicy } from "../decorators/memory-policy.decorator";
 import { MemoryManager } from "../memory-manager.core";
+import { Injectable } from "@core/common";
+import { Scope } from "@core/common/enums/scope.enum";
 
-@MemoryPolicy
+@Injectable({ scope: Scope.MEMORY_POLICY })
 export class PrintMemoryUsageRule extends MetaRouteMemoryPolicy {
   private readonly logger = new ConsoleLogger(MemoryManager.name);
 

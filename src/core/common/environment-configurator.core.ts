@@ -1,19 +1,24 @@
+import "reflect-metadata";
+
 import path from "path";
-import { Configurator } from "./decorators/configurator.decorator";
 import { readFileSync } from "fs";
 import { FileParseException } from "./exceptions/file-parse.exception";
 import { ConsoleLogger } from "./services/console-logger.service";
 import { Initializable } from "./interfaces/initializable.interface";
+import { Injectable } from "./decorators/injectable.decorator";
+import { Scope } from "./enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class EnvironmentConfigurator implements Initializable {
-  private readonly logger = new ConsoleLogger(EnvironmentConfigurator.name);
+  constructor(private readonly logger: ConsoleLogger) {
+    this.logger.setContext(EnvironmentConfigurator.name);
+  }
 
   async setup() {
     try {
       await this.configureEnvironment();
     } catch (error: any) {
-      this.logger.error("Error configuring environment " + error.message);
+      this.logger.warn("Error configuring environment: " + error.message);
     }
   }
 
@@ -38,7 +43,7 @@ export class EnvironmentConfigurator implements Initializable {
       try {
         envFile = readFileSync(envFilePath, "utf-8");
       } catch (error) {
-        throw new FileParseException("Error reading environment file");
+        throw new FileParseException("Could not find environment file");
       }
 
       try {

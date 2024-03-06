@@ -3,10 +3,12 @@ import { ON_MESSAGE_METADATA_KEY, SOCKETIO_SERVER_METADATA_KEY } from "@core/com
 import "reflect-metadata";
 
 import { Server as SocketServer, Socket, Server } from "socket.io";
+import { ConsoleLogger } from "src";
 
 jest.mock("socket.io");
 
 describe("EventRouter", () => {
+  let logger: ConsoleLogger;
   let io: jest.Mocked<Server<SocketServer>> & { of: jest.Mock };
   let controller: Partial<any>;
   let socket: Partial<Socket> & { on: jest.Mock; emit: jest.Mock };
@@ -23,7 +25,8 @@ describe("EventRouter", () => {
       on: jest.fn(),
       emit: jest.fn(),
     };
-    eventRouter = new EventRouter();
+    logger = new ConsoleLogger("TEST");
+    eventRouter = new EventRouter(logger);
 
     Reflect.defineMetadata(
       SOCKETIO_SERVER_METADATA_KEY,

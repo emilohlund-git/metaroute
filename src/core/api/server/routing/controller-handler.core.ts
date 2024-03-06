@@ -14,7 +14,6 @@ import { Router } from "./router.abstract";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { RateLimiterOptions } from "../../../common/interfaces/rate-limiter.interface";
 import { createRateLimiterMiddleware } from "../../middleware/functions/create-rate-limiter-middleware";
-import { Configurator } from "../../../common/decorators/configurator.decorator";
 import { HttpMethod } from "../../enums/http.method";
 import { MetaRouteServer } from "../basic-http-server.core";
 import { NextFunction, RequestHandler } from "../types";
@@ -22,13 +21,15 @@ import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import { CacheOptions } from "../../../cache/interfaces/cache-options.interface";
 import { createCacheMiddleware } from "../../../cache/functions/create-cache-middleware";
+import { Injectable } from "../../../common/decorators/injectable.decorator";
+import { Scope } from "../../../common/enums/scope.enum";
 
-@Configurator
+@Injectable({ scope: Scope.SINGLETON })
 export class ControllerHandler<T extends Function> extends Router<T> {
-  private readonly logger = new ConsoleLogger(ControllerHandler.name);
-
-  constructor() {
+  constructor(private readonly logger: ConsoleLogger) {
     super();
+
+    this.logger.setContext(ControllerHandler.name);
   }
 
   public register(server: MetaRouteServer, controller: T): void {

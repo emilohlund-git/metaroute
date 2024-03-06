@@ -1,7 +1,7 @@
 import { Injectable } from "../decorators/injectable.decorator";
 import { SecretStore } from "../interfaces/secret-store.interface";
 
-@Injectable
+@Injectable()
 export class EnvironmentStore implements SecretStore {
   getEnvironmentVariables(): any {
     return process.env;
