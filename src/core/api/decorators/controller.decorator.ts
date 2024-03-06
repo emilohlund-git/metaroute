@@ -3,7 +3,7 @@ import {
   CONTROLLER_METADATA_KEY,
   INJECTABLE_METADATA_KEY,
 } from "../../common/constants/metadata-keys.constants";
-import { ServiceIdentifier } from "src/core/common";
+import { ServiceIdentifier } from "../../common";
 
 export function Controller(path: string) {
   return function (target: Function) {
