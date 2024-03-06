@@ -1,8 +1,9 @@
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Middleware, RequestHandler, Route } from "../types";
 import { HttpMethod } from "../../enums/http.method";
+import { Scope } from "../../../common/enums/scope.enum";
 
-@Injectable()
+@Injectable({ scope: Scope.SINGLETON })
 export class RouteRegistry {
   private routes: Record<string, Record<string, Route>> = {};
 

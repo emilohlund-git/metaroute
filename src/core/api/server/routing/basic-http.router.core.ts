@@ -1,20 +1,16 @@
 import { HttpMethod } from "../../enums/http.method";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
-import {
-  ErrorMiddleware,
-  Middleware,
-  Route,
-  UnifiedMiddleware,
-} from "../types";
+import { Route, UnifiedMiddleware } from "../types";
 import { MiddlewareHandler } from "../middleware-handler.core";
 import { RouteRegistry } from "./route-registry.core";
 import { HttpStatus } from "../../enums/http.status";
 import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import { getClientIp } from "../../../common/functions/get-client-ip.function";
+import { Scope } from "../../../common/enums/scope.enum";
 
-@Injectable()
+@Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteRouter {
   private readonly logger = new ConsoleLogger(MetaRouteRouter.name);
 

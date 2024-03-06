@@ -1,3 +1,4 @@
+import { Scope } from "../../common/enums/scope.enum";
 import { Injectable } from "../../common/decorators/injectable.decorator";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { MetaRouteRequest } from "./interfaces/meta-route.request";
@@ -9,7 +10,7 @@ import {
   UnifiedMiddleware,
 } from "./types";
 
-@Injectable()
+@Injectable({ scope: Scope.SINGLETON })
 export class MiddlewareHandler {
   constructor(private readonly logger: ConsoleLogger) {
     this.logger.setContext(MiddlewareHandler.name);
