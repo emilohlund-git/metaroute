@@ -1,9 +1,8 @@
 import type { Config } from "jest";
 import { pathsToModuleNameMapper } from "ts-jest";
-import { compilerOptions } from "./tsconfig.test.json";
+import { compilerOptions } from "./tests/tsconfig.json";
 
 const config: Config = {
-  preset: "ts-jest",
   testEnvironment: "node",
   modulePaths: ["<rootDir>"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
@@ -11,9 +10,9 @@ const config: Config = {
   }),
   testRegex: ".*\\.test\\.ts$",
   transform: {
-    "^.+\\.(t|j)s$": ["ts-jest", { tsconfig: "./tsconfig.test.json" }],
+    "^.+\\.(ts|js)$": ["ts-jest", { tsconfig: "./tests/tsconfig.json" }],
   },
-  setupFiles: ["<rootDir>/jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   collectCoverage: true,
   coverageReporters: ["lcov", "text"],
 };
