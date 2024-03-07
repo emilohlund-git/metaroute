@@ -8,7 +8,7 @@ import {
   Put,
 } from "@core/api/decorators/handlers.decorator";
 import { ApiKey } from "@core/api/guards/api-key.guard";
-import { OnMessage } from "src";
+import { OnMessage } from "@core/api/websocket/decorators/on-message.decorator";
 
 @Controller("/test")
 class TestClass {
