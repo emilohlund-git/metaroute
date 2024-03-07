@@ -7,8 +7,8 @@ import {
   Post,
   Put,
 } from "@core/api/decorators/handlers.decorator";
-import { OnMessage } from "@core/api/decorators/on-message.decorator";
 import { ApiKey } from "@core/api/guards/api-key.guard";
+import { OnMessage } from "src";
 
 @Controller("/test")
 class TestClass {

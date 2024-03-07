@@ -1,4 +1,4 @@
-import { ON_MESSAGE_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { ON_MESSAGE_METADATA_KEY } from "../../../common/constants/metadata-keys.constants";
 
 export function OnMessage(event: string) {
   return function (

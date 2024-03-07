@@ -1,6 +1,6 @@
 import { ControllerMethod } from "../../../common/interfaces/controller-method.interface";
 import { MetaRouteServer } from "../basic-http-server.core";
-import { MetaRouteSocketServer } from "../metaroute-socket.core";
+import { MetaRouteSocketServer } from "../../websocket/metaroute-socket-server.socket";
 
 export abstract class Router<T extends Function> {
   abstract register(

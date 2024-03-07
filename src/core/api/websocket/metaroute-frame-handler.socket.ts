@@ -1,5 +1,6 @@
 import { Injectable } from "../../common/decorators/injectable.decorator";
 import { Scope } from "../../common/enums/scope.enum";
+import { MetaRouteEvent } from "./interfaces/metaroute-event.interface";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteFrameHandler {
@@ -9,8 +10,19 @@ export class MetaRouteFrameHandler {
     this.buffer = Buffer.alloc(0);
   }
 
-  handle(raw: Buffer, messageType: string): { event: string; data: any } {
+  handle(raw: Buffer, messageType: string): MetaRouteEvent {
     try {
+      const fin = (raw[0] & 0x80) === 0x80;
+      const reserved = (raw[0] & 0x70) === 0;
+      const rsv1 = (raw[0] & 0x40) === 0x40;
+      const rsv2 = (raw[0] & 0x20) === 0x20;
+      const rsv3 = (raw[0] & 0x10) === 0x10;
+      if (!fin || rsv1 || rsv2 || rsv3 || !reserved) {
+        throw new Error(
+          "Invalid WebSocket frame: FIN bit must be set and reserved bits must be 0"
+        );
+      }
+
       let length = raw[1] & 0x7f;
       let maskStart = 2;
       if (length === 126) {
@@ -30,11 +42,13 @@ export class MetaRouteFrameHandler {
 
       this.buffer = Buffer.concat([this.buffer, payload]);
 
+      if (messageType === "continuation") {
+        return { event: "", data: "" };
+      }
+
       const message = JSON.parse(payload.toString());
 
-      const { event, data } = message;
-
-      return { event, data };
+      return message;
     } catch (error) {
       console.error(`Error handling ${messageType} frame: `, error);
       return { event: "", data: "" };

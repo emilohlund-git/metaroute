@@ -1,6 +1,10 @@
-import { ConsoleLogger, LogErrorMiddleware, MetaRouteRequest, MetaRouteResponse } from "src";
-
-jest.mock("@core/common/services/console-logger.service");
+import {
+  ConsoleLogger,
+  LogErrorMiddleware,
+  MetaRoute,
+  MetaRouteRequest,
+  MetaRouteResponse,
+} from "src";
 
 describe("ErrorMiddleware", () => {
   let req: Partial<MetaRouteRequest>;
@@ -18,16 +22,20 @@ describe("ErrorMiddleware", () => {
       statusCode: 500,
     };
     next = jest.fn();
-    logger = new ConsoleLogger("HTTP");
-    logger.error = jest.fn();
-
-    (ConsoleLogger as jest.Mock).mockReturnValue(logger);
+    logger = MetaRoute.resolve(ConsoleLogger);
   });
 
   it("should log the error and call next", () => {
     const error = new Error("Test error");
 
-    LogErrorMiddleware(error, req as MetaRouteRequest, res as MetaRouteResponse, next);
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
+    LogErrorMiddleware(
+      error,
+      req as MetaRouteRequest,
+      res as MetaRouteResponse,
+      next
+    );
 
     expect(res.on).toHaveBeenCalledWith("finish", expect.any(Function));
 
@@ -35,7 +43,13 @@ describe("ErrorMiddleware", () => {
     finishCallback();
 
     const logMessage = `[${req.method}] ${req.url} - ${res.statusCode} - Error: ${error.message}`;
-    expect(logger.error).toHaveBeenCalledWith(logMessage);
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(logMessage)
+    );
     expect(next).toHaveBeenCalled();
+
+    // Clean up the spy
+    consoleSpy.mockRestore();
   });
 });

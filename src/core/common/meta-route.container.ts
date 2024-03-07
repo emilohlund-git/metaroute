@@ -77,7 +77,6 @@ export class MetaRoute {
 
     const scope = metadata && metadata.scope ? metadata.scope : Scope.TRANSIENT;
     const key = MetaRoute.getKey(target, scope);
-    console.log(key, target.name);
 
     if (scope === Scope.TRANSIENT) {
       return MetaRoute.createInstance(target);

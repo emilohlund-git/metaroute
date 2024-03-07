@@ -8,6 +8,7 @@ import {
   MetaEngine,
   MetaRouteRouter,
   MetaRouteServer,
+  MetaRouteSocketServer,
   MiddlewareHandler,
   RouteRegistry,
 } from "src";
@@ -17,6 +18,7 @@ import * as responseCreator from "src/core/api/server/functions/create-meta-rout
 jest.mock("https", () => ({
   createServer: jest.fn().mockReturnValue({
     listen: jest.fn(),
+    on: jest.fn()
   }),
 }));
 
@@ -24,6 +26,7 @@ jest.mock("http", () => ({
   createServer: jest.fn().mockReturnValue({
     listen: jest.fn((port, callback) => callback({}, {})), // Mock listen to call callback with two empty objects
     close: jest.fn(),
+    on: jest.fn()
   }),
 }));
 
@@ -34,13 +37,15 @@ describe("MetaRouteServer", () => {
   let appConfig: AppConfiguration;
   let mockServer: EventEmitter & { listen: jest.Mock };
   let logger: ConsoleLogger;
+  let socketServer: MetaRouteSocketServer;
 
   beforeEach(() => {
     logger = new ConsoleLogger("TEST");
     const middlewareHandler = new MiddlewareHandler(logger);
     routeRegistry = new RouteRegistry();
-    router = new MetaRouteRouter(routeRegistry, middlewareHandler);
-    server = new MetaRouteServer(router);
+    router = new MetaRouteRouter(routeRegistry, middlewareHandler, logger);
+    socketServer = mock(MetaRouteSocketServer);
+    server = new MetaRouteServer(router, socketServer);
     appConfig = {
       engine: undefined,
       ssl: undefined,
@@ -192,7 +197,7 @@ describe("MetaRouteServer", () => {
       statusCode: 200,
       end: jest.fn(),
       status: jest.fn().mockReturnThis(), // Change this line
-      send: jest.fn()
+      send: jest.fn(),
     };
     jest.spyOn(http, "createServer").mockImplementation((reqHandler: any) => {
       mockServer.on("request", (req, res) => reqHandler(req, res));

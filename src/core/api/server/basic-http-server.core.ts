@@ -8,7 +8,8 @@ import { createMetaRouteResponse } from "./functions/create-meta-route-response.
 import { RequestHandler, UnifiedMiddleware } from "./types";
 import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 import { Scope } from "../../common/enums/scope.enum";
-import { MetaRouteSocketServer } from "./metaroute-socket.core";
+import { MetaRouteSocketServer } from "../websocket/metaroute-socket-server.socket";
+import internal from "stream";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteServer {
@@ -36,15 +37,23 @@ export class MetaRouteServer {
     this.server = this.createServer(config, reqHandler);
 
     this.server.on("upgrade", (req, socket, head) => {
-      if (req.headers["upgrade"] !== "websocket") {
-        socket.end("HTTP/1.1 400 Bad Request");
-        return;
-      }
-
-      this.webSocketServer.handleUpgrade(req, socket, head);
+      this.handleUpgrade(req, socket, head);
     });
 
     this.server.listen(port, callback);
+  }
+
+  private handleUpgrade(
+    req: http.IncomingMessage,
+    socket: internal.Duplex,
+    head: Buffer
+  ) {
+    if (req.headers["upgrade"] !== "websocket") {
+      socket.end("HTTP/1.1 400 Bad Request");
+      return;
+    }
+
+    this.webSocketServer.connect(req, socket, head);
   }
 
   get(

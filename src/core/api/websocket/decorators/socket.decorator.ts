@@ -1,8 +1,8 @@
-import { MetaRoute } from "../../common/meta-route.container";
+import { MetaRoute } from "../../../common/meta-route.container";
 import {
   INJECTABLE_METADATA_KEY,
   METAROUTE_SOCKET_SERVER_METADATA_KEY,
-} from "../../common/constants/metadata-keys.constants";
+} from "../../../common/constants/metadata-keys.constants";
 
 export function SocketServer(namespace: string) {
   return function (target: any) {

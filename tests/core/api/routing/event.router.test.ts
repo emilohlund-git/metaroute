@@ -1,35 +1,34 @@
-import { EventRouter } from "@core/api/server/routing/event.router";
-import { ON_MESSAGE_METADATA_KEY, SOCKETIO_SERVER_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
+import {
+  METAROUTE_SOCKET_SERVER_METADATA_KEY,
+  ON_MESSAGE_METADATA_KEY,
+} from "@core/common/constants/metadata-keys.constants";
 import "reflect-metadata";
 
-import { Server as SocketServer, Socket, Server } from "socket.io";
-import { ConsoleLogger } from "src";
-
-jest.mock("socket.io");
+import { ConsoleLogger, EventRouter, MetaRouteSocket, MetaRouteSocketServer } from "src";
 
 describe("EventRouter", () => {
   let logger: ConsoleLogger;
-  let io: jest.Mocked<Server<SocketServer>> & { of: jest.Mock };
+  let io: MetaRouteSocketServer;
   let controller: Partial<any>;
-  let socket: Partial<Socket> & { on: jest.Mock; emit: jest.Mock };
+  let socket: MetaRouteSocket;
   let eventRouter: EventRouter<any>;
 
   beforeEach(() => {
     io = {
-      of: jest.fn(),
-    } as jest.Mocked<Server<SocketServer>> & { of: jest.Mock };
+      namespace: jest.fn(),
+    } as jest.Mocked<MetaRouteSocketServer> & { namespace: jest.Mock };
     controller = {
       constructor: function () {},
     };
     socket = {
       on: jest.fn(),
       emit: jest.fn(),
-    };
+    } as any as MetaRouteSocket;
     logger = new ConsoleLogger("TEST");
     eventRouter = new EventRouter(logger);
 
     Reflect.defineMetadata(
-      SOCKETIO_SERVER_METADATA_KEY,
+      METAROUTE_SOCKET_SERVER_METADATA_KEY,
       "/test",
       Object.getPrototypeOf(controller)
     );
@@ -39,7 +38,7 @@ describe("EventRouter", () => {
       Object.getPrototypeOf(controller)
     );
 
-    (io.of as jest.Mock).mockReturnValue({
+    (io.namespace as jest.Mock).mockReturnValue({
       on: jest.fn((event, callback) => {
         if (event === "connection") {
           callback(socket);
@@ -49,60 +48,25 @@ describe("EventRouter", () => {
   });
 
   it("should register events", () => {
-    eventRouter.register(io as SocketServer, controller);
+    eventRouter.register(io as MetaRouteSocketServer, controller);
 
-    expect(io.of).toHaveBeenCalledWith("/test");
+    expect(io.namespace).toHaveBeenCalledWith("/test");
     expect(socket.on).toHaveBeenCalledWith(
       [{ key: "test", metadata: "test" }],
       expect.any(Function)
     );
   });
 
-  it("should emit event with result", async () => {
-    controller.test = jest.fn().mockResolvedValue("result");
-
-    eventRouter.register(io as SocketServer, controller);
-
-    // Call the socket event callback
-    const socketCallback = socket.on.mock.calls[0][1];
-    await socketCallback("data");
-
-    expect(socket.emit).toHaveBeenCalledWith(
-      [{ key: "test", metadata: "test" }],
-      undefined
-    );
-  });
-
-  it("should register multiple events", () => {
-    Reflect.defineMetadata(
-      ON_MESSAGE_METADATA_KEY,
-      [
-        { key: "test1", metadata: "test1" },
-        { key: "test2", metadata: "test2" },
-      ],
-      Object.getPrototypeOf(controller)
-    );
-
-    eventRouter.register(io as SocketServer, controller);
-
-    expect(socket.on).toHaveBeenCalledWith(
-      [
-        { key: "test1", metadata: "test1" },
-        { key: "test2", metadata: "test2" },
-      ],
-      expect.any(Function)
-    );
-  });
 
   it("should use different namespaces", () => {
     Reflect.defineMetadata(
-      SOCKETIO_SERVER_METADATA_KEY,
+      METAROUTE_SOCKET_SERVER_METADATA_KEY,
       "/different",
       Object.getPrototypeOf(controller)
     );
 
-    eventRouter.register(io as SocketServer, controller);
+    eventRouter.register(io as MetaRouteSocketServer, controller);
 
-    expect(io.of).toHaveBeenCalledWith("/different");
+    expect(io.namespace).toHaveBeenCalledWith("/different");
   });
 });

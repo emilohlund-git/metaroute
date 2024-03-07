@@ -6,7 +6,7 @@ import {
   METAROUTE_SOCKET_SERVER_METADATA_KEY,
 } from "./constants/metadata-keys.constants";
 import { MetaRoute } from "./meta-route.container";
-import { EventRouter } from "../api/server/routing/event.router";
+import { EventRouter } from "../api/websocket/routing/event.router";
 import { ControllerHandler } from "../api/server/routing/controller-handler.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { ConsoleLogger } from "./services/console-logger.service";
@@ -20,7 +20,7 @@ import {
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
-import { MetaRouteSocketServer } from "../api/server/metaroute-socket.core";
+import { MetaRouteSocketServer } from "../api/websocket/metaroute-socket-server.socket";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {
