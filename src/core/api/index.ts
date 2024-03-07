@@ -5,5 +5,7 @@ export * from "./guards";
 export * from "./middleware";
 export * from "./pipes";
 export * from "./server";
+export * from "./websocket";
 export * from "./services";
 export * from "./types";
+export * from "./enums";

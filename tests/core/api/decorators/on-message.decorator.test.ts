@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
-import { OnMessage } from "@core/api/decorators/on-message.decorator";
 import { ON_MESSAGE_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
+import { OnMessage } from "src";
 
 describe("OnMessage decorator", () => {
   it("should set metadata for a method", () => {

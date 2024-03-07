@@ -12,12 +12,13 @@ import { Scope } from "../../../common/enums/scope.enum";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteRouter {
-  private readonly logger = new ConsoleLogger(MetaRouteRouter.name);
-
   constructor(
     private readonly _routeRegistry: RouteRegistry,
-    private readonly _middlewareHandler: MiddlewareHandler
-  ) {}
+    private readonly _middlewareHandler: MiddlewareHandler,
+    private readonly logger: ConsoleLogger
+  ) {
+    this.logger.setContext(MetaRouteRouter.name);
+  }
 
   registerMiddleware(middleware: UnifiedMiddleware) {
     this._middlewareHandler.use(middleware);

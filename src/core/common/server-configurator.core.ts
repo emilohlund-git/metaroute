@@ -3,14 +3,13 @@ import "reflect-metadata";
 import {
   CONTROLLER_METADATA_KEY,
   DATABASE_METADATA_KEY,
-  SOCKETIO_SERVER_METADATA_KEY,
+  METAROUTE_SOCKET_SERVER_METADATA_KEY,
 } from "./constants/metadata-keys.constants";
 import { MetaRoute } from "./meta-route.container";
-import { EventRouter } from "../api/server/routing/event.router";
+import { EventRouter } from "../api/websocket/routing/event.router";
 import { ControllerHandler } from "../api/server/routing/controller-handler.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { ConsoleLogger } from "./services/console-logger.service";
-import { Server as SocketServer } from "socket.io";
 import { ConfigService } from "./services/config.service";
 import { MetaRouteServer } from "../api/server/basic-http-server.core";
 import {
@@ -21,24 +20,24 @@ import {
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
+import { MetaRouteSocketServer } from "../api/websocket/metaroute-socket-server.socket";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {
-  private io: SocketServer;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly httpRouter: ControllerHandler<any>,
     private readonly eventRouter: EventRouter<any>,
     private readonly server: MetaRouteServer,
-    private readonly logger: ConsoleLogger
+    private readonly io: MetaRouteSocketServer,
+    private readonly logger: ConsoleLogger,
   ) {
     this.logger.setContext(ServerConfigurator.name);
   }
 
   async setup(configuration: AppConfiguration): Promise<void> {
     this.startServer(configuration);
-    this.initializeIO();
     this.registerMiddlewares(configuration.middleware);
     await this.registerRoutes();
     this.registerMiddlewares(configuration.errorMiddleware);
@@ -48,7 +47,7 @@ export class ServerConfigurator implements Initializable {
     this.registerStrategy(CONTROLLER_METADATA_KEY, (instance) =>
       this.httpRouter.register(this.server, instance)
     );
-    this.registerStrategy(SOCKETIO_SERVER_METADATA_KEY, (instance) =>
+    this.registerStrategy(METAROUTE_SOCKET_SERVER_METADATA_KEY, (instance) =>
       this.eventRouter.register(this.io, instance)
     );
     this.registerStrategy(DATABASE_METADATA_KEY, (instance) =>
@@ -89,17 +88,6 @@ export class ServerConfigurator implements Initializable {
   ) => void = async (middlewares) => {
     middlewares?.forEach((middleware) => {
       this.server.use(middleware as UnifiedMiddleware);
-    });
-  };
-
-  protected initializeIO: () => void = () => {
-    this.io = new SocketServer(this.server.serverInstance, {
-      cors: {
-        origin: this.getAllowedOrigins(),
-        methods: ["GET", "POST"],
-        credentials: true,
-      },
-      transports: ["polling", "websocket"],
     });
   };
 

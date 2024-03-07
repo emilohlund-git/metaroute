@@ -1,5 +1,6 @@
 import { createInterceptor } from "@core/common/functions/create-interceptor.function";
-import { Server } from "socket.io";
+import { MetaRouteSocketServer } from "src";
+import { instance } from "ts-mockito";
 
 describe("createInterceptor", () => {
   it("should call the original method if check function returns falsy", async () => {
@@ -8,7 +9,7 @@ describe("createInterceptor", () => {
     const descriptor = { value: originalMethod };
     const interceptor = createInterceptor(check);
     interceptor({}, "test", descriptor);
-    await descriptor.value(["req", "res", new Server()]);
+    await descriptor.value(["req", "res", instance(MetaRouteSocketServer)]);
     expect(originalMethod).toHaveBeenCalled();
   });
 
@@ -18,7 +19,7 @@ describe("createInterceptor", () => {
     const descriptor = { value: originalMethod };
     const interceptor = createInterceptor(check);
     interceptor({}, "test", descriptor);
-    const result = await descriptor.value(["req", "res", new Server()]);
+    const result = await descriptor.value(["req", "res", instance(MetaRouteSocketServer)]);
     expect(originalMethod).not.toHaveBeenCalled();
     expect(result).toBeTruthy();
   });

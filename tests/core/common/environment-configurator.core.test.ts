@@ -2,49 +2,55 @@ import { EnvironmentConfigurator } from "@core/common/environment-configurator.c
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import * as fs from "fs";
 import path from "path";
+import { MetaRoute } from "src";
 
-jest.mock("@core/common/services/console-logger.service");
 jest.mock("fs");
 
 describe("EnvironmentConfigurator", () => {
   let environmentConfigurator: EnvironmentConfigurator;
-  let mockLogger: jest.Mocked<ConsoleLogger>;
+  let mockLogger: ConsoleLogger;
   let mockReadFileSync: jest.Mock;
 
   beforeEach(() => {
-    mockLogger = new ConsoleLogger("TEST") as jest.Mocked<ConsoleLogger>;
+    mockLogger = MetaRoute.resolve(ConsoleLogger);
     mockReadFileSync = fs.readFileSync as jest.Mock;
     environmentConfigurator = new EnvironmentConfigurator(mockLogger);
     (environmentConfigurator as any).logger = mockLogger;
   });
 
   it("should configure environment with .env file if NODE_ENV is undefined", async () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
     process.env.NODE_ENV = undefined;
     const envFilePath = path.join(process.cwd(), ".env");
     mockReadFileSync.mockReturnValue("KEY=VALUE\n");
 
     await environmentConfigurator.setup();
 
-    expect(mockLogger.debug).toHaveBeenCalledWith(
-      `Environment file: ${envFilePath}`
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(`Environment file: ${envFilePath}`)
     );
     expect(process.env.KEY).toBe("VALUE");
   });
 
   it("should configure environment with .env.[NODE_ENV] file if NODE_ENV is defined", async () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
     process.env.NODE_ENV = "test";
     const envFilePath = path.join(process.cwd(), ".env.test");
     mockReadFileSync.mockReturnValue("KEY=VALUE\n");
 
     await environmentConfigurator.setup();
 
-    expect(mockLogger.debug).toHaveBeenCalledWith(
-      `Environment file: ${envFilePath}`
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(`Environment file: ${envFilePath}`)
     );
     expect(process.env.KEY).toBe("VALUE");
   });
 
-  it("should log error if error occurs while reading environment file", async () => {
+  it("should log warning if error occurs while reading environment file", async () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
     process.env.NODE_ENV = "ostrup";
     mockReadFileSync.mockImplementation(() => {
       throw new Error("Error reading file");
@@ -52,8 +58,10 @@ describe("EnvironmentConfigurator", () => {
 
     await environmentConfigurator.setup();
 
-    expect(mockLogger.warn).toHaveBeenCalledWith(
-      "Error configuring environment: Could not find environment file"
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "Error configuring environment: Could not find environment file"
+      )
     );
   });
 });

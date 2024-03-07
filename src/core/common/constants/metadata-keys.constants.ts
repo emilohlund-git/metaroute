@@ -3,7 +3,11 @@ export const INJECTABLE_METADATA_KEY = Symbol("__injectable__");
 export const CONTROLLER_METADATA_KEY = Symbol("__controller__");
 export const REPOSITORY_METADATA_KEY = Symbol("__repository__");
 export const ON_MESSAGE_METADATA_KEY = Symbol("__onmessage__");
-export const SOCKETIO_SERVER_METADATA_KEY = Symbol("__socketioserver__");
+export const ON_CONNECT_METADATA_KEY = Symbol("__onconnect__");
+export const ON_DISCONNECT_METADATA_KEY = Symbol("__ondisconnect__");
+export const METAROUTE_SOCKET_SERVER_METADATA_KEY = Symbol(
+  "__metaroutesocketserver__"
+);
 export const DATABASE_METADATA_KEY = Symbol("__database__");
 export const BODY_METADATA_KEY = Symbol("__body__");
 export const REQ_METADATA_KEY = Symbol("__request__");
