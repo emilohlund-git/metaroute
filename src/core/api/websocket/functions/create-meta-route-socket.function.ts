@@ -4,7 +4,7 @@ import { MetaRouteSocket } from "../interfaces/meta-route.socket";
 import { MetaRouteNamespace } from "../metaroute-namespace.socket";
 import { MetaRouteEvent } from "../interfaces/metaroute-event.interface";
 import { MetaRouteEventSender } from "../metaroute-event-sender.socket";
-import { MetaRouteSocketState } from "../enums";
+import { MetaRouteSocketState } from "../enums/metaroute-socket-state.enum";
 
 export function createMetaRouteSocket(
   socket: internal.Duplex,

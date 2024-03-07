@@ -5,10 +5,10 @@ import * as http from "http";
 import internal from "stream";
 import { MetaRouteEventReceiver } from "./metaroute-event-receiver.socket";
 import { MetaRouteNamespace } from "./metaroute-namespace.socket";
-import { MetaRouteSocket } from "./interfaces";
-import { createMetaRouteSocket } from "./functions";
+import { MetaRouteSocket } from "./interfaces/meta-route.socket";
 import { MetaRouteEventSender } from "./metaroute-event-sender.socket";
-import { MetaRouteSocketState } from "./enums";
+import { MetaRouteSocketState } from "./enums/metaroute-socket-state.enum";
+import { createMetaRouteSocket } from "./functions/create-meta-route-socket.function";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteSocketServer extends EventEmitter {
