@@ -9,22 +9,22 @@ export enum Scope {
    * will be used every time a dependency on this class needs to be resolved. This is useful for services
    * that hold some kind of internal state that needs to be shared across the application.
    */
-  SINGLETON,
+  SINGLETON = 1,
 
   /**
    * TRANSIENT scope means that a new instance of the class will be created each time a dependency on this
    * class needs to be resolved. This is useful for services that don't hold any internal state, or services
    * where each consumer needs a separate instance.
    */
-  TRANSIENT,
+  TRANSIENT = 2,
 
   /**
    * MEMORY_POLICY scope is a group name for all classes that are used to manage memory in the application.
    */
-  MEMORY_POLICY,
+  MEMORY_POLICY = 3,
 
   /**
    * CONFIGURATOR scope is a group name for all classes that are used to configure the application.
    */
-  CONFIGURATOR,
+  CONFIGURATOR = 4,
 }

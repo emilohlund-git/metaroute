@@ -8,12 +8,16 @@ import { createMetaRouteResponse } from "./functions/create-meta-route-response.
 import { RequestHandler, UnifiedMiddleware } from "./types";
 import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 import { Scope } from "../../common/enums/scope.enum";
+import { MetaRouteSocketServer } from "./metaroute-socket.core";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteServer {
   private server: http.Server | https.Server;
 
-  constructor(private readonly router: MetaRouteRouter) {}
+  constructor(
+    private readonly router: MetaRouteRouter,
+    private readonly webSocketServer: MetaRouteSocketServer
+  ) {}
 
   listen(port: number, config: AppConfiguration, callback: () => void) {
     const reqHandler = (
@@ -30,6 +34,16 @@ export class MetaRouteServer {
       this.router.handleRequest(request, response);
     };
     this.server = this.createServer(config, reqHandler);
+
+    this.server.on("upgrade", (req, socket, head) => {
+      if (req.headers["upgrade"] !== "websocket") {
+        socket.end("HTTP/1.1 400 Bad Request");
+        return;
+      }
+
+      this.webSocketServer.handleUpgrade(req, socket, head);
+    });
+
     this.server.listen(port, callback);
   }
 

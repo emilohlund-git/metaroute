@@ -1,12 +1,13 @@
-import { Socket, Server as SocketServer } from "socket.io";
 import {
+  METAROUTE_SOCKET_SERVER_METADATA_KEY,
   ON_MESSAGE_METADATA_KEY,
-  SOCKETIO_SERVER_METADATA_KEY,
 } from "../../../common/constants/metadata-keys.constants";
 import { Router } from "./router.abstract";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Scope } from "../../../common/enums/scope.enum";
+import { MetaRouteSocketServer } from "../metaroute-socket.core";
+import { MetaRouteSocket } from "../interfaces/meta-route.socket";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class EventRouter<T extends Function> extends Router<T> {
@@ -16,13 +17,13 @@ export class EventRouter<T extends Function> extends Router<T> {
     this.logger.setContext(EventRouter.name);
   }
 
-  public register(io: SocketServer, controller: T): void {
+  public register(server: MetaRouteSocketServer, controller: T): void {
     const namespacePath = Reflect.getMetadata(
-      SOCKETIO_SERVER_METADATA_KEY,
+      METAROUTE_SOCKET_SERVER_METADATA_KEY,
       controller.constructor
     );
 
-    const namespace = io.of(namespacePath);
+    const namespace = server.of(namespacePath);
 
     this.getControllerMethods(controller, ON_MESSAGE_METADATA_KEY).forEach(
       ({ key, metadata }) => {
@@ -30,22 +31,28 @@ export class EventRouter<T extends Function> extends Router<T> {
           `Listening to event [${metadata}] on namespace [${namespacePath}]`
         );
 
-        namespace.on("connection", (socket: Socket) => {
+        namespace.on("connection", (socket: MetaRouteSocket) => {
           this.logger.success(
             `[🔌 ${socket.id}]: Joined namespace: [${namespacePath}]`
           );
-          this.registerEvent(socket, metadata, controller, key, io);
+          this.registerEvent(socket, metadata, controller, key, server);
+        });
+
+        namespace.on("disconnect", (socket: MetaRouteSocket) => {
+          this.logger.success(
+            `[🔌 ${socket.id}]: Left namespace: [${namespacePath}]`
+          );
         });
       }
     );
   }
 
   private registerEvent(
-    socket: Socket,
+    socket: MetaRouteSocket,
     event: string,
     controller: T,
     key: string,
-    io: SocketServer
+    io: MetaRouteSocketServer
   ): void {
     socket.on(event, async (data: any) => {
       const result = await controller[key as keyof Function].bind(controller)(
@@ -53,7 +60,7 @@ export class EventRouter<T extends Function> extends Router<T> {
         socket,
         io
       );
-      socket.emit(event, result);
+      socket.emit(result.event, result.data);
     });
   }
 }

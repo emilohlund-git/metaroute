@@ -34,8 +34,7 @@
   "author": "Emil Ölund",
   "license": "ISC",
   "dependencies": {
-    "reflect-metadata": "^0.2.1",
-    "socket.io": "^4.7.4"
+    "reflect-metadata": "^0.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.0.3",

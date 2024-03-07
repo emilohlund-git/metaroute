@@ -49,11 +49,12 @@ export class MetaRoute {
       useClass || target
     );
 
-    if (!metadata) return;
+    if (!metadata) {
+      return;
+    }
 
     const instance = MetaRoute.createInstance(useClass || target);
     const key = MetaRoute.getKey(target, metadata.scope);
-
     MetaRoute.instances.set(key, instance);
   }
 
@@ -67,8 +68,16 @@ export class MetaRoute {
    */
   static resolve<T>(target: ServiceIdentifier<T>): T {
     const metadata = Reflect.getMetadata(INJECTABLE_METADATA_KEY, target);
+
+    if (!metadata) {
+      throw new MetaRouteException(
+        `Service ${target.name} has not been registered.`
+      );
+    }
+
     const scope = metadata && metadata.scope ? metadata.scope : Scope.TRANSIENT;
     const key = MetaRoute.getKey(target, scope);
+    console.log(key, target.name);
 
     if (scope === Scope.TRANSIENT) {
       return MetaRoute.createInstance(target);
@@ -191,7 +200,18 @@ export class MetaRoute {
 
     const params: any[] =
       Reflect.getMetadata("design:paramtypes", target) || [];
-    const injections = params.map((token: any) => MetaRoute.resolve(token));
+    const injections = params.map((token: any) => {
+      // Check if token is a class before trying to resolve it
+      if (
+        typeof token === "function" &&
+        /^class\s/.test(Function.prototype.toString.call(token))
+      ) {
+        return MetaRoute.resolve(token);
+      } else {
+        // If it's not a class, return the token itself
+        return token;
+      }
+    });
 
     this.resolving.delete(target);
 
