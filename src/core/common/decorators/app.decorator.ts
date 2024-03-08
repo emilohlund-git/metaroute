@@ -22,14 +22,12 @@ export function App(config: AppConfiguration): ClassDecorator {
 
     app.prototype.appConfig = config;
 
-    const importHandler = MetaRoute.resolve(ImportHandler);
     const environmentConfigurator = MetaRoute.resolve(EnvironmentConfigurator);
     const codeFirstConfigurator = MetaRoute.resolve(CodeFirstConfigurator);
     const serverConfigurator = MetaRoute.resolve(ServerConfigurator);
     const memoryManager = MetaRoute.resolve(MemoryManager);
 
     const core = new MetaRouteCore(
-      importHandler,
       environmentConfigurator,
       codeFirstConfigurator,
       serverConfigurator,

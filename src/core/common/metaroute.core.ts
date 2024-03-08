@@ -6,11 +6,9 @@ import { ServerConfigurator } from "./server-configurator.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { MemoryManager } from "../memory/memory-manager.core";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
-import { ImportHandler } from "./import-handler.core";
 
 export class MetaRouteCore implements Initializable {
   constructor(
-    private readonly importHandler: ImportHandler,
     private readonly environmentConfigurator: EnvironmentConfigurator,
     private readonly codeFirstConfigurator: CodeFirstConfigurator,
     private readonly serverConfigurator: ServerConfigurator,
@@ -18,7 +16,6 @@ export class MetaRouteCore implements Initializable {
   ) {}
 
   public async setup(configuration: AppConfiguration) {
-    await this.importHandler.setup();
     await this.environmentConfigurator.setup();
     await this.serverConfigurator.setup(configuration);
     await this.codeFirstConfigurator.setup();
