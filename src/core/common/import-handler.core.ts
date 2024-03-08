@@ -60,7 +60,8 @@ export class ImportHandler implements Initializable {
           throw new Error(`Failed to import ${fullPath}: ${error.message}`);
         }
       } else if (entry.isFile() && entry.name.endsWith(`${fileType}`)) {
-        await import(fullPath);
+        const module = await import(fullPath);
+        this.modules.set(fullPath, module);
       }
     }
   };
