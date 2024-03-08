@@ -4,9 +4,11 @@ import { AppConfiguration } from "@core/common/interfaces/app-configuration.inte
 import { MetaRouteCore } from "@core/common/metaroute.core";
 import { ServerConfigurator } from "@core/common/server-configurator.core";
 import { MemoryManager } from "@core/memory/memory-manager.core";
+import { ImportHandler } from "src";
 import { mock, instance, when, verify } from "ts-mockito";
 
 describe("MetaRouteCore", () => {
+  let importHandler: ImportHandler;
   let environmentConfigurator: EnvironmentConfigurator;
   let codeFirstConfigurator: CodeFirstConfigurator;
   let serverConfigurator: ServerConfigurator;
@@ -15,6 +17,7 @@ describe("MetaRouteCore", () => {
   let appConfiguration: AppConfiguration;
 
   beforeEach(() => {
+    importHandler = mock(ImportHandler);
     environmentConfigurator = mock(EnvironmentConfigurator);
     codeFirstConfigurator = mock(CodeFirstConfigurator);
     serverConfigurator = mock(ServerConfigurator);
@@ -22,6 +25,7 @@ describe("MetaRouteCore", () => {
     appConfiguration = mock(appConfiguration);
 
     metaRouteCore = new MetaRouteCore(
+      instance(importHandler),
       instance(environmentConfigurator),
       instance(codeFirstConfigurator),
       instance(serverConfigurator),
