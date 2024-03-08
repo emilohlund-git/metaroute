@@ -6,11 +6,8 @@ import { ServerConfigurator } from "./server-configurator.core";
 import { Initializable } from "./interfaces/initializable.interface";
 import { MemoryManager } from "../memory/memory-manager.core";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
-import { Injectable } from "./decorators/injectable.decorator";
-import { Scope } from "./enums/scope.enum";
 import { ImportHandler } from "./import-handler.core";
 
-@Injectable({ scope: Scope.CONFIGURATOR })
 export class MetaRouteCore implements Initializable {
   constructor(
     private readonly importHandler: ImportHandler,

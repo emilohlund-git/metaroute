@@ -2,7 +2,7 @@ import { MetaRouteMemoryPolicy } from "./memory-policy.abstract";
 import { MemoryUsage } from "../dtos/memory.usage.dto";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { ConfigService } from "../../common/services/config.service";
-import { Injectable } from "../../common";
+import { Injectable } from "../../common/decorators/injectable.decorator";
 import { Scope } from "../../common/enums/scope.enum";
 
 @Injectable({ scope: Scope.MEMORY_POLICY })
