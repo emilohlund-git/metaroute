@@ -19,7 +19,13 @@ export abstract class Application {
     typeof ServerResponse
   >;
 
-  constructor(private readonly core: MetaRouteCore) {
+  /**
+   * Creates a new instance of the Application class.
+   * @param core The MetaRouteCore instance.
+   */
+  private readonly core: MetaRouteCore;
+
+  constructor(core: MetaRouteCore) {
     this.core = core;
   }
 
