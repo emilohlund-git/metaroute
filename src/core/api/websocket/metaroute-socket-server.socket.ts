@@ -44,38 +44,29 @@ export class MetaRouteSocketServer extends EventEmitter {
     const namespace = this.namespace(namespacePath);
     metaRouteSocket.join(namespace);
 
-    this.setupEventListener(metaRouteSocket, namespace);
-    // Space for future setup and configurations
+    metaRouteSocket.on("open", () => {
+      metaRouteSocket.state = MetaRouteSocketState.OPEN;
+    });
+
+    metaRouteSocket.on("close", () => {
+      metaRouteSocket.state = MetaRouteSocketState.CLOSING;
+    });
+
+    metaRouteSocket.on("end", () => {
+      metaRouteSocket.state = MetaRouteSocketState.CLOSED;
+      metaRouteSocket.leave(namespace);
+      metaRouteSocket.end();
+    });
+
+    metaRouteSocket.on("data", (raw) => {
+      const data = this.receiver.frame(raw);
+      if (data) {
+        if (data.event === "close") metaRouteSocket.emit("close");
+        metaRouteSocket.emit(data.event, data.data);
+      }
+    });
 
     metaRouteSocket.emit("open");
-  }
-
-  setupEventListener(socket: MetaRouteSocket, namespace: MetaRouteNamespace) {
-    try {
-      socket.on("open", () => {
-        socket.state = MetaRouteSocketState.OPEN;
-      });
-
-      socket.on("close", () => {
-        socket.state = MetaRouteSocketState.CLOSING;
-      });
-
-      socket.on("end", () => {
-        socket.state = MetaRouteSocketState.CLOSED;
-        socket.leave(namespace);
-        socket.end();
-      });
-
-      socket.on("data", (raw) => {
-        const data = this.receiver.frame(raw);
-        if (data) {
-          if (data.event === "close") socket.emit("close");
-          socket.emit(data.event, data.data);
-        }
-      });
-    } catch (error) {
-      socket.emit("end");
-    }
   }
 
   upgrade(

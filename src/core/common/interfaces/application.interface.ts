@@ -19,12 +19,7 @@ export abstract class Application {
     typeof ServerResponse
   >;
 
-  /**
-   * The MetaRouteCore instance.
-   */
-  protected readonly core: MetaRouteCore;
-
-  constructor(core: MetaRouteCore) {
+  constructor(private readonly core: MetaRouteCore) {
     this.core = core;
   }
 
