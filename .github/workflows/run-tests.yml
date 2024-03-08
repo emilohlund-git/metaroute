@@ -1,11 +1,5 @@
 name: Run Tests and Coverage
-on:
-  push:
-    paths:
-      - "tests/**"
-  pull_request:
-    paths:
-      - "tests/**"
+on: [push, pull_request]
 
 jobs:
   check_changes:
