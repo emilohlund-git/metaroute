@@ -3,8 +3,9 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MetaRoute",
+  title: "MetaRoute - API framework",
   description: "API framework",
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({

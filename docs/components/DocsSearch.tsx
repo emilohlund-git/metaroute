@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import docs from "../docs.json";
 import SmoothScrollLink from "./SmoothScrollLink";
 
@@ -71,6 +71,22 @@ export function DocsSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 3;
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (event.target && event.target instanceof Node) {
+        if (searchRef.current && !searchRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchRef]);
 
   useEffect(() => {
     const results = searchDoc(docs, query);
@@ -88,7 +104,7 @@ export function DocsSearch() {
   };
 
   return (
-    <div>
+    <div ref={searchRef}>
       <label className="input input-bordered outline-none ring-0 bg-transparent flex items-center gap-2">
         <input
           type="text"

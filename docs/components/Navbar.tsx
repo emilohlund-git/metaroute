@@ -6,6 +6,7 @@ import DocsVersionDropdown from "./DocsVersionDropdown";
 import { useDrawer } from "@/context/DrawerProvider";
 import { RxCross2 } from "react-icons/rx";
 import { DocsSearch } from "./DocsSearch";
+import { useRouter } from "next/navigation";
 
 type Props = {
   versions: {
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export default function Navbar({ versions }: Props) {
+  const router = useRouter();
   const { isDrawerOpen, setDrawerOpen } = useDrawer();
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -33,9 +35,10 @@ export default function Navbar({ versions }: Props) {
               <FaHamburger />
             </span>
           </label>
-          <a className="btn btn-ghost cursor-default text-xl font-extrabold">
+          <span onClick={() => router.push("/")} className="btn btn-ghost cursor-default text-xl font-extrabold items-center">
+            <img className="w-5" src="/favicon-32x32.png" alt="" />
             MetaRoute
-          </a>
+          </span>
           <DocsVersionDropdown versions={versions} />
           <div className="badge badge-error badge-outline mt-[1px] truncate">
             Under development
