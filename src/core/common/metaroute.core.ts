@@ -8,12 +8,10 @@ import { MemoryManager } from "../memory/memory-manager.core";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
-import { ImportHandler } from "./import-handler.core";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class MetaRouteCore implements Initializable {
   constructor(
-    private readonly importHandler: ImportHandler,
     private readonly environmentConfigurator: EnvironmentConfigurator,
     private readonly codeFirstConfigurator: CodeFirstConfigurator,
     private readonly serverConfigurator: ServerConfigurator,
@@ -21,7 +19,6 @@ export class MetaRouteCore implements Initializable {
   ) {}
 
   public async setup(configuration: AppConfiguration) {
-    await this.importHandler.setup();
     await this.environmentConfigurator.setup();
     await this.serverConfigurator.setup(configuration);
     await this.codeFirstConfigurator.setup();
