@@ -1,0 +1,26 @@
+{
+  "ignore": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "vercel.json",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "tsconfig.json",
+    "next.config.js",
+    ".eslintrc.js",
+    ".prettierrc.js",
+    "tests/**",
+    "README.md",
+    "LICENSE",
+    ".env*",
+    ".npmignore",
+    ".gitignore",
+    "CONTRIBUTING.md",
+    "commitlint.config.js",
+    "jest.config.ts",
+    "jest.setup.ts",
+    "metaroute-logo.png",
+    "tsconfig.json"
+  ]
+}
