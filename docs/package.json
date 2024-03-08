@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "gh-pages -d out",
     "create-docs-feature": "node createPage.js",
     "generate-docs": "node generate-docs-json.js"
   },

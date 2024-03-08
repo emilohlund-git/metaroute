@@ -2,7 +2,19 @@ name: Run Tests and Coverage
 on: [push, pull_request]
 
 jobs:
+  check_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          paths: '["tests/**"]'
+
   test:
+    needs: check_changes
+    if: ${{ needs.check_changes.outputs.should_skip == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🚀 Checkout code
