@@ -25,10 +25,10 @@ describe("MetaRouteCore", () => {
     appConfiguration = mock(appConfiguration);
 
     metaRouteCore = new MetaRouteCore(
+      instance(importHandler),
       instance(environmentConfigurator),
       instance(codeFirstConfigurator),
       instance(serverConfigurator),
-      instance(importHandler),
       instance(memoryManager)
     );
   });

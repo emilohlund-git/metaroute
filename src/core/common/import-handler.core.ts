@@ -9,12 +9,14 @@ import { Scope } from "./enums/scope.enum";
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ImportHandler implements Initializable {
   private readonly logger = new ConsoleLogger(ImportHandler.name);
+  private readonly modules = new Map<string, any>();
 
   constructor(private readonly configService: ConfigService) {}
 
   async setup(): Promise<void> {
     try {
       await this.handleImports();
+      this.useModules();
     } catch (error) {
       this.logger.error("Error handling imports");
       throw error;
@@ -59,7 +61,23 @@ export class ImportHandler implements Initializable {
           throw new Error(`Failed to import ${fullPath}: ${error.message}`);
         }
       } else if (entry.isFile() && entry.name.endsWith(`${fileType}`)) {
-        await require(fullPath);
+        let module;
+        const ext = path.extname(fullPath);
+        if (ext === ".ts") {
+          module = await import(fullPath);
+        } else {
+          module = await require(fullPath);
+        }
+        this.modules.set(fullPath, module);
+      }
+    }
+  };
+
+  private useModules = () => {
+    for (const [path, module] of this.modules) {
+      for (const key in module) {
+        const exportValue = module[key];
+        exportValue;
       }
     }
   };

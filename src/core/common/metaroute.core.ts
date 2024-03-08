@@ -13,18 +13,18 @@ import { ImportHandler } from "./import-handler.core";
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class MetaRouteCore implements Initializable {
   constructor(
+    private readonly importHandler: ImportHandler,
     private readonly environmentConfigurator: EnvironmentConfigurator,
     private readonly codeFirstConfigurator: CodeFirstConfigurator,
     private readonly serverConfigurator: ServerConfigurator,
-    private readonly importHandler: ImportHandler,
     private readonly memoryManager: MemoryManager
   ) {}
 
   public async setup(configuration: AppConfiguration) {
+    await this.importHandler.setup();
     await this.environmentConfigurator.setup();
     await this.serverConfigurator.setup(configuration);
     await this.codeFirstConfigurator.setup();
-    await this.importHandler.setup();
     await this.memoryManager.setup();
   }
 }
