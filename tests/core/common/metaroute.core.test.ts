@@ -17,16 +17,16 @@ describe("MetaRouteCore", () => {
   let appConfiguration: AppConfiguration;
 
   beforeEach(() => {
-    importHandler = mock(ImportHandler);
     environmentConfigurator = mock(EnvironmentConfigurator);
+    importHandler = mock(ImportHandler);
     codeFirstConfigurator = mock(CodeFirstConfigurator);
     serverConfigurator = mock(ServerConfigurator);
     memoryManager = mock(MemoryManager);
     appConfiguration = mock(appConfiguration);
 
     metaRouteCore = new MetaRouteCore(
-      instance(importHandler),
       instance(environmentConfigurator),
+      instance(importHandler),
       instance(codeFirstConfigurator),
       instance(serverConfigurator),
       instance(memoryManager)
