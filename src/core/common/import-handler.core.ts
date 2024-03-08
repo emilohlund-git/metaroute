@@ -3,7 +3,10 @@ import { Initializable } from "./interfaces/initializable.interface";
 import fs from "fs";
 import { ConsoleLogger } from "./services/console-logger.service";
 import { ConfigService } from "./services/config.service";
+import { Injectable } from "./decorators/injectable.decorator";
+import { Scope } from "./enums/scope.enum";
 
+@Injectable({ scope: Scope.CONFIGURATOR })
 export class ImportHandler implements Initializable {
   private readonly logger = new ConsoleLogger(ImportHandler.name);
 
