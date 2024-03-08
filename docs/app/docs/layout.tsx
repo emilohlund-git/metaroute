@@ -2,6 +2,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import DocsDrawer from "@/components/DocsDrawer";
 import { DrawerProvider } from "@/context/DrawerProvider";
+import { Metadata } from "next";
 
 async function getFrameworkVersions(): Promise<
   {
@@ -22,6 +23,12 @@ async function getFrameworkVersions(): Promise<
 
   return versions;
 }
+
+export const metadata: Metadata = {
+  title: "MetaRoute - API Documentation",
+  description: "API framework",
+  manifest: "/site.webmanifest",
+};
 
 export default async function DrawerLayout({
   children,
