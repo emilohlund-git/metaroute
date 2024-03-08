@@ -24,14 +24,14 @@ export class ImportHandler implements Initializable {
 
   protected handleImports = async () => {
     this.logger.debug(`Current working directory: ${process.cwd()}`);
-    const srcDirectory = path.join(process.cwd(), "src");
+    const env = this.configService.getEnvironment();
+    this.logger.debug(`Environment: ${env}`);
+    const srcDirectory = path.join(
+      process.cwd(),
+      env === "development" ? "src" : "dist"
+    );
 
-    let fileType: string = "";
-    if (this.configService.getEnvironment() === "development") {
-      fileType = ".ts";
-    } else {
-      fileType = ".js";
-    }
+    let fileType: string = env === "development" ? ".ts" : ".js";
 
     try {
       this.logger.debug(
