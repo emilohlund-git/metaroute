@@ -1,29 +1,29 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { FaGithub, FaHamburger } from "react-icons/fa";
-import DocsVersionDropdown from "./DocsVersionDropdown";
-import { useDrawer } from "@/context/DrawerProvider";
-import { RxCross2 } from "react-icons/rx";
-import { DocsSearch } from "./DocsSearch";
-import { useRouter } from "next/navigation";
+import Link from 'next/link'
+import { FaGithub, FaHamburger } from 'react-icons/fa'
+import DocsVersionDropdown from './DocsVersionDropdown'
+import { useDrawer } from '@/context/DrawerProvider'
+import { RxCross2 } from 'react-icons/rx'
+import { DocsSearch } from './DocsSearch'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   versions: {
-    name: string;
-    url: string;
-  }[];
+    name: string
+    url: string
+  }[]
   setActiveTab: {
-    (id: string): void;
-  };
-};
+    (id: string): void
+  }
+}
 
 export default function Navbar({ versions, setActiveTab }: Props) {
-  const router = useRouter();
-  const { isDrawerOpen, setDrawerOpen } = useDrawer();
+  const router = useRouter()
+  const { isDrawerOpen, setDrawerOpen } = useDrawer()
   const toggleDrawer = () => {
-    setDrawerOpen(!isDrawerOpen);
-  };
+    setDrawerOpen(!isDrawerOpen)
+  }
 
   return (
     <div className="navbar bg-gradient-to-r from-primary-content to-neutral-800 text-base-300 fixed z-20 px-6">
@@ -39,7 +39,7 @@ export default function Navbar({ versions, setActiveTab }: Props) {
             </span>
           </label>
           <span
-            onClick={() => router.push("/")}
+            onClick={() => router.push('/')}
             className="btn btn-ghost cursor-default text-xl font-extrabold items-center"
           >
             <img className="w-5" src="/favicon-32x32.png" alt="" />
@@ -64,5 +64,5 @@ export default function Navbar({ versions, setActiveTab }: Props) {
         </button>
       </div>
     </div>
-  );
+  )
 }

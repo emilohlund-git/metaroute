@@ -1,0 +1,11 @@
+{
+  "extends": ["next/core-web-vitals", "next/babel"],
+  "settings": {
+    "next": {
+      "rootDir": "."
+    }
+  },
+  "rules": {
+    "@next/next/no-img-element": "off"
+  }
+}
