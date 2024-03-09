@@ -1,16 +1,14 @@
-import {
-  ConsoleLogger,
-  LogErrorMiddleware,
-  MetaRoute,
-  MetaRouteRequest,
-  MetaRouteResponse,
-} from "src";
+import { ConsoleLogger, LogErrorMiddleware, LogLevel, MetaRoute, MetaRouteRequest, MetaRouteResponse } from "src";
 
 describe("ErrorMiddleware", () => {
   let req: Partial<MetaRouteRequest>;
   let res: Partial<MetaRouteResponse> & { on: jest.Mock };
   let next: jest.Mock;
-  let logger: ConsoleLogger;
+
+  beforeAll(() => {
+    const logger = MetaRoute.resolve(ConsoleLogger);
+    logger.setMinLevel(LogLevel.DEBUG);
+  });
 
   beforeEach(() => {
     req = {
@@ -22,7 +20,6 @@ describe("ErrorMiddleware", () => {
       statusCode: 500,
     };
     next = jest.fn();
-    logger = MetaRoute.resolve(ConsoleLogger);
   });
 
   it("should log the error and call next", () => {

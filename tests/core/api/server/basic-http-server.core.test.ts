@@ -18,7 +18,7 @@ import * as responseCreator from "src/core/api/server/functions/create-meta-rout
 jest.mock("https", () => ({
   createServer: jest.fn().mockReturnValue({
     listen: jest.fn(),
-    on: jest.fn()
+    on: jest.fn(),
   }),
 }));
 
@@ -26,7 +26,7 @@ jest.mock("http", () => ({
   createServer: jest.fn().mockReturnValue({
     listen: jest.fn((port, callback) => callback({}, {})), // Mock listen to call callback with two empty objects
     close: jest.fn(),
-    on: jest.fn()
+    on: jest.fn(),
   }),
 }));
 
@@ -208,13 +208,12 @@ describe("MetaRouteServer", () => {
       .spyOn(responseCreator, "createMetaRouteResponse")
       .mockReturnValue(res as any);
 
-    const engine = new MetaEngine();
-    appConfig.engine = engine;
+    appConfig.engine = MetaEngine;
 
     server.listen(3000, appConfig, () => {});
 
     mockServer.emit("request", req, res);
 
-    expect(engineSpy).toHaveBeenCalledWith(engine);
+    expect(engineSpy).toHaveBeenCalledWith(new MetaEngine());
   });
 });

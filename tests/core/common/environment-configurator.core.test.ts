@@ -2,7 +2,7 @@ import { EnvironmentConfigurator } from "@core/common/environment-configurator.c
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import * as fs from "fs";
 import path from "path";
-import { MetaRoute } from "src";
+import { LogLevel, MetaRoute } from "src";
 
 jest.mock("fs");
 
@@ -13,6 +13,7 @@ describe("EnvironmentConfigurator", () => {
 
   beforeEach(() => {
     mockLogger = MetaRoute.resolve(ConsoleLogger);
+    mockLogger.setMinLevel(LogLevel.DEBUG);
     mockReadFileSync = fs.readFileSync as jest.Mock;
     environmentConfigurator = new EnvironmentConfigurator(mockLogger);
     (environmentConfigurator as any).logger = mockLogger;

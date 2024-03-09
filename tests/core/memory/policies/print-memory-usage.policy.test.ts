@@ -1,7 +1,7 @@
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import { MemoryUsage } from "@core/memory/dtos/memory.usage.dto";
 import { PrintMemoryUsageRule } from "@core/memory/policies/print-memory-usage.policy";
-import { MetaRoute } from "src";
+import { LogLevel, MetaRoute } from "src";
 
 describe("PrintMemoryUsageRule", () => {
   let printMemoryUsageRule: PrintMemoryUsageRule;
@@ -9,6 +9,7 @@ describe("PrintMemoryUsageRule", () => {
 
   beforeEach(() => {
     loggerMock = MetaRoute.resolve(ConsoleLogger);
+    loggerMock.setMinLevel(LogLevel.DEBUG);
     printMemoryUsageRule = new PrintMemoryUsageRule();
     // Replace the logger instance with the mock
     (printMemoryUsageRule as any).logger = loggerMock;

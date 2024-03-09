@@ -5,6 +5,7 @@ import { MetaRouteCore } from "../metaroute.core";
 import { Application } from "../interfaces/application.interface";
 import { ApplicationConstructor } from "../types";
 import { ConsoleLogger } from "../services";
+import { LogLevel } from "../enums";
 
 export function App(config: AppConfiguration): ClassDecorator {
   return function (target: Function) {
@@ -20,7 +21,11 @@ export function App(config: AppConfiguration): ClassDecorator {
 
     if (config.logging) {
       const logger = MetaRoute.resolve(ConsoleLogger);
-      config.logging.level && logger.setMinLevel(config.logging.level);
+      if (config.logging.level) {
+        logger.setMinLevel(config.logging.level);
+      } else {
+        logger.setMinLevel(LogLevel.INFO);
+      }
       config.logging.format && logger.setFormat(config.logging.format);
     }
 
