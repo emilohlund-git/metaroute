@@ -17,8 +17,8 @@ export default function Authentication() {
       <DocsSection id="introduction">
         <DocsPageTitle title="Securing Your API with Authentication" />
         <DocsPageParagraph>
-          In the digital world, securing your application's endpoints is
-          paramount. MetaRoute's authentication system is designed to ensure
+          In the digital world, securing your application&apos;s endpoints is
+          paramount. MetaRoute&apos;s authentication system is designed to ensure
           that only authorized users can access your API, providing a robust
           layer of security. This section covers everything from setting up
           basic authentication to implementing advanced user verification
@@ -31,7 +31,7 @@ export default function Authentication() {
         <DocsPageParagraph>
           MetaRoute leverages modern authentication protocols, including JSON
           Web Tokens (JWT), to provide a secure and flexible
-          authentication framework. This framework checks a user's credentials
+          authentication framework. This framework checks a user&apos;s credentials
           against the provided authentication details before granting access to
           protected routes.
         </DocsPageParagraph>
@@ -46,7 +46,7 @@ export default function Authentication() {
           ]}
         />
         <DocsPageParagraph>
-          MetaRoute's customization options allow you to adapt the
+          MetaRoute&apos;s customization options allow you to adapt the
           authentication process to fit your specific needs, enabling secure and
           efficient user verification.
         </DocsPageParagraph>
@@ -56,7 +56,7 @@ export default function Authentication() {
         <DocsHeader text="Implementing Authentication" />
         <DocsPageParagraph>
           Begin by generating and verifying authentication tokens using
-          MetaRoute's built-in services. Here's a quick guide:
+          MetaRoute&apos;s built-in services. Here&apos;s a quick guide:
         </DocsPageParagraph>
         <DocsHeader text="Token Generation" />
         <DocsCode language="javascript">
@@ -104,7 +104,7 @@ async protectedRoute() {
         </DocsCode>
         <DocsPageParagraph>
           By following these steps, you can effectively secure your API with
-          MetaRoute's authentication system, ensuring that your data and
+          MetaRoute&apos;s authentication system, ensuring that your data and
           resources remain accessible only to authorized users.
         </DocsPageParagraph>
       </DocsSection>

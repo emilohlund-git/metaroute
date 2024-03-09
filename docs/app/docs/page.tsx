@@ -17,9 +17,9 @@ export default function Docs() {
         <DocsPageTitle title="👋 Welcome to the MetaRoute Documentation" />
         <DocsPageParagraph color="text-neutral-400" italic>
           This documentation is designed to be comprehensive and user-friendly,
-          guiding you through every step of using MetaRoute. Whether you're
-          starting your journey in API development or you're an experienced
-          developer looking to enhance your projects, you'll find valuable
+          guiding you through every step of using MetaRoute. Whether you&apos;re
+          starting your journey in API development or you&apos;re an experienced
+          developer looking to enhance your projects, you&apos;ll find valuable
           insights and tips here.
         </DocsPageParagraph>
       </DocsSection>
@@ -28,7 +28,7 @@ export default function Docs() {
         <DocsHeader text="About MetaRoute" />
         <DocsPageParagraph>
           MetaRoute is a passion project aimed at simplifying API development.
-          It's a lightweight, fully-featured API framework that leverages
+          It&apos;s a lightweight, fully-featured API framework that leverages
           decorators for a clean and intuitive coding experience. Built with
           minimalism in mind, MetaRoute requires only one dependency:
           reflect-metadata for TypeScript metadata reflection.
@@ -56,7 +56,7 @@ export default function Docs() {
           Get up and running with MetaRoute in just a few steps:
         </DocsPageParagraph>
         <DocsCode language="bash">npm install metaroute-ts</DocsCode>
-        <DocsPageParagraph>Or, if you're using Yarn:</DocsPageParagraph>
+        <DocsPageParagraph>Or, if you&apos;re using Yarn:</DocsPageParagraph>
         <DocsCode language="bash">yarn add metaroute-ts</DocsCode>
         <DocsPageParagraph>
           Start building your API by decorating a class with the{" "}
