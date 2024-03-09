@@ -1,16 +1,12 @@
-import { CodeFirstConfigurator } from "@core/code-first/code-first-configurator.core";
 import { EnvironmentConfigurator } from "@core/common/environment-configurator.core";
 import { AppConfiguration } from "@core/common/interfaces/app-configuration.interface";
 import { MetaRouteCore } from "@core/common/metaroute.core";
 import { ServerConfigurator } from "@core/common/server-configurator.core";
 import { MemoryManager } from "@core/memory/memory-manager.core";
-import { ImportHandler } from "src";
-import { mock, instance, when, verify } from "ts-mockito";
+import { mock, instance, verify } from "ts-mockito";
 
 describe("MetaRouteCore", () => {
-  let importHandler: ImportHandler;
   let environmentConfigurator: EnvironmentConfigurator;
-  let codeFirstConfigurator: CodeFirstConfigurator;
   let serverConfigurator: ServerConfigurator;
   let memoryManager: MemoryManager;
   let metaRouteCore: MetaRouteCore;
@@ -18,18 +14,12 @@ describe("MetaRouteCore", () => {
 
   beforeEach(() => {
     environmentConfigurator = mock(EnvironmentConfigurator);
-    importHandler = mock(ImportHandler);
-    codeFirstConfigurator = mock(CodeFirstConfigurator);
     serverConfigurator = mock(ServerConfigurator);
-    memoryManager = mock(MemoryManager);
     appConfiguration = mock(appConfiguration);
 
     metaRouteCore = new MetaRouteCore(
       instance(environmentConfigurator),
-      instance(importHandler),
-      instance(codeFirstConfigurator),
-      instance(serverConfigurator),
-      instance(memoryManager)
+      instance(serverConfigurator)
     );
   });
 
@@ -38,7 +28,7 @@ describe("MetaRouteCore", () => {
 
     verify(environmentConfigurator.setup()).once();
     verify(serverConfigurator.setup(instance(appConfiguration))).once();
-    verify(codeFirstConfigurator.setup()).once();
-    verify(memoryManager.setup()).once();
+
+    await metaRouteCore.setup(instance(appConfiguration));
   });
 });

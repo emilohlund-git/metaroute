@@ -4,13 +4,8 @@ import { AppConfiguration } from "../interfaces/app-configuration.interface";
 import { MetaRouteCore } from "../metaroute.core";
 import { Application } from "../interfaces/application.interface";
 import { ApplicationConstructor } from "../types";
-import { ImportHandler } from "../import-handler.core";
-import { EnvironmentConfigurator } from "../environment-configurator.core";
-import {
-  CodeFirstConfigurator,
-  MemoryManager,
-  ServerConfigurator,
-} from "../..";
+import { ConsoleLogger } from "../services";
+import { LogLevel } from "../enums";
 
 export function App(config: AppConfiguration): ClassDecorator {
   return function (target: Function) {
@@ -22,19 +17,17 @@ export function App(config: AppConfiguration): ClassDecorator {
 
     app.prototype.appConfig = config;
 
-    const environmentConfigurator = MetaRoute.resolve(EnvironmentConfigurator);
-    const importHandler = MetaRoute.resolve(ImportHandler);
-    const codeFirstConfigurator = MetaRoute.resolve(CodeFirstConfigurator);
-    const serverConfigurator = MetaRoute.resolve(ServerConfigurator);
-    const memoryManager = MetaRoute.resolve(MemoryManager);
+    const core = MetaRoute.resolve(MetaRouteCore);
 
-    const core = new MetaRouteCore(
-      environmentConfigurator,
-      importHandler,
-      codeFirstConfigurator,
-      serverConfigurator,
-      memoryManager
-    );
+    if (config.logging) {
+      const logger = MetaRoute.resolve(ConsoleLogger);
+      if (config.logging.level) {
+        logger.setMinLevel(config.logging.level);
+      } else {
+        logger.setMinLevel(LogLevel.INFO);
+      }
+      config.logging.format && logger.setFormat(config.logging.format);
+    }
 
     const application = new app(core);
     application.start();

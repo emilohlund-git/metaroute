@@ -6,6 +6,30 @@ import { ConfigService } from "./services/config.service";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
 
+/**
+ * @class ImportHandler
+ * @implements Initializable
+ *
+ * @description This class is responsible for handling imports of files in the project.
+ * Include it in the configurators array of the App decorator to use it, and it will
+ * automatically import all files in the project. This is useful for ensuring that all
+ * files are imported and available for use in the application.
+ *
+ * @example
+ * ```ts
+ * import { App, Application, ImportHandler } from "metaroute-ts";
+ *
+ * @App({
+ *  configurators: [ImportHandler],
+ * })
+ * class TestApp extends Application {}
+ * ```
+ *
+ * @remarks This class is a singleton and should be included in the configurators array of the App decorator.
+ * It is also a Configurator, so it will be automatically set up by the MetaRouteCore.
+ *
+ * @see {@link MetaRouteCore}
+ */
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ImportHandler implements Initializable {
   private readonly logger = new ConsoleLogger(ImportHandler.name);

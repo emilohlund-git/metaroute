@@ -4,12 +4,10 @@ export abstract class Logger {
   protected context: string;
   protected minLevel: LogLevel;
   protected format: string =
-    "[⚡ MetaRoute] - {timestamp} - {level} - {context} - {message}{data}";
+    "[🌌 MetaRoute] - {timestamp} - {level} - {context} - {message}{data}";
 
   constructor(context: string) {
     this.context = context;
-    this.minLevel = (process.env.LOG_LEVEL as LogLevel) || LogLevel.DEBUG;
-    this.format = process.env.LOG_FORMAT || this.format;
   }
 
   public setFormat(format: string) {

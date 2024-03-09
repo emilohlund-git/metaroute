@@ -24,14 +24,13 @@ import { MetaRouteSocketServer } from "../api/websocket/metaroute-socket-server.
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {
-
   constructor(
     private readonly configService: ConfigService,
     private readonly httpRouter: ControllerHandler<any>,
     private readonly eventRouter: EventRouter<any>,
     private readonly server: MetaRouteServer,
     private readonly io: MetaRouteSocketServer,
-    private readonly logger: ConsoleLogger,
+    private readonly logger: ConsoleLogger
   ) {
     this.logger.setContext(ServerConfigurator.name);
   }
@@ -90,26 +89,4 @@ export class ServerConfigurator implements Initializable {
       this.server.use(middleware as UnifiedMiddleware);
     });
   };
-
-  private getAllowedOrigins() {
-    let allowedOrigins;
-
-    try {
-      allowedOrigins = this.configService.get("ALLOWED_ORIGINS");
-    } catch (error) {
-      this.logger.warn(
-        `No ALLOWED_ORIGINS environment variable found, using default value '*'`
-      );
-    }
-
-    if (allowedOrigins && typeof allowedOrigins === "string") {
-      if (allowedOrigins.includes(",")) {
-        return allowedOrigins.split(",");
-      } else {
-        return allowedOrigins;
-      }
-    } else {
-      return "*";
-    }
-  }
 }
