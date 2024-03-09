@@ -1,15 +1,23 @@
 {
   "auth": {
-    "title": "Authentication",
-    "content": "Authentication in MetaRoute allows you to verify the identity of users accessing your API endpoints, ensuring that only authorized users can perform certain actions, thereby enhancing security and control over your API.",
+    "title": "Securing Your API with Authentication",
+    "content": "In the digital world, securing your application's endpoints is paramount. MetaRoute's authentication system is designed to ensure that only authorized users can access your API, providing a robust layer of security. This section covers everything from setting up basic authentication to implementing advanced user verification mechanisms.",
     "url": "/docs/features/auth",
     "subtitles": [
       {
-        "title": "How it Works",
+        "title": "Understanding Authentication with MetaRoute",
         "url": "/docs/features/auth"
       },
       {
-        "title": "Usage",
+        "title": "Implementing Authentication",
+        "url": "/docs/features/auth"
+      },
+      {
+        "title": "Token Generation",
+        "url": "/docs/features/auth"
+      },
+      {
+        "title": "Token Verification",
         "url": "/docs/features/auth"
       }
     ]
@@ -56,6 +64,53 @@
       {
         "title": "Usage",
         "url": "/docs/features/email"
+      }
+    ]
+  },
+  "injections": {
+    "title": "Dependency Injection in MetaRoute",
+    "content": "Dependency Injection (DI) in MetaRoute streamlines the way dependencies are managed and injected, enhancing modularity, testability, and maintainability of your applications. This guide dives deep into utilizing DI with MetaRoute.",
+    "url": "/docs/features/injections",
+    "subtitles": [
+      {
+        "title": "Understanding Scopes",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Using the @Injectable Decorator",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Registering and Resolving Dependencies",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Registering a Class",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Resolving a Class",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Advanced Usage",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Custom Initializers",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Handling Circular Dependencies",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Clearing the Container",
+        "url": "/docs/features/injections"
+      },
+      {
+        "title": "Conclusion",
+        "url": "/docs/features/injections"
       }
     ]
   },
@@ -150,16 +205,28 @@
     ]
   },
   "docs": {
-    "title": "👋 Welcome to MetaRoute Documentation",
-    "content": "* This documentation is currently a work in progress and will be updated frequently. If you have any questions or suggestions, feel free to open an issue on the Github repository.",
+    "title": "👋 Welcome to the MetaRoute Documentation",
+    "content": "This documentation is designed to be comprehensive and user-friendly, guiding you through every step of using MetaRoute. Whether you're starting your journey in API development or you're an experienced developer looking to enhance your projects, you'll find valuable insights and tips here.",
     "url": "/docs",
     "subtitles": [
       {
-        "title": "Installation",
+        "title": "About MetaRoute",
         "url": "/docs"
       },
       {
-        "title": "Usage",
+        "title": "Key Features",
+        "url": "/docs"
+      },
+      {
+        "title": "Quick Start",
+        "url": "/docs"
+      },
+      {
+        "title": "App Configuration",
+        "url": "/docs"
+      },
+      {
+        "title": "Contributing",
         "url": "/docs"
       }
     ]

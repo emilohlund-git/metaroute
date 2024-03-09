@@ -33,7 +33,7 @@ export default function Memory() {
         <DocsCode language="javascript">
           {`import { MetaRouteMemoryPolicy, MemoryUsage } from "metaroute-ts";
 
-@MemoryPolicy
+@MemoryPolicy()
 export class PrintMemoryUsagePolicy extends MetaRouteMemoryPolicy {
   setup(): void {
     // Setup memory policy

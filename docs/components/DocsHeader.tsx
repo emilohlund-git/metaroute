@@ -1,17 +1,23 @@
+import React from "react";
 import SmoothScrollLink from "./SmoothScrollLink";
 
 type Props = {
   text: string;
+  level?: 1 | 2 | 3 | 4 | 5 | 6; 
 };
 
-export default function DocsHeader({ text }: Props) {
-  const id = text.toLowerCase();
+export default function DocsHeader({ text, level = 2 }: Props) {
+  const id = text.toLowerCase().replace(/ /g, "-");
+  const HeaderTag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (
-    <h2 className="text-2xl font-bold mb-4">
+    <HeaderTag className={`text-${level + 1}xl font-bold mb-4`}>
       <SmoothScrollLink href={`#${id}`}>
-        <span className="text-lg text-neutral-400 cursor-pointer">#</span> {text}
+        <span className="text-lg text-neutral-400 cursor-pointer hover:text-neutral-500">
+          #
+        </span>{" "}
+        {text}
       </SmoothScrollLink>
-    </h2>
+    </HeaderTag>
   );
 }

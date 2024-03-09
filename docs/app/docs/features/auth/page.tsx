@@ -7,6 +7,7 @@ import DocsCode from "@/components/DocsCode";
 import ScrollToAnchor from "@/components/ScrollToAnchor";
 import { DocsPageTitle } from "@/components/DocsPageTitle";
 import { DocsPageParagraph } from "@/components/DocsPageParagraph";
+import DocsList from "@/components/DocsList"; // Assuming you've created this based on previous advice
 
 export default function Authentication() {
   return (
@@ -14,86 +15,98 @@ export default function Authentication() {
       <ScrollToAnchor />
 
       <DocsSection id="introduction">
-        <DocsPageTitle title="Authentication" />
+        <DocsPageTitle title="Securing Your API with Authentication" />
         <DocsPageParagraph>
-          Authentication in MetaRoute allows you to verify the identity of users
-          accessing your API endpoints, ensuring that only authorized users can
-          perform certain actions, thereby enhancing security and control over
-          your API.
+          In the digital world, securing your application's endpoints is
+          paramount. MetaRoute's authentication system is designed to ensure
+          that only authorized users can access your API, providing a robust
+          layer of security. This section covers everything from setting up
+          basic authentication to implementing advanced user verification
+          mechanisms.
         </DocsPageParagraph>
       </DocsSection>
 
       <DocsSection id="how-it-works">
-        <DocsHeader text="How it Works" />
+        <DocsHeader text="Understanding Authentication with MetaRoute" />
         <DocsPageParagraph>
-          MetaRoute provides built-in authentication mechanisms such as JSON Web
-          Tokens (JWT) and OAuth to authenticate users. When a request is made
-          to an authenticated route, MetaRoute validates the user&apos;s
-          credentials and grants access if authentication is successful.
+          MetaRoute leverages modern authentication protocols, including JSON
+          Web Tokens (JWT), to provide a secure and flexible
+          authentication framework. This framework checks a user's credentials
+          against the provided authentication details before granting access to
+          protected routes.
         </DocsPageParagraph>
         <DocsPageParagraph>
-          Before using the <DocsCodeSnippet snippet="@Auth()" /> guard, ensure
-          the following prerequisites are met:
+          To ensure a smooth authentication process, consider the following
+          prerequisites:
         </DocsPageParagraph>
-        <ul className="list-disc pl-6 mt-2">
-          <li>
-            Set up a <DocsCodeSnippet snippet="JWT_SECRET" /> environment
-            variable.
-          </li>
-        </ul>
+        <DocsList
+          items={[
+            "A secure JWT_SECRET environment variable for token verification.",
+            "Correct configuration of the authentication guards in your application.",
+          ]}
+        />
         <DocsPageParagraph>
-          The guard will utilize this secret to verify the token against the
-          incoming authorization HTTP header.
-        </DocsPageParagraph>
-        <DocsPageParagraph>
-          Authentication can be customized to support various authentication
-          methods and user authentication flows, allowing you to implement
-          secure authentication solutions tailored to your application&apos;s
-          requirements.
+          MetaRoute's customization options allow you to adapt the
+          authentication process to fit your specific needs, enabling secure and
+          efficient user verification.
         </DocsPageParagraph>
       </DocsSection>
 
       <DocsSection id="usage">
-        <DocsHeader text="Usage" />
+        <DocsHeader text="Implementing Authentication" />
         <DocsPageParagraph>
-          To use the <DocsCodeSnippet snippet="@Auth()" /> guard, first create a
-          token using the following method:
+          Begin by generating and verifying authentication tokens using
+          MetaRoute's built-in services. Here's a quick guide:
         </DocsPageParagraph>
+        <DocsHeader text="Token Generation" />
         <DocsCode language="javascript">
-          {`import { JwtService } from 'metaroute-ts';
+          {`// Generate an authentication token
+import { JwtService } from 'metaroute-ts';
 
-const token = await JwtService.signTokenAsync(
-  userData,
-  this.configService.get("JWT_SECRET"),
-  "15m"
-);`}
-        </DocsCode>
-        <DocsPageParagraph>
-          To verify the token, use the following method:
-        </DocsPageParagraph>
-        <DocsCode language="javascript">
-          {`import { JwtService } from 'metaroute-ts';
-
-const token = JwtService.extractToken(req.headers.authorization);
-const user = await JwtService.verifyTokenAsync(
-  token,
-  this.configService.get("JWT_SECRET")
-);`}
-        </DocsCode>
-        <DocsPageParagraph>
-          By using the <DocsCodeSnippet snippet="@Auth()" /> guard, you can
-          ensure that the user is authenticated before the method is executed.
-          Here&apos;s how you can use it in a controller:
-        </DocsPageParagraph>
-        <DocsCode language="javascript">
-          {`import { Auth } from 'metaroute-ts';
-
-@Get()
-@Auth()
-async get() {
-  return "Hello World!";
+async function generateToken(userData) {
+  const token = await JwtService.signTokenAsync(
+    userData,
+    process.env.JWT_SECRET, // Use your secure environment variable
+    { expiresIn: "15m" }    // Token expiration time
+  );
+  return token;
 }`}
         </DocsCode>
+        <DocsHeader text="Token Verification" />
+        <DocsCode language="javascript">
+          {`// Verify the authentication token
+import { JwtService } from 'metaroute-ts';
+
+async function verifyToken(req) {
+  const token = JwtService.extractToken(req.headers.authorization);
+  try {
+    const user = await JwtService.verifyTokenAsync(token, process.env.JWT_SECRET);
+    return user;
+  } catch (error) {
+    throw new AuthenticationError("Token verification failed.");
+  }
+}`}
+        </DocsCode>
+        <DocsPageParagraph>
+          To protect your routes, utilize the{" "}
+          <DocsCodeSnippet snippet="@Auth()" /> decorator. This ensures that
+          only authenticated requests can access your endpoint:
+        </DocsPageParagraph>
+        <DocsCode language="javascript">
+          {`// Protect your route with the @Auth() decorator
+import { Auth } from 'metaroute-ts';
+
+@Get('/protected')
+@Auth()
+async protectedRoute() {
+  return "This route is protected.";
+}`}
+        </DocsCode>
+        <DocsPageParagraph>
+          By following these steps, you can effectively secure your API with
+          MetaRoute's authentication system, ensuring that your data and
+          resources remain accessible only to authorized users.
+        </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
   );

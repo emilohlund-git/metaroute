@@ -2,6 +2,7 @@ import DocsCode from "@/components/DocsCode";
 import DocsCodeSnippet from "@/components/DocsCodeSnippet";
 import DocsContainer from "@/components/DocsContainer";
 import DocsHeader from "@/components/DocsHeader";
+import DocsList from "@/components/DocsList";
 import { DocsPageParagraph } from "@/components/DocsPageParagraph";
 import { DocsPageTitle } from "@/components/DocsPageTitle";
 import DocsSection from "@/components/DocsSection";
@@ -12,89 +13,95 @@ export default function Docs() {
   return (
     <DocsContainer>
       <ScrollToAnchor />
-      <DocsSection id="introduction">
-        <DocsPageTitle title="👋 Welcome to MetaRoute Documentation" />
+      <DocsSection id="welcome">
+        <DocsPageTitle title="👋 Welcome to the MetaRoute Documentation" />
         <DocsPageParagraph color="text-neutral-400" italic>
-          * This documentation is currently a work in progress and will be
-          updated frequently. If you have any questions or suggestions, feel
-          free to open an issue on the Github repository.
-        </DocsPageParagraph>
-        <DocsPageParagraph>
-          MetaRoute is a passion project made for personal experience and
-          exploration. It&apos;s a fully fleged API framework with tons of built
-          in features. It operates through the use of decorators. The biggest
-          reason for building this project was to try to make an API framework
-          with next to no dependencies. The only dependencies used currently is
-          Socket.IO & reflect-metadata.
-        </DocsPageParagraph>
-        <DocsPageParagraph>
-          This documentation provides guidance on how to use MetaRoute. Whether
-          you&apos;re a beginner getting started with API development or an
-          experienced developer looking to streamline your workflow.
+          This documentation is designed to be comprehensive and user-friendly,
+          guiding you through every step of using MetaRoute. Whether you're
+          starting your journey in API development or you're an experienced
+          developer looking to enhance your projects, you'll find valuable
+          insights and tips here.
         </DocsPageParagraph>
       </DocsSection>
 
-      <DocsSection id="installation">
-        <DocsHeader text="Installation" />
-        <DocsPageParagraph color="text-red-400" italic size="sm">
-          * Since the package is currently deployed to Github Packages,
-          you&apos;re going to need to specify using the github packages
-          registry when installing the package.
-        </DocsPageParagraph>
+      <DocsSection id="about-metaroute">
+        <DocsHeader text="About MetaRoute" />
         <DocsPageParagraph>
-          To install MetaRoute in your project, follow these simple steps:
-        </DocsPageParagraph>
-        <DocsCode language="bash">
-          npm install metaroute-ts
-        </DocsCode>
-        <DocsPageParagraph>
-          Alternatively, if you&apos;re using Yarn:
-        </DocsPageParagraph>
-        <DocsCode language="bash">
-          yarn add metaroute-ts
-        </DocsCode>
-        <DocsPageParagraph>
-          Once MetaRoute is installed, you&apos;re ready to start building your
-          API&apos;s.
+          MetaRoute is a passion project aimed at simplifying API development.
+          It's a lightweight, fully-featured API framework that leverages
+          decorators for a clean and intuitive coding experience. Built with
+          minimalism in mind, MetaRoute requires only one dependency:
+          reflect-metadata for TypeScript metadata reflection.
         </DocsPageParagraph>
       </DocsSection>
 
-      <DocsSection id="usage">
-        <DocsHeader text="Usage" />
-        <DocsPageParagraph>
-          To start using MetaRoute you first have to decorate a class with the{" "}
-          <DocsCodeSnippet snippet="@App" /> decorator and extend the abstract
-          class <DocsCodeSnippet snippet="Application" />. This will expose the
-          class to the MetaRoute dependency container and setup all the
-          framework configurators, as well as start the http / https server.
-        </DocsPageParagraph>
+      <DocsSection id="key-features">
+        <DocsHeader text="Key Features" />
+        <DocsList
+          items={[
+            "Minimalistic design with nearly zero dependencies",
+            "Support for real-time applications with a custom WebSocket implementation",
+            "Easy-to-use decorator-based configuration",
+            "Built-in support for both HTTP and HTTPS servers",
+            "Flexible middleware integration",
+            "Customizable error handling",
+            "Simple, yet powerful routing",
+          ]}
+        />
+      </DocsSection>
 
+      <DocsSection id="quick-start">
+        <DocsHeader text="Quick Start" />
+        <DocsPageParagraph>
+          Get up and running with MetaRoute in just a few steps:
+        </DocsPageParagraph>
+        <DocsCode language="bash">npm install metaroute-ts</DocsCode>
+        <DocsPageParagraph>Or, if you're using Yarn:</DocsPageParagraph>
+        <DocsCode language="bash">yarn add metaroute-ts</DocsCode>
+        <DocsPageParagraph>
+          Start building your API by decorating a class with the{" "}
+          <DocsCodeSnippet snippet="@App" /> decorator and extending the{" "}
+          <DocsCodeSnippet snippet="Application" /> class.
+        </DocsPageParagraph>
         <DocsCode>
-          {`@App({} // Configuration object)
+          {`@App({})
 export class MetaApp extends Application {}`}
         </DocsCode>
+      </DocsSection>
 
+      <DocsSection id="app-configuration">
+        <DocsHeader text="App Configuration" />
         <DocsPageParagraph>
-          The <DocsCodeSnippet snippet="@App" /> decorator takes an{" "}
-          <DocsCodeSnippet snippet="AppConfiguration" /> parameter which is an
-          object with the following properties:
+          Configure your MetaRoute application by providing an object that
+          implements the <DocsCodeSnippet snippet="AppConfiguration" />{" "}
+          interface. This object can contain the following properties:
         </DocsPageParagraph>
 
         <DocsCode>
           {`interface AppConfiguration {
-  middleware?: Middleware[];
-  errorMiddleware?: ErrorMiddleware[];
-  // Defaults to 3000.
-  port?: number; 
-  // If you pass a cert.pem and key.pem the application will create a https server instead, defaults to http.
-  ssl?: {
-    key: string;
-    cert: string;
-  }; 
-  // The rendering engine for dynamic HTML content, defaults to the built-in MetaEngine.
-  engine?: Engine; 
+    middleware?: Middleware[];
+    errorMiddleware?: ErrorMiddleware[];
+    port?: number;
+    ssl?: {
+        key: string;
+        cert: string;
+    };
+    engine?: ServiceIdentifier<Engine>;
+    initializers?: ServiceIdentifier<Initializable>[];
+    imports?: ServiceIdentifier<any>[];
+    logging?: Omit<LoggerOptions, "context">;
 }`}
         </DocsCode>
+      </DocsSection>
+
+      <DocsSection id="contributing">
+        <DocsHeader text="Contributing" />
+        <DocsPageParagraph color="text-neutral-400" italic>
+          MetaRoute is an open-source project, and contributions are warmly
+          welcomed. If you have suggestions, bug reports, or contributions,
+          please feel free to open an issue or pull request on our GitHub
+          repository. Your input helps make MetaRoute better for everyone.
+        </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
   );
