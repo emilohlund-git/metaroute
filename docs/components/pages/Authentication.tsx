@@ -15,13 +15,13 @@ export default function Authentication() {
       <ScrollToAnchor />
 
       <DocsSection id="introduction">
-        <DocsPageTitle title="Securing Your API with Authentication" />
+        <DocsPageTitle title="Authentication" />
         <DocsPageParagraph>
           In the digital world, securing your application&apos;s endpoints is
-          paramount. MetaRoute&apos;s authentication system is designed to ensure
-          that only authorized users can access your API, providing a robust
-          layer of security. This section covers everything from setting up
-          basic authentication to implementing advanced user verification
+          paramount. MetaRoute&apos;s authentication system is designed to
+          ensure that only authorized users can access your API, providing a
+          robust layer of security. This section covers everything from setting
+          up basic authentication to implementing advanced user verification
           mechanisms.
         </DocsPageParagraph>
       </DocsSection>
@@ -30,10 +30,10 @@ export default function Authentication() {
         <DocsHeader text="Understanding Authentication with MetaRoute" />
         <DocsPageParagraph>
           MetaRoute leverages modern authentication protocols, including JSON
-          Web Tokens (JWT), to provide a secure and flexible
-          authentication framework. This framework checks a user&apos;s credentials
-          against the provided authentication details before granting access to
-          protected routes.
+          Web Tokens (JWT), to provide a secure and flexible authentication
+          framework. This framework checks a user&apos;s credentials against the
+          provided authentication details before granting access to protected
+          routes.
         </DocsPageParagraph>
         <DocsPageParagraph>
           To ensure a smooth authentication process, consider the following

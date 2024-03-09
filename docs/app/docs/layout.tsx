@@ -40,8 +40,9 @@ export default async function DrawerLayout({
     <html lang="en">
       <body>
         <DrawerProvider>
-          <Navbar versions={frameworkVersions} />
-          <DocsDrawer>{children}</DocsDrawer>
+          <DocsDrawer frameworkVersions={frameworkVersions}>
+            {children}
+          </DocsDrawer>
         </DrawerProvider>
       </body>
     </html>

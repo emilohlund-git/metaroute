@@ -13,7 +13,7 @@ export default function Configuration() {
       <ScrollToAnchor />
 
       <DocsSection id="introduction">
-        <DocsPageTitle title="Configuration Service" />
+        <DocsPageTitle title="Configuration" />
         <DocsPageParagraph>
           The Configuration Service in MetaRoute provides a centralized way to
           manage and access configuration settings for your application. It

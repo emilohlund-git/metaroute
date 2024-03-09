@@ -3,7 +3,7 @@ import SmoothScrollLink from "./SmoothScrollLink";
 
 type Props = {
   text: string;
-  level?: 1 | 2 | 3 | 4 | 5 | 6; 
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 export default function DocsHeader({ text, level = 2 }: Props) {
@@ -12,7 +12,7 @@ export default function DocsHeader({ text, level = 2 }: Props) {
 
   return (
     <HeaderTag className={`text-${level + 1}xl font-bold mb-4`}>
-      <SmoothScrollLink href={`#${id}`}>
+      <SmoothScrollLink id={id} href={`#${id}`}>
         <span className="text-lg text-neutral-400 cursor-pointer hover:text-neutral-500">
           #
         </span>{" "}

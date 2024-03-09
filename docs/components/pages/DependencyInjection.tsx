@@ -15,7 +15,7 @@ export default function DependencyInjectionDocs() {
       <ScrollToAnchor />
 
       <DocsSection id="dependency-injection">
-        <DocsPageTitle title="Dependency Injection in MetaRoute" />
+        <DocsPageTitle title="Dependency Injection" />
 
         <DocsPageParagraph>
           Dependency Injection (DI) in MetaRoute streamlines the way
@@ -44,8 +44,8 @@ export default function DependencyInjectionDocs() {
         />
       </DocsSection>
 
-      <DocsSection id="using-injectable-decorator">
-        <DocsHeader text="Using the @Injectable Decorator" level={2} />
+      <DocsSection id="using-the-injectable-decorator">
+        <DocsHeader text="Using the Injectable Decorator" level={2} />
         <DocsPageParagraph>
           To make a class part of the MetaRoute DI container, use the{" "}
           <DocsCodeSnippet snippet="@Injectable()" /> decorator with the desired
@@ -107,8 +107,8 @@ class ServerConfigurator implements Initializable {
         <DocsHeader text="Handling Circular Dependencies" level={3} />
         <DocsPageParagraph>
           MetaRoute detects circular dependencies and prevents them by throwing
-          an exception, ensuring the integrity of your application&apos;s dependency
-          graph.
+          an exception, ensuring the integrity of your application&apos;s
+          dependency graph.
         </DocsPageParagraph>
         <DocsHeader text="Clearing the Container" level={3} />
         <DocsCode language="javascript">MetaRoute.clear();</DocsCode>
@@ -121,11 +121,11 @@ class ServerConfigurator implements Initializable {
         <DocsHeader text="Conclusion" level={2} />
         <DocsPageParagraph>
           MetaRoute&apos;s dependency injection system provides a powerful and
-          flexible way to manage your application&apos;s dependencies. By leveraging
-          scopes, the `@Injectable()` decorator, and MetaRoute&apos;s container
-          methods, you can build highly modular and maintainable applications.
-          Dive into DI with MetaRoute to unlock the full potential of your
-          application&apos;s architecture.
+          flexible way to manage your application&apos;s dependencies. By
+          leveraging scopes, the `@Injectable()` decorator, and MetaRoute&apos;s
+          container methods, you can build highly modular and maintainable
+          applications. Dive into DI with MetaRoute to unlock the full potential
+          of your application&apos;s architecture.
         </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>

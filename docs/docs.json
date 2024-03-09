@@ -1,233 +1,233 @@
 {
-  "auth": {
-    "title": "Securing Your API with Authentication",
+  "Authentication": {
+    "title": "Authentication",
     "content": "In the digital world, securing your application's endpoints is paramount. MetaRoute's authentication system is designed to ensure that only authorized users can access your API, providing a robust layer of security. This section covers everything from setting up basic authentication to implementing advanced user verification mechanisms.",
-    "url": "/docs/features/auth",
+    "url": "/docs/Authentication",
     "subtitles": [
       {
         "title": "Understanding Authentication with MetaRoute",
-        "url": "/docs/features/auth"
+        "url": "/pages/Authentication#understanding-authentication-with-metaroute"
       },
       {
         "title": "Implementing Authentication",
-        "url": "/docs/features/auth"
+        "url": "/pages/Authentication#implementing-authentication"
       },
       {
         "title": "Token Generation",
-        "url": "/docs/features/auth"
+        "url": "/pages/Authentication#token-generation"
       },
       {
         "title": "Token Verification",
-        "url": "/docs/features/auth"
+        "url": "/pages/Authentication#token-verification"
       }
     ]
   },
-  "caching": {
-    "title": "Route Caching",
+  "Caching": {
+    "title": "Caching",
     "content": "Route caching in MetaRoute allows you to improve the performance of your API by caching the responses of specific routes. This can significantly reduce the response time and server load, resulting in a better user experience and lower operating costs.",
-    "url": "/docs/features/caching",
+    "url": "/docs/Caching",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/caching"
+        "url": "/pages/Caching#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/caching"
+        "url": "/pages/Caching#usage"
       }
     ]
   },
-  "configuration": {
-    "title": "Configuration Service",
+  "Configuration": {
+    "title": "Configuration",
     "content": "The Configuration Service in MetaRoute provides a centralized way to manage and access configuration settings for your application. It allows you to define environment variables and configuration files to store application settings and retrieve them from anywhere in your code.",
-    "url": "/docs/features/configuration",
+    "url": "/docs/Configuration",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/configuration"
+        "url": "/pages/Configuration#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/configuration"
+        "url": "/pages/Configuration#usage"
       }
     ]
   },
-  "email": {
-    "title": "Email Server",
-    "content": "The built-in Email Server in MetaRoute allows you to handle email communication within your application. It provides a quick-start approach to sending emails using SMTP.",
-    "url": "/docs/features/email",
+  "DataValidation": {
+    "title": "Data Validation",
+    "content": "The Data Validation feature in MetaRoute allows you to validate incoming data against predefined rules and constraints. It ensures that the data meets the required criteria before processing it further in your application.",
+    "url": "/docs/DataValidation",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/email"
+        "url": "/pages/DataValidation#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/email"
+        "url": "/pages/DataValidation#usage"
       }
     ]
   },
-  "injections": {
-    "title": "Dependency Injection in MetaRoute",
+  "DependencyInjection": {
+    "title": "Dependency Injection",
     "content": "Dependency Injection (DI) in MetaRoute streamlines the way dependencies are managed and injected, enhancing modularity, testability, and maintainability of your applications. This guide dives deep into utilizing DI with MetaRoute.",
-    "url": "/docs/features/injections",
+    "url": "/docs/DependencyInjection",
     "subtitles": [
       {
         "title": "Understanding Scopes",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#understanding-scopes"
       },
       {
-        "title": "Using the @Injectable Decorator",
-        "url": "/docs/features/injections"
+        "title": "Using the Injectable Decorator",
+        "url": "/pages/DependencyInjection#using-the-injectable-decorator"
       },
       {
         "title": "Registering and Resolving Dependencies",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#registering-and-resolving-dependencies"
       },
       {
         "title": "Registering a Class",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#registering-a-class"
       },
       {
         "title": "Resolving a Class",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#resolving-a-class"
       },
       {
         "title": "Advanced Usage",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#advanced-usage"
       },
       {
         "title": "Custom Initializers",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#custom-initializers"
       },
       {
         "title": "Handling Circular Dependencies",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#handling-circular-dependencies"
       },
       {
         "title": "Clearing the Container",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#clearing-the-container"
       },
       {
         "title": "Conclusion",
-        "url": "/docs/features/injections"
+        "url": "/pages/DependencyInjection#conclusion"
       }
     ]
   },
-  "logging": {
-    "title": "Logging Service",
-    "content": "The Logging Service in MetaRoute provides a built-in logging mechanism to log messages and events within your application. It allows you to record important information, errors, and warnings for debugging and monitoring purposes.",
-    "url": "/docs/features/logging",
+  "EmailServer": {
+    "title": "Email Server",
+    "content": "The built-in Email Server in MetaRoute allows you to handle email communication within your application. It provides a quick-start approach to sending emails using SMTP.",
+    "url": "/docs/EmailServer",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/logging"
+        "url": "/pages/EmailServer#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/logging"
+        "url": "/pages/EmailServer#usage"
       }
     ]
   },
-  "memory": {
+  "LoggingService": {
+    "title": "Logging Service",
+    "content": "The Logging Service in MetaRoute provides a built-in logging mechanism to log messages and events within your application. It allows you to record important information, errors, and warnings for debugging and monitoring purposes.",
+    "url": "/docs/LoggingService",
+    "subtitles": [
+      {
+        "title": "How it Works",
+        "url": "/pages/LoggingService#how-it-works"
+      },
+      {
+        "title": "Usage",
+        "url": "/pages/LoggingService#usage"
+      }
+    ]
+  },
+  "MemoryManagement": {
     "title": "Memory Management",
     "content": "Memory management in MetaRoute allows you to monitor and control memory usage within your application. It provides features for setting up memory policies, checking memory usage, and enforcing memory limits to ensure optimal performance and prevent memory leaks.",
-    "url": "/docs/features/memory",
+    "url": "/docs/MemoryManagement",
     "subtitles": [
       {
         "title": "Memory Policies",
-        "url": "/docs/features/memory"
+        "url": "/pages/MemoryManagement#memory-policies"
       },
       {
         "title": "Memory Manager",
-        "url": "/docs/features/memory"
+        "url": "/pages/MemoryManagement#memory-manager"
       }
     ]
   },
-  "rate-limiting": {
+  "RateLimiting": {
     "title": "Rate Limiting",
     "content": "Rate Limiting in MetaRoute allows you to control the number of requests a client can make to your API within a certain timeframe. This is crucial for protecting your API from abuse and ensuring fair usage.",
-    "url": "/docs/features/rate-limiting",
+    "url": "/docs/RateLimiting",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/rate-limiting"
+        "url": "/pages/RateLimiting#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/rate-limiting"
+        "url": "/pages/RateLimiting#usage"
       }
     ]
   },
-  "routing": {
+  "Routing": {
     "title": "Routing",
     "content": "Routing in MetaRoute allows you to define and manage API routes for handling incoming requests. It provides both RESTful and event-based routing mechanisms to support different types of applications and use cases.",
-    "url": "/docs/features/routing",
+    "url": "/docs/Routing",
     "subtitles": [
       {
         "title": "HTTP",
-        "url": "/docs/features/routing"
+        "url": "/pages/Routing#http"
       },
       {
         "title": "Event",
-        "url": "/docs/features/routing"
+        "url": "/pages/Routing#event"
       }
     ]
   },
-  "templating": {
+  "TemplatingEngine": {
     "title": "Templating Engine",
     "content": "The Templating Engine in MetaRoute allows you to render dynamic HTML content in your application. It provides a flexible and customizable way to generate HTML pages using templates and data.",
-    "url": "/docs/features/templating",
+    "url": "/docs/TemplatingEngine",
     "subtitles": [
       {
         "title": "How it Works",
-        "url": "/docs/features/templating"
+        "url": "/pages/TemplatingEngine#how-it-works"
       },
       {
         "title": "Usage",
-        "url": "/docs/features/templating"
+        "url": "/pages/TemplatingEngine#usage"
       }
     ]
   },
-  "validation": {
-    "title": "Data Validation",
-    "content": "The Data Validation feature in MetaRoute allows you to validate incoming data against predefined rules and constraints. It ensures that the data meets the required criteria before processing it further in your application.",
-    "url": "/docs/features/validation",
-    "subtitles": [
-      {
-        "title": "How it Works",
-        "url": "/docs/features/validation"
-      },
-      {
-        "title": "Usage",
-        "url": "/docs/features/validation"
-      }
-    ]
-  },
-  "docs": {
-    "title": "👋 Welcome to the MetaRoute Documentation",
+  "Welcome": {
+    "title": "Welcome",
     "content": "This documentation is designed to be comprehensive and user-friendly, guiding you through every step of using MetaRoute. Whether you're starting your journey in API development or you're an experienced developer looking to enhance your projects, you'll find valuable insights and tips here.",
-    "url": "/docs",
+    "url": "/docs/Welcome",
     "subtitles": [
       {
         "title": "About MetaRoute",
-        "url": "/docs"
+        "url": "/pages/Welcome#about-metaroute"
       },
       {
         "title": "Key Features",
-        "url": "/docs"
+        "url": "/pages/Welcome#key-features"
       },
       {
         "title": "Quick Start",
-        "url": "/docs"
+        "url": "/pages/Welcome#quick-start"
       },
       {
         "title": "App Configuration",
-        "url": "/docs"
+        "url": "/pages/Welcome#app-configuration"
       },
       {
         "title": "Contributing",
-        "url": "/docs"
+        "url": "/pages/Welcome#contributing"
       }
     ]
   }
