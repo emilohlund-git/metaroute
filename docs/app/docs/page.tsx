@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import DocsCode from "@/components/DocsCode";
-import DocsCodeSnippet from "@/components/DocsCodeSnippet";
-import DocsContainer from "@/components/DocsContainer";
-import DocsHeader from "@/components/DocsHeader";
-import DocsList from "@/components/DocsList";
-import { DocsPageParagraph } from "@/components/DocsPageParagraph";
-import { DocsPageTitle } from "@/components/DocsPageTitle";
-import DocsSection from "@/components/DocsSection";
-import ScrollToAnchor from "@/components/ScrollToAnchor";
-import React from "react";
+import DocsCode from '@/components/DocsCode'
+import DocsCodeSnippet from '@/components/DocsCodeSnippet'
+import DocsContainer from '@/components/DocsContainer'
+import DocsHeader from '@/components/DocsHeader'
+import DocsList from '@/components/DocsList'
+import { DocsPageParagraph } from '@/components/DocsPageParagraph'
+import { DocsPageTitle } from '@/components/DocsPageTitle'
+import DocsSection from '@/components/DocsSection'
+import ScrollToAnchor from '@/components/ScrollToAnchor'
+import React from 'react'
 
 export default function Docs() {
   return (
@@ -41,13 +41,13 @@ export default function Docs() {
         <DocsHeader text="Key Features" />
         <DocsList
           items={[
-            "Minimalistic design with nearly zero dependencies",
-            "Support for real-time applications with a custom WebSocket implementation",
-            "Easy-to-use decorator-based configuration",
-            "Built-in support for both HTTP and HTTPS servers",
-            "Flexible middleware integration",
-            "Customizable error handling",
-            "Simple, yet powerful routing",
+            'Minimalistic design with nearly zero dependencies',
+            'Support for real-time applications with a custom WebSocket implementation',
+            'Easy-to-use decorator-based configuration',
+            'Built-in support for both HTTP and HTTPS servers',
+            'Flexible middleware integration',
+            'Customizable error handling',
+            'Simple, yet powerful routing'
           ]}
         />
       </DocsSection>
@@ -61,8 +61,8 @@ export default function Docs() {
         <DocsPageParagraph>Or, if you&apos;re using Yarn:</DocsPageParagraph>
         <DocsCode language="bash">yarn add metaroute-ts</DocsCode>
         <DocsPageParagraph>
-          Start building your API by decorating a class with the{" "}
-          <DocsCodeSnippet snippet="@App" /> decorator and extending the{" "}
+          Start building your API by decorating a class with the{' '}
+          <DocsCodeSnippet snippet="@App" /> decorator and extending the{' '}
           <DocsCodeSnippet snippet="Application" /> class.
         </DocsPageParagraph>
         <DocsCode>
@@ -75,7 +75,7 @@ export class MetaApp extends Application {}`}
         <DocsHeader text="App Configuration" />
         <DocsPageParagraph>
           Configure your MetaRoute application by providing an object that
-          implements the <DocsCodeSnippet snippet="AppConfiguration" />{" "}
+          implements the <DocsCodeSnippet snippet="AppConfiguration" />{' '}
           interface. This object can contain the following properties:
         </DocsPageParagraph>
 
@@ -106,5 +106,5 @@ export class MetaApp extends Application {}`}
         </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
-  );
+  )
 }

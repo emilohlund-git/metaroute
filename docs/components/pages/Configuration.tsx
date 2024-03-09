@@ -1,11 +1,11 @@
-import React from "react";
-import DocsContainer from "@/components/DocsContainer";
-import DocsSection from "@/components/DocsSection";
-import DocsHeader from "@/components/DocsHeader";
-import DocsCode from "@/components/DocsCode";
-import ScrollToAnchor from "@/components/ScrollToAnchor";
-import { DocsPageTitle } from "@/components/DocsPageTitle";
-import { DocsPageParagraph } from "@/components/DocsPageParagraph";
+import React from 'react'
+import DocsContainer from '@/components/DocsContainer'
+import DocsSection from '@/components/DocsSection'
+import DocsHeader from '@/components/DocsHeader'
+import DocsCode from '@/components/DocsCode'
+import ScrollToAnchor from '@/components/ScrollToAnchor'
+import { DocsPageTitle } from '@/components/DocsPageTitle'
+import { DocsPageParagraph } from '@/components/DocsPageParagraph'
 
 export default function Configuration() {
   return (
@@ -73,5 +73,5 @@ const startDate = configService.get<Date>('START_DATE');`}
         </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
-  );
+  )
 }
