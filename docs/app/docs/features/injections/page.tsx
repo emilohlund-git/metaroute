@@ -31,7 +31,7 @@ export default function DependencyInjectionDocs() {
           MetaRoute supports four distinct scopes for dependency management.
           Each scope determines the lifecycle and usage pattern of the
           instantiated classes, enabling fine-grained control over your
-          application's architecture and resource management.
+          application&apos;s architecture and resource management.
         </DocsPageParagraph>
 
         <DocsList
@@ -107,7 +107,7 @@ class ServerConfigurator implements Initializable {
         <DocsHeader text="Handling Circular Dependencies" level={3} />
         <DocsPageParagraph>
           MetaRoute detects circular dependencies and prevents them by throwing
-          an exception, ensuring the integrity of your application's dependency
+          an exception, ensuring the integrity of your application&apos;s dependency
           graph.
         </DocsPageParagraph>
         <DocsHeader text="Clearing the Container" level={3} />
@@ -120,12 +120,12 @@ class ServerConfigurator implements Initializable {
       <DocsSection id="conclusion">
         <DocsHeader text="Conclusion" level={2} />
         <DocsPageParagraph>
-          MetaRoute's dependency injection system provides a powerful and
-          flexible way to manage your application's dependencies. By leveraging
-          scopes, the `@Injectable()` decorator, and MetaRoute's container
+          MetaRoute&apos;s dependency injection system provides a powerful and
+          flexible way to manage your application&apos;s dependencies. By leveraging
+          scopes, the `@Injectable()` decorator, and MetaRoute&apos;s container
           methods, you can build highly modular and maintainable applications.
           Dive into DI with MetaRoute to unlock the full potential of your
-          application's architecture.
+          application&apos;s architecture.
         </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
