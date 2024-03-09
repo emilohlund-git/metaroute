@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import Sidebar from "./Sidebar";
 import { useDrawer } from "@/context/DrawerProvider";
+import { DocsFooter } from "./DocsFooter";
 
 type Props = {
   children: ReactNode;
@@ -22,10 +23,7 @@ export default function DocsDrawer({ children }: Props) {
       />
       <div className="drawer-content w-full bg-base-200 flex flex-col items-center">
         <div className="flex h-full overflow-hidden mt-16">{children}</div>
-        <div className="w-full h-20 bg-gradient-to-r from-primary-content to-neutral-800 py-8 px-20">
-          Copyright © 2024 MIT by{" "}
-          <span className="font-extrabold">Emil Ölund</span>
-        </div>
+        <DocsFooter />
       </div>
       <div className="drawer-side">
         <ul className="menu p-4 w-80 min-h-full bg-base-300 text-base-content z-30">

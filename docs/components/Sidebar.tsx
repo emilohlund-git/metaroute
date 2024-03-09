@@ -9,23 +9,18 @@ export default function Sidebar() {
         </h2>
         <ul>
           <li role="tab">
-            <SmoothScrollLink href="/docs#introduction">
-              Introduction
-            </SmoothScrollLink>
-          </li>
-          <li role="tab">
-            <SmoothScrollLink href="/docs#installation">
-              Installation
-            </SmoothScrollLink>
-          </li>
-          <li>
-            <SmoothScrollLink href="/docs#usage">Usage</SmoothScrollLink>
+            <SmoothScrollLink href="/docs#welcome">Welcome</SmoothScrollLink>
           </li>
         </ul>
       </li>
       <li>
         <h2 className="menu-title text-lg text-black font-bold">Features</h2>
         <ul>
+          <li>
+            <SmoothScrollLink href="/docs/features/injections">
+              <summary>Injections</summary>
+            </SmoothScrollLink>
+          </li>
           <li>
             <SmoothScrollLink href="/docs/features/caching">
               Caching
