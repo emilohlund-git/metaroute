@@ -3,7 +3,7 @@ import { LogLevel } from "../enums/log.level.enum";
 import { Scope } from "../enums/scope.enum";
 import { Logger } from "./logger.service";
 
-@Injectable({ scope: Scope.TRANSIENT })
+@Injectable({ scope: Scope.SINGLETON })
 export class ConsoleLogger extends Logger {
   constructor(context: string) {
     super(context);
@@ -16,7 +16,10 @@ export class ConsoleLogger extends Logger {
     context?: string,
     data?: any
   ) {
-    if (this.levelToInt(level) < this.levelToInt(this.minLevel)) {
+    if (
+      this.levelToInt(level) < this.levelToInt(this.minLevel) ||
+      this.minLevel == LogLevel.SILENT
+    ) {
       return;
     }
 

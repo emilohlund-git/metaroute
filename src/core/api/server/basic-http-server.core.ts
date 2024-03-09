@@ -29,7 +29,7 @@ export class MetaRouteServer {
       const response = createMetaRouteResponse(res);
 
       if (config.engine) {
-        response.engine(config.engine);
+        response.engine(new config.engine());
       }
 
       this.router.handleRequest(request, response);
