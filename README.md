@@ -30,6 +30,12 @@
 npm install metaroute-ts
 ```
 
+or
+
+```bash
+yarn add metaroute-ts
+```
+
 ## Documentation
 
 For information how to use the framework please visit the MetaRoute documentation page at: [https://metaroute.vercel.app/](https://metaroute.vercel.app/)
