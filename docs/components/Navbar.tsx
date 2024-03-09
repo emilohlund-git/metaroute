@@ -13,9 +13,12 @@ type Props = {
     name: string;
     url: string;
   }[];
+  setActiveTab: {
+    (id: string): void;
+  };
 };
 
-export default function Navbar({ versions }: Props) {
+export default function Navbar({ versions, setActiveTab }: Props) {
   const router = useRouter();
   const { isDrawerOpen, setDrawerOpen } = useDrawer();
   const toggleDrawer = () => {
@@ -35,7 +38,10 @@ export default function Navbar({ versions }: Props) {
               <FaHamburger />
             </span>
           </label>
-          <span onClick={() => router.push("/")} className="btn btn-ghost cursor-default text-xl font-extrabold items-center">
+          <span
+            onClick={() => router.push("/")}
+            className="btn btn-ghost cursor-default text-xl font-extrabold items-center"
+          >
             <img className="w-5" src="/favicon-32x32.png" alt="" />
             MetaRoute
           </span>
@@ -43,7 +49,7 @@ export default function Navbar({ versions }: Props) {
           <div className="badge badge-error badge-outline mt-[1px] truncate">
             Under development
           </div>
-          <DocsSearch />
+          <DocsSearch setActiveTab={setActiveTab} />
         </div>
       </div>
       <div className="navbar-center"></div>

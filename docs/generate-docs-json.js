@@ -3,6 +3,17 @@ const path = require("path");
 const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
 
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
 function parseReactFile(filePath, dirName, relativePath) {
   const code = fs.readFileSync(filePath, "utf-8");
   const ast = parser.parse(code, {
@@ -32,7 +43,11 @@ function parseReactFile(filePath, dirName, relativePath) {
       if (component === "DocsHeader") {
         const props = node.openingElement.attributes.reduce((acc, attr) => {
           if (attr.type === "JSXAttribute") {
-            acc[attr.name.name] = attr.value ? attr.value.value : true;
+            const value =
+              attr.value.type === "StringLiteral"
+                ? attr.value.value
+                : getTextContent(attr.value);
+            acc[attr.name.name] = value;
           }
           return acc;
         }, {});
@@ -42,29 +57,23 @@ function parseReactFile(filePath, dirName, relativePath) {
           props.children = children;
         }
 
-        console.log(props);
+        // Remove the "page.tsx" and adjust URL format
+        const basePath = `/pages/${relativePath
+          .replace(/\\/g, "/")
+          .replace("page.tsx", "")}`;
+        const url =
+          basePath +
+          (props.text || children ? `#${slugify(props.text || children)}` : "");
 
-        const subtitle = {
-          title: props.text,
-          content: props.children,
-          url:
-            `/docs/${relativePath.replace(/\\/g, "/")}`.replace(
-              "/page.tsx",
-              ""
-            ) +
-            (props.title
-              ? "#" + props.title.replace(/\s+/g, "-").toLowerCase()
-              : ""),
-        };
+        const subtitle = { title: props.text || children, url };
 
         if (!docs[dirName]) {
           docs[dirName] = { subtitles: [subtitle] };
         } else {
-          if (!docs[dirName].subtitles) {
-            docs[dirName].subtitles = [subtitle];
-          } else {
-            docs[dirName].subtitles.push(subtitle);
-          }
+          docs[dirName].subtitles = [
+            ...(docs[dirName].subtitles || []),
+            subtitle,
+          ];
         }
       }
 
@@ -114,21 +123,21 @@ function traverseDirectory(dirPath, callback, relativePath = "") {
   fs.readdirSync(dirPath).forEach((file) => {
     const fullPath = path.join(dirPath, file);
     const newRelativePath = path.join(relativePath, file);
-    if (fs.lstatSync(fullPath).isDirectory()) {
-      traverseDirectory(fullPath, callback, newRelativePath);
-    } else if (
-      path.extname(fullPath) === ".tsx" &&
-      path.basename(fullPath) === "page.tsx"
-    ) {
-      const dirName = path.basename(dirPath);
-      callback(fullPath, dirName, newRelativePath);
+
+    if (path.extname(fullPath) === ".tsx") {
+      callback(
+        fullPath,
+        file.replace(/\.tsx$/, ""),
+        newRelativePath.replace(/\.tsx$/, "")
+      );
     }
   });
 }
 
 const docsJson = {};
-traverseDirectory("./app/docs", (filePath, dirName, relativePath) => {
+traverseDirectory("./components/pages", (filePath, dirName, relativePath) => {
   const fileDocs = parseReactFile(filePath, dirName, relativePath);
+  console.log(fileDocs);
   Object.assign(docsJson, fileDocs);
 });
 

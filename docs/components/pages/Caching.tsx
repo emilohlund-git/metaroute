@@ -14,7 +14,7 @@ export default function Caching() {
       <ScrollToAnchor />
 
       <DocsSection id="introduction">
-        <DocsPageTitle title="Route Caching" />
+        <DocsPageTitle title="Caching" />
         <DocsPageParagraph>
           Route caching in MetaRoute allows you to improve the performance of
           your API by caching the responses of specific routes. This can

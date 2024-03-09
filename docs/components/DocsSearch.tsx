@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import docs from "../docs.json";
-import SmoothScrollLink from "./SmoothScrollLink";
 
 type Doc = {
   title: string;
@@ -30,7 +29,6 @@ function searchDoc(docs: Docs, query: string) {
       // Check subtitles for matches
       if (doc.subtitles) {
         for (let subtitle of doc.subtitles) {
-          console.log(subtitle);
           if (subtitle.title.toLowerCase().includes(lowerCaseQuery)) {
             isMatch = true;
             break;
@@ -47,7 +45,21 @@ function searchDoc(docs: Docs, query: string) {
   return results;
 }
 
-function DocItem({ doc, level = 0 }: { doc: Doc; level?: number }) {
+function DocItem({
+  doc,
+  setActiveTab,
+  setIsOpen,
+  level = 0,
+}: {
+  doc: Doc;
+  setActiveTab: {
+    (id: string): void;
+  };
+  setIsOpen: {
+    (isOpen: boolean): void;
+  };
+  level?: number;
+}) {
   return (
     <div
       key={doc.url}
@@ -55,17 +67,28 @@ function DocItem({ doc, level = 0 }: { doc: Doc; level?: number }) {
         level > 0 ? "border-l-4 border-base-300 pl-4" : ""
       }`}
     >
-      <div className="hover:bg-base-300 p-4 rounded-2xl transition-all">
-        <SmoothScrollLink href={doc.url}>
+      <div className="hover:bg-base-300 curosr-p p-4 rounded-2xl transition-all">
+        <div
+          className="cursor-pointer"
+          id={doc.title.replace(/ /g, "-").toLowerCase()}
+          onClick={() => {
+            setActiveTab(doc.title.replace(/ /g, ""));
+            setIsOpen(false);
+          }}
+        >
           <h2 className="font-bold">{doc.title}</h2>
           <p>{doc.content.substring(0, 55)}...</p>
-        </SmoothScrollLink>
+        </div>
       </div>
     </div>
   );
 }
 
-export function DocsSearch() {
+export function DocsSearch({
+  setActiveTab,
+}: {
+  setActiveTab: (id: string) => void;
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Doc[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -139,7 +162,7 @@ export function DocsSearch() {
             <>
               {results.map((doc, index) => (
                 <React.Fragment key={index}>
-                  <DocItem doc={doc} />
+                  <DocItem setIsOpen={setIsOpen} setActiveTab={setActiveTab} doc={doc} />
                   {index < results.length - 1 && (
                     <div className="divider opacity-50 px-4"></div>
                   )}
