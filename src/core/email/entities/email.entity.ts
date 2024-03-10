@@ -1,10 +1,9 @@
-import { IsEmail } from "../../validation";
 import { IsString } from "../../validation/decorators/string.validation";
 
 export class Email {
-  @IsEmail()
+  @IsString()
   public to: string;
-  @IsEmail()
+  @IsString()
   public from: string;
   @IsString()
   public subject: string;

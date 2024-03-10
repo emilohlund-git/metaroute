@@ -1,5 +1,6 @@
+import { MetaRouteValidators } from "@core/validation/constants/metaroute-validator.constant";
 import "reflect-metadata";
-import { IsDate, VALIDATION_METADATA_KEY } from "src";
+import { IsDate, VALIDATION_METADATA_KEY, validator } from "src";
 
 describe("IsDate", () => {
   it("should define metadata for the target with the property key and type", () => {
@@ -11,7 +12,13 @@ describe("IsDate", () => {
     const instance = new TestClass();
     const metadata = Reflect.getMetadata(VALIDATION_METADATA_KEY, instance);
 
-    expect(metadata).toEqual([{ key: "prop", type: "date" }]);
+    expect(metadata).toEqual([
+      {
+        defaultError: "Value must be a date.",
+        key: "prop",
+        validate: MetaRouteValidators.date.validate,
+      },
+    ]);
   });
 
   it("should not overwrite existing metadata", () => {
@@ -27,21 +34,43 @@ describe("IsDate", () => {
     const metadata = Reflect.getMetadata(VALIDATION_METADATA_KEY, instance);
 
     expect(metadata).toEqual([
-      { key: "prop1", type: "date" },
-      { key: "prop2", type: "date" },
+      {
+        defaultError: "Value must be a date.",
+        key: "prop1",
+        validate: MetaRouteValidators.date.validate,
+      },
+      {
+        defaultError: "Value must be a date.",
+        key: "prop2",
+        validate: MetaRouteValidators.date.validate,
+      },
     ]);
   });
 
   it("should set the default value if the property is undefined", () => {
-    const defaultValue = new Date();
-
     class TestClass {
-      @IsDate(defaultValue)
+      @IsDate()
       public prop!: Date;
     }
 
     const instance = new TestClass();
 
-    expect(instance.prop).toEqual(defaultValue);
+    expect(instance.prop).toEqual(undefined);
+  });
+
+  it("should return an error if the value is not a date", () => {
+    class TestClass {
+      @IsDate()
+      public prop!: Date;
+    }
+
+    const instance = new TestClass();
+    instance.prop = "not a date" as any;
+
+    const errors = validator(instance, TestClass);
+
+    expect(errors).toEqual({
+      prop: ["Value must be a date."],
+    });
   });
 });
