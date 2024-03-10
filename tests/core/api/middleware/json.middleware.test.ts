@@ -1,4 +1,5 @@
 import {
+  HttpStatus,
   JsonMiddleware,
   MetaRouteRequest,
   MetaRouteResponse,
@@ -27,6 +28,7 @@ describe("JsonMiddleware", () => {
     res = {
       statusCode: 200,
       end: jest.fn(),
+      send: jest.fn(),
     };
     next = jest.fn();
   });
@@ -44,7 +46,7 @@ describe("JsonMiddleware", () => {
   it("should send 400 response for invalid JSON", () => {
     req.headers!["content-type"] = "application/json";
     req.method = "POST";
-    (req.on = function (
+    req.on = function (
       this: MetaRouteRequest,
       event: string,
       callback: (...args: any[]) => void
@@ -52,11 +54,15 @@ describe("JsonMiddleware", () => {
       if (event === "data") callback("invalid json");
       if (event === "end") callback();
       return this;
-    } as any),
-      JsonMiddleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
+    } as any;
+
+    JsonMiddleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(res.statusCode).toBe(400);
-    expect(res.end).toHaveBeenCalledWith("Invalid JSON");
+    expect(res.send).toHaveBeenCalledWith({
+      status: HttpStatus.BAD_REQUEST,
+      message: "Invalid JSON",
+    });
     expect(next).not.toHaveBeenCalled();
   });
 

@@ -2,9 +2,9 @@ import { MetaRoute } from "../../common/meta-route.container";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
-import { NextFunction } from "../server/types";
+import { NextFunction } from "../types";
 
-export function LogErrorMiddleware(
+export async function LogErrorMiddleware(
   err: Error,
   req: MetaRouteRequest,
   res: MetaRouteResponse,

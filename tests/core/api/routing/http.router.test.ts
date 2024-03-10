@@ -67,15 +67,15 @@ describe("HttpRouter", () => {
     app = new MetaRouteServer(basicRouter, socketServer);
   });
 
-  it("should register a controller", () => {
+  it("should register a controller", async () => {
     const spy = jest.spyOn(app, "get");
-    router.register(app, controller);
+    await router.register(app, controller);
 
     expect(spy).toHaveBeenCalled();
   });
 
-  it("should create a handler", () => {
-    const handler = router["createHandler"](controller, "testMethod");
+  it("should create a handler", async () => {
+    const handler = await router["createHandler"](controller, "testMethod");
     expect(typeof handler).toBe("function");
   });
 
@@ -83,22 +83,22 @@ describe("HttpRouter", () => {
     const req = mock<MetaRouteRequest>();
     const res = mock<MetaRouteResponse>();
     const args = router["buildArgs"](
-      controller,
-      "testMethod",
       instance(req),
-      instance(res)
+      instance(res),
+      controller,
+      "testMethod"
     );
     expect(Array.isArray(args)).toBe(true);
   });
 
-  it("should register the correct path for each method", () => {
+  it("should register the correct path for each method", async () => {
     const getSpy = jest.spyOn(app, "get");
     const postSpy = jest.spyOn(app, "post");
     const deleteSpy = jest.spyOn(app, "delete");
     const patchSpy = jest.spyOn(app, "patch");
     const putSpy = jest.spyOn(app, "put");
 
-    router.register(app, controller);
+    await router.register(app, controller);
 
     expect(getSpy).toHaveBeenCalledWith(
       "test",
@@ -128,7 +128,7 @@ describe("HttpRouter", () => {
   });
 
   it("should handle errors in createHandler", async () => {
-    const handler = router["createHandler"](controller, "testMethod");
+    const handler = await router["createHandler"](controller, "testMethod");
     const req = mock<MetaRouteRequest>();
     const res = mock<MetaRouteResponse>();
     const next = jest.fn();

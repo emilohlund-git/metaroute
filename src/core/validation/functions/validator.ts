@@ -2,6 +2,30 @@ import { VALIDATION_METADATA_KEY } from "../../common/constants/metadata-keys.co
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { ErrorResult, ValidationResult } from "../types";
 
+function processValidationResult(
+  validationResult: ValidationResult,
+  errors: Record<string, ErrorResult[]>,
+  key: string,
+  defaultError?: string
+): void {
+  if (validationResult === null || validationResult === true) return;
+
+  let errorMessage: string | undefined;
+
+  if (typeof validationResult === "string") {
+    errorMessage = defaultError ?? validationResult;
+  } else if (typeof validationResult === "object" && !validationResult.valid) {
+    errorMessage = defaultError ?? validationResult.message;
+  } else if (validationResult === false) {
+    errorMessage = defaultError ?? "Validation failed";
+  }
+
+  if (errorMessage) {
+    if (!errors[key]) errors[key] = [];
+    errors[key].push(errorMessage);
+  }
+}
+
 export function validator<T extends Object>(
   requestBody: T,
   schemaType: new () => T,
@@ -41,26 +65,7 @@ export function validator<T extends Object>(
     const value = schemaInstance[key as keyof T];
     const validationResult = validate(value);
 
-    if (validationResult === null) continue;
-
-    if (typeof validationResult === "string") {
-      if (!errors[key]) errors[key] = [];
-      errors[key].push(defaultError || validationResult);
-    }
-
-    if (typeof validationResult === "object" && !validationResult.valid) {
-      if (!errors[key]) errors[key] = [];
-      errors[key].push(defaultError || validationResult.message);
-    }
-
-    if (validationResult === false) {
-      if (!errors[key]) errors[key] = [];
-      errors[key].push(defaultError || "Validation failed");
-    }
-
-    if (validationResult === true) {
-      if (errors[key]) delete errors[key];
-    }
+    processValidationResult(validationResult, errors, key, defaultError);
   }
 
   if (Object.keys(errors).length > 0) {

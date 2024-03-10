@@ -1,7 +1,40 @@
-import { DatabaseResponse } from "../../database/interfaces/database-response.interface";
-import { ResponseEntity } from "../entities/response.entity";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
+import { DatabaseResponse } from "../../database/interfaces/database-response.interface";
+import { ResponseEntity } from "../entities/response.entity";
+
+export type NextFunction = (err?: any) => Promise<void>;
+
+export type ErrorMiddleware = (
+  err: any,
+  req: MetaRouteRequest,
+  res: MetaRouteResponse,
+  next: NextFunction
+) => Promise<void>;
+
+export type Middleware = (
+  req: MetaRouteRequest,
+  res: MetaRouteResponse,
+  next: NextFunction
+) => Promise<void>;
+
+export type RequestHandler = (
+  req: MetaRouteRequest,
+  res: MetaRouteResponse,
+  next: NextFunction
+) => Promise<void>;
+
+export type UnifiedMiddleware = (
+  errOrReq: Error | MetaRouteRequest,
+  reqOrRes: MetaRouteRequest | MetaRouteResponse,
+  resOrNext: MetaRouteResponse | NextFunction,
+  next?: NextFunction
+) => Promise<void>;
+
+export type Route = {
+  handler: RequestHandler;
+  middleware: Middleware[] | ErrorMiddleware[];
+};
 
 export type CheckFunction = (
   target: Function,

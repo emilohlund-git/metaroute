@@ -1,8 +1,8 @@
 import { createCacheMiddleware } from "@core/cache/functions/create-cache-middleware";
 import { CacheOptions } from "@core/cache/interfaces/cache-options.interface";
-import { NextFunction } from "@core/api/server/types";
 import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
+import { NextFunction } from "src";
 
 jest.mock("@core/cache/services/cache.service", () => {
   let cache: number | null = null;
@@ -40,22 +40,22 @@ describe("createCacheMiddleware", () => {
     next = jest.fn();
   });
 
-  it("should call next if no user IP", () => {
+  it("should call next if no user IP", async () => {
     req.ip = undefined;
-    const middleware = createCacheMiddleware(options, key);
+    const middleware = await createCacheMiddleware(options, key);
     middleware(req, res, next);
     expect(next).toHaveBeenCalled();
   });
 
-  it("should create new cache and set X-Cache to MISS if no cache exists", () => {
-    const middleware = createCacheMiddleware(options, key);
+  it("should create new cache and set X-Cache to MISS if no cache exists", async () => {
+    const middleware = await createCacheMiddleware(options, key);
     middleware(req, res, next);
     res.send("response body");
     expect(res.setHeader).toHaveBeenCalledWith("X-Cache", "MISS");
   });
 
-  it("should return cached response and set X-Cache to HIT if cache exists", () => {
-    const middleware = createCacheMiddleware(options, key);
+  it("should return cached response and set X-Cache to HIT if cache exists", async () => {
+    const middleware = await createCacheMiddleware(options, key);
     middleware(req, res, next);
     res.send("response body");
     expect(res.setHeader).toHaveBeenCalledWith("X-Cache", "HIT");

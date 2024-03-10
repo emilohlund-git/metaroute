@@ -7,7 +7,7 @@ export function IsBoolean(defaultError?: string): PropertyDecorator {
     metadata.push({
       key: propertyKey,
       validate: MetaRouteValidators.boolean.validate,
-      defaultError: defaultError ? defaultError : "Value must be a boolean.",
+      defaultError: defaultError ?? "Value must be a boolean.",
     });
     Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };

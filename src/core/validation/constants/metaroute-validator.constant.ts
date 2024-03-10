@@ -14,7 +14,7 @@ export const MetaRouteValidators = {
   },
   number: {
     validate: (value: string) => {
-      if (typeof value !== "number") {
+      if (isNaN(Number(value))) {
         return {
           valid: false,
           message: "Must be a number.",

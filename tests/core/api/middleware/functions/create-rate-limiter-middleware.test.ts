@@ -48,41 +48,41 @@ describe("createRateLimiterMiddleware", () => {
     tokenBucket.timeToNextRefill = jest.fn().mockReturnValue(1);
   });
 
-  it("should call next if no user IP", () => {
+  it("should call next if no user IP", async () => {
     req.ip = undefined;
 
-    const middleware = createRateLimiterMiddleware(options, "test");
+    const middleware = await createRateLimiterMiddleware(options, "test");
     middleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(next).toHaveBeenCalled();
   });
 
-  it("should call next if bucket can consume", () => {
+  it("should call next if bucket can consume", async () => {
     tokenBucket.consume = jest.fn().mockReturnValue(true);
 
-    const middleware = createRateLimiterMiddleware(options, "test");
+    const middleware = await createRateLimiterMiddleware(options, "test");
     middleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(next).toHaveBeenCalled();
   });
 
-  it("should send 429 status if bucket cannot consume", () => {
+  it("should send 429 status if bucket cannot consume", async () => {
     tokenBucket.consume = jest.fn().mockReturnValue(false);
 
-    const middleware = createRateLimiterMiddleware(options, "test");
+    const middleware = await createRateLimiterMiddleware(options, "test");
     middleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(res.status).toHaveBeenCalledWith(429);
     expect(res.send).toHaveBeenCalled();
   });
 
-  it("should set correct headers on every request", () => {
+  it("should set correct headers on every request", async () => {
     tokenBucket.consume = jest.fn().mockReturnValue(true);
     tokenBucket.availableTokens = jest.fn().mockReturnValue(10);
     tokenBucket.limit = jest.fn().mockReturnValue(10);
     tokenBucket.timeToNextRefill = jest.fn().mockReturnValue(1);
 
-    const middleware = createRateLimiterMiddleware(options, "test");
+    const middleware = await createRateLimiterMiddleware(options, "test");
     middleware(req as MetaRouteRequest, res as MetaRouteResponse, next);
 
     expect(res.setHeader).toHaveBeenCalledWith("X-Ratelimit-Remaining", "10");
@@ -91,10 +91,10 @@ describe("createRateLimiterMiddleware", () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it("should handle multiple requests and rate limit correctly", () => {
+  it("should handle multiple requests and rate limit correctly", async () => {
     jest.useFakeTimers();
 
-    const middleware = createRateLimiterMiddleware(options, "test");
+    const middleware = await createRateLimiterMiddleware(options, "test");
 
     // Send 11 requests
     for (let i = 0; i < 11; i++) {

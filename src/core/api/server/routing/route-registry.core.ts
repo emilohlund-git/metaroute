@@ -1,13 +1,11 @@
 import { Injectable } from "../../../common/decorators/injectable.decorator";
-import { Middleware, RequestHandler, Route } from "../types";
 import { HttpMethod } from "../../enums/http.method";
 import { Scope } from "../../../common/enums/scope.enum";
+import { Middleware, RequestHandler, Route } from "../../types";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class RouteRegistry {
   private routes: Record<string, Record<string, Route>> = {};
-
-  constructor() {}
 
   register(
     method: HttpMethod,
@@ -35,6 +33,21 @@ export class RouteRegistry {
     const pathParts = this.getPathParts(url);
     const queryParams = this.getQueryParams(url);
 
+    const { matchedRoute, matchedPathParams } = this.findMatchingRoute(
+      method,
+      pathParts
+    );
+
+    return { route: matchedRoute, pathParams: matchedPathParams, queryParams };
+  }
+
+  private findMatchingRoute(
+    method: HttpMethod,
+    pathParts: string[]
+  ): {
+    matchedRoute: Route | undefined;
+    matchedPathParams: Record<string, string>;
+  } {
     let matchedRoute: Route | undefined;
     let matchedPathParams: Record<string, string> = {};
 
@@ -44,8 +57,6 @@ export class RouteRegistry {
 
       const pathParams = this.getPathParams(routeParts, pathParts);
       if (pathParams) {
-        if (matchedRoute && !route.includes(":")) continue;
-
         if (!route.includes(":") || !matchedRoute) {
           matchedRoute = this.routes[method][route];
           matchedPathParams = pathParams;
@@ -55,7 +66,7 @@ export class RouteRegistry {
       }
     }
 
-    return { route: matchedRoute, pathParams: matchedPathParams, queryParams };
+    return { matchedRoute, matchedPathParams };
   }
 
   private getPathParts(url: URL): string[] {

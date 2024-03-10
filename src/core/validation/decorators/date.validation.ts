@@ -7,7 +7,7 @@ export function IsDate(defaultError?: string): PropertyDecorator {
     metadata.push({
       key: propertyKey,
       validate: MetaRouteValidators.date.validate,
-      defaultError: defaultError ? defaultError : "Value must be a date.",
+      defaultError: defaultError ?? "Value must be a date.",
     });
     Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };

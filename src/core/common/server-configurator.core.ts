@@ -12,15 +12,11 @@ import { Initializable } from "./interfaces/initializable.interface";
 import { ConsoleLogger } from "./services/console-logger.service";
 import { ConfigService } from "./services/config.service";
 import { MetaRouteServer } from "../api/server/basic-http-server.core";
-import {
-  ErrorMiddleware,
-  Middleware,
-  UnifiedMiddleware,
-} from "../api/server/types";
 import { AppConfiguration } from "./interfaces/app-configuration.interface";
 import { Injectable } from "./decorators/injectable.decorator";
 import { Scope } from "./enums/scope.enum";
 import { MetaRouteSocketServer } from "../api/websocket/metaroute-socket-server.socket";
+import { ErrorMiddleware, Middleware, UnifiedMiddleware } from "../api";
 
 @Injectable({ scope: Scope.CONFIGURATOR })
 export class ServerConfigurator implements Initializable {
@@ -42,7 +38,7 @@ export class ServerConfigurator implements Initializable {
     this.registerMiddlewares(configuration.errorMiddleware);
   }
 
-  protected registerRoutes = async () => {
+  private registerRoutes = async () => {
     this.registerStrategy(CONTROLLER_METADATA_KEY, (instance) =>
       this.httpRouter.register(this.server, instance)
     );
@@ -54,13 +50,13 @@ export class ServerConfigurator implements Initializable {
     );
   };
 
-  protected registerStrategy = (
+  private registerStrategy = async (
     metadataKey: Symbol,
-    action: (instance: any) => void
+    action: (instance: any) => Promise<void>
   ) => {
     for (const instance of MetaRoute.getAllInstances()) {
       if (Reflect.hasMetadata(metadataKey, instance.constructor)) {
-        action(instance);
+        await action(instance);
       }
     }
   };

@@ -7,7 +7,7 @@ export function IsString(defaultError?: string): PropertyDecorator {
     metadata.push({
       key: propertyKey,
       validate: MetaRouteValidators.string.validate,
-      defaultError: defaultError ? defaultError : "Value must be a string.",
+      defaultError: defaultError ?? "Value must be a string.",
     });
     Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };

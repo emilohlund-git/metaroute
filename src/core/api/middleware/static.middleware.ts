@@ -1,10 +1,10 @@
 import path from "path";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
-import { NextFunction } from "../server/types";
 import fs from "fs";
+import { NextFunction } from "../types";
 
-export function StaticFileMiddleware(
+export async function StaticFileMiddleware(
   req: MetaRouteRequest,
   res: MetaRouteResponse,
   next: NextFunction
@@ -38,6 +38,6 @@ export function StaticFileMiddleware(
       return res.status(404).send("Not found");
     }
   } else {
-    next();
+    await next();
   }
 }
