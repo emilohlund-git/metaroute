@@ -1,12 +1,15 @@
 import { Injectable } from "../decorators/injectable.decorator";
 import { LogLevel } from "../enums/log.level.enum";
 import { Scope } from "../enums/scope.enum";
+import { MetaRoute } from "../meta-route.container";
+import { ConfigService } from "./config.service";
 import { Logger } from "./logger.service";
 
-@Injectable({ scope: Scope.SINGLETON })
+@Injectable({ scope: Scope.TRANSIENT })
 export class ConsoleLogger extends Logger {
   constructor(context: string) {
-    super(context);
+    const configService = MetaRoute.resolve(ConfigService);
+    super(context, configService.getString("LOG_LEVEL", LogLevel.INFO) as LogLevel);
   }
 
   protected log(

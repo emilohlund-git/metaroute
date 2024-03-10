@@ -1,22 +1,21 @@
 import { VALIDATION_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { MetaRouteValidators } from "../constants/metaroute-validator.constant";
 
 export function IsEnum(
   enumType: object,
-  defaultValue: string | undefined = undefined
+  defaultError?: string
 ): PropertyDecorator {
-  return function (target: any, propertyKey: string | symbol) {
+  return function (target: Object, propertyKey: string | symbol) {
     const enumValues = Object.values(enumType);
-    let properties: { key: string; type: string; enumValues: any[] }[] =
-      Reflect.getMetadata(VALIDATION_METADATA_KEY, target);
-    if (properties) {
-      properties.push({ key: propertyKey as string, type: "enum", enumValues });
-    } else {
-      properties = [{ key: propertyKey as string, type: "enum", enumValues }];
-    }
-    Reflect.defineMetadata(VALIDATION_METADATA_KEY, properties, target);
+    const metadata = Reflect.getMetadata(VALIDATION_METADATA_KEY, target) || [];
 
-    if (!target[propertyKey]) {
-      target[propertyKey] = defaultValue;
-    }
+    metadata.push({
+      key: propertyKey,
+      validate: (value: any) =>
+        MetaRouteValidators.enum.validate(value, enumValues, defaultError),
+      defaultError,
+    });
+
+    Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };
 }

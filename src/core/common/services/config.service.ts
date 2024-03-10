@@ -7,16 +7,22 @@ import { EnvironmentStore } from "./environment-store.service";
 export class ConfigService {
   constructor(private readonly environmentStore: EnvironmentStore) {}
 
-  get(key: string): string {
+  get(key: string, defaultValue?: string): string {
     const value = this.environmentStore.get(key);
-    if (value === undefined) {
-      throw new EnvironmentVariableException(key);
+
+    if (value !== undefined) {
+      return value;
     }
-    return value;
+
+    if (defaultValue) {
+      return defaultValue;
+    }
+
+    throw new EnvironmentVariableException(key);
   }
 
   getString(key: string, defaultValue?: string): string {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (!value && defaultValue) {
       return defaultValue;
     }
@@ -123,5 +129,9 @@ export class ConfigService {
 
   getEnvironment(): string {
     return this.environmentStore.get("NODE_ENV") || "development";
+  }
+
+  set(key: string, value: string): void {
+    this.environmentStore.set(key, value);
   }
 }

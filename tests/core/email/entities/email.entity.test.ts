@@ -23,10 +23,10 @@ describe("Email", () => {
 
     const validationErrors = validator(email, Email);
     expect(validationErrors).toEqual({
-      body: ["Must be a string."],
-      from: ["Not a valid email."],
-      subject: ["Must be a string."],
-      to: ["Not a valid email."],
+      body: ["Value must be a string."],
+      from: ["Value must be a string."],
+      subject: ["Value must be a string."],
+      to: ["Value must be a string."],
     });
   });
 });

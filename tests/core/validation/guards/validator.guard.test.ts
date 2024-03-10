@@ -1,30 +1,30 @@
-import {
-  IsEmail,
-  IsPassword,
-  MetaRouteRequest,
-  MetaRouteResponse,
-  ResponseEntity,
-  Validate,
-  validator,
-} from "src";
+import { ResponseEntity } from "@core/api/entities/response.entity";
+import { Validate } from "@core/validation/guards/validator.guard";
+import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
+import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
+import { validator } from "@core/validation/functions/validator";
+import "reflect-metadata";
+import { IsNumber, IsString } from "src";
 
 class MockSchema {
-  @IsEmail()
-  email: string = "email";
-
-  @IsPassword()
-  password: string = "password";
+  @IsString()
+  name: string;
+  @IsNumber()
+  age: number;
 }
 
 describe("Validate Guard", () => {
-  let data: any;
+  let data: {
+    name: string;
+    age: number;
+  };
   let req: MetaRouteRequest;
   let res: MetaRouteResponse;
 
   beforeEach(() => {
     data = {
-      email: "invalid email",
-      password: "password",
+      name: 123 as any as string,
+      age: 33,
     };
 
     req = {
@@ -39,8 +39,6 @@ describe("Validate Guard", () => {
   });
 
   it("should return bad request if validation fails", async () => {
-    data.email = "invalid email";
-
     const mockObject = {
       mockMethod: async (
         _target: any,
@@ -59,14 +57,14 @@ describe("Validate Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, "", req, res);
+    const result = await mockObject.mockMethod(0, 0, req, res);
     const errors = validator(data, MockSchema);
     expect(result).toEqual(ResponseEntity.badRequest(errors));
   });
 
   it("should pass if validation succeeds", async () => {
-    data.email = "valid@email.com";
-    data.password = "Password$1234";
+    data.name = "valid name";
+    data.age = 12;
 
     const mockObject = {
       mockMethod: async (
@@ -90,7 +88,7 @@ describe("Validate Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, "", req, res);
+    const result = await mockObject.mockMethod(null, null, req, res);
 
     expect(result).toBeUndefined();
   });

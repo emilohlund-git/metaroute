@@ -6,8 +6,9 @@ export abstract class Logger {
   protected format: string =
     "[🌌 MetaRoute] - {timestamp} - {level} - {context} - {message}{data}";
 
-  constructor(context: string) {
+  constructor(context: string, minLevel: LogLevel) {
     this.context = context;
+    this.minLevel = minLevel;
   }
 
   public setFormat(format: string) {

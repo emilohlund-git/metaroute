@@ -11,4 +11,8 @@ export class EnvironmentStore implements SecretStore {
   get(key: string): string | undefined {
     return process.env[key];
   }
+
+  set(key: string, value: string): void {
+    process.env[key] = value;
+  }
 }

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { IsEnum, VALIDATION_METADATA_KEY } from "src";
+import { IsEnum, VALIDATION_METADATA_KEY, validator } from "src";
 
 describe("IsEnum", () => {
   enum TestEnum {
@@ -18,30 +18,48 @@ describe("IsEnum", () => {
 
     expect(metadata).toBeDefined();
     expect(metadata).toHaveLength(1);
-    expect(metadata[0]).toEqual({
-      key: "field",
-      type: "enum",
-      enumValues: Object.values(TestEnum),
-    });
+    expect(metadata).toEqual([
+      {
+        defaultError: undefined,
+        key: "field",
+        validate: expect.any(Function),
+      },
+    ]);
   });
 
   it("should set default value if target property is undefined", () => {
     class TestClass {
-      @IsEnum(TestEnum, TestEnum.B)
+      @IsEnum(TestEnum)
       public field: string;
     }
 
     const instance = new TestClass();
-    expect(instance.field).toBe(TestEnum.B);
+    expect(instance.field).toBe(undefined);
   });
 
   it("should not overwrite existing value of target property", () => {
     class TestClass {
-      @IsEnum(TestEnum, TestEnum.B)
+      @IsEnum(TestEnum)
       public field: string = TestEnum.A;
     }
 
     const instance = new TestClass();
     expect(instance.field).toBe(TestEnum.A);
+  });
+
+  it("should return an error if the value is not a date", () => {
+    class TestClass {
+      @IsEnum(TestEnum, "Not a valid enum value.")
+      public prop!: TestEnum;
+    }
+
+    const instance = new TestClass();
+    instance.prop = "not an enum" as any;
+
+    const errors = validator(instance, TestClass);
+
+    expect(errors).toEqual({
+      prop: ["Not a valid enum value."],
+    });
   });
 });
