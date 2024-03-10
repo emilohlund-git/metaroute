@@ -16,13 +16,19 @@ import { RateLimiterOptions } from "../../../common/interfaces/rate-limiter.inte
 import { createRateLimiterMiddleware } from "../../middleware/functions/create-rate-limiter-middleware";
 import { HttpMethod } from "../../enums/http.method";
 import { MetaRouteServer } from "../basic-http-server.core";
-import { NextFunction, RequestHandler } from "../types";
 import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import { CacheOptions } from "../../../cache/interfaces/cache-options.interface";
 import { createCacheMiddleware } from "../../../cache/functions/create-cache-middleware";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Scope } from "../../../common/enums/scope.enum";
+import { Middleware, NextFunction, RequestHandler } from "../../types";
+
+export type RouteMetadata = {
+  method: HttpMethod;
+  path: string;
+  middleware: Middleware[];
+};
 
 @Injectable({ scope: Scope.SINGLETON })
 export class ControllerHandler<T extends Function> extends Router<T> {
@@ -32,97 +38,116 @@ export class ControllerHandler<T extends Function> extends Router<T> {
     this.logger.setContext(ControllerHandler.name);
   }
 
-  public register(server: MetaRouteServer, controller: T): void {
+  public async register(server: MetaRouteServer, controller: T): Promise<void> {
     const controllerPath = Reflect.getMetadata(
       CONTROLLER_METADATA_KEY,
       controller.constructor
     );
 
     this.logger.debug(`Registering controller ${controllerPath}`);
-    this.getControllerMethods(controller, ROUTE_METADATA_KEY).forEach(
-      ({ key, metadata }) => {
+    const controllerMethods = this.getControllerMethods(
+      controller,
+      ROUTE_METADATA_KEY
+    );
+
+    const controllerMethodPromises = controllerMethods.map(
+      async ({ key, route }) => {
         this.logger.success(
-          `Registering ${metadata.method.toUpperCase()} ${controllerPath}${
-            metadata.path
+          `Registering ${route.method.toUpperCase()} ${controllerPath}${
+            route.path
           }`
         );
-        const handler = this.createHandler(controller, key);
+        const handler = await this.createHandler(controller, key);
 
-        const rateLimiterOptions: RateLimiterOptions = Reflect.getMetadata(
-          RATE_LIMITER_METADATA_KEY,
-          controller,
-          key
-        );
+        await this.setupRouteMiddleware(controller, key, route, controllerPath);
 
-        const cacheOptions: CacheOptions = Reflect.getMetadata(
-          CACHE_METADATA_KEY,
-          controller,
-          key
-        );
-
-        if (cacheOptions) {
-          this.logger.debug(`Caching ${controllerPath}${metadata.path}`);
-          const cacheMiddleware = createCacheMiddleware(cacheOptions, key);
-          if (!metadata.middleware) {
-            metadata.middleware = [];
-          }
-          metadata.middleware.push(cacheMiddleware);
-        }
-
-        if (rateLimiterOptions) {
-          this.logger.debug(`Rate limiting ${controllerPath}${metadata.path}`);
-          const rateLimiterMiddleware = createRateLimiterMiddleware(
-            rateLimiterOptions,
-            key
-          );
-          if (!metadata.middleware) {
-            metadata.middleware = [];
-          }
-          metadata.middleware.push(rateLimiterMiddleware);
-        }
-
-        const path = controllerPath + metadata.path;
+        const path = controllerPath + route.path;
 
         try {
-          const method = metadata.method as HttpMethod;
-          server[method](path, handler, metadata.middleware?.filter(Boolean));
+          const method = route.method as HttpMethod;
+          server[method](path, handler, route.middleware?.filter(Boolean));
         } catch (error: any) {
           this.logger.error(
-            `Failed to register ${metadata.method.toUpperCase()} ${path} to ${
+            `Failed to register ${route.method.toUpperCase()} ${path} to ${
               controller.constructor.name
             }.${key}: ${error}`
           );
         }
       }
     );
+
+    await Promise.all(controllerMethodPromises);
   }
 
-  private createHandler(controller: T, key: string): RequestHandler {
+  private async setupRouteMiddleware(
+    controller: T,
+    key: string,
+    route: RouteMetadata,
+    controllerPath: string
+  ) {
+    const rateLimiterOptions: RateLimiterOptions = Reflect.getMetadata(
+      RATE_LIMITER_METADATA_KEY,
+      controller,
+      key
+    );
+
+    const cacheOptions: CacheOptions = Reflect.getMetadata(
+      CACHE_METADATA_KEY,
+      controller,
+      key
+    );
+
+    if (cacheOptions) {
+      this.logger.debug(`Caching ${controllerPath}${route.path}`);
+      const cacheMiddleware = await createCacheMiddleware(cacheOptions, key);
+      if (!route.middleware) {
+        route.middleware = [];
+      }
+      route.middleware.push(cacheMiddleware);
+    }
+
+    if (rateLimiterOptions) {
+      this.logger.info(`Rate limiting ${controllerPath}${route.path}`);
+      const rateLimiterMiddleware = await createRateLimiterMiddleware(
+        rateLimiterOptions,
+        key
+      );
+      if (!route.middleware) {
+        route.middleware = [];
+      }
+      route.middleware.push(rateLimiterMiddleware);
+    }
+  }
+
+  private async createHandler(
+    controller: T,
+    key: string
+  ): Promise<RequestHandler> {
     return async (
       req: MetaRouteRequest,
       res: MetaRouteResponse,
       next: NextFunction
     ) => {
+      this.logger.debug(
+        `Handling request for ${controller.constructor.name}.${key}`
+      );
       try {
-        this.logger.debug(
-          `Handling request for ${controller.constructor.name}.${key}`
-        );
-        const args = this.buildArgs(controller, key, req, res);
-        const result = await controller[key as keyof Function].bind(controller)(
-          ...args
-        );
-        res.status(result.status).send(result.body);
+        const args = this.buildArgs(req, res, controller, key);
+        const result = await controller[key as keyof Function](...args);
+        if (result !== undefined) {
+          res.status(result.status).send(result.body);
+        }
       } catch (error) {
-        next(error);
+        await next(error);
       }
     };
   }
 
   private buildArgs(
-    controller: T,
-    key: string,
     req: MetaRouteRequest,
-    res: MetaRouteResponse
+    res: MetaRouteResponse,
+    controller: T,
+    key: string
   ): any[] {
     const args: any[] = [];
     this.addParamsToArgs(args, controller, key, req);

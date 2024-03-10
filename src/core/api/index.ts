@@ -3,7 +3,6 @@ export * from "./entities";
 export * from "./enums";
 export * from "./guards";
 export * from "./middleware";
-export * from "./pipes";
 export * from "./server";
 export * from "./websocket";
 export * from "./services";

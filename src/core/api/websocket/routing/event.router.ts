@@ -19,7 +19,10 @@ export class EventRouter<T extends Function> extends Router<T> {
     this.logger.setContext(EventRouter.name);
   }
 
-  public register(server: MetaRouteSocketServer, controller: T): void {
+  public async register(
+    server: MetaRouteSocketServer,
+    controller: T
+  ): Promise<void> {
     const namespacePath = Reflect.getMetadata(
       METAROUTE_SOCKET_SERVER_METADATA_KEY,
       controller.constructor
@@ -28,9 +31,9 @@ export class EventRouter<T extends Function> extends Router<T> {
     const namespace = server.namespace(namespacePath);
 
     this.getControllerMethods(controller, ON_MESSAGE_METADATA_KEY).forEach(
-      ({ key, metadata }) => {
+      ({ key, route }) => {
         this.logger.success(
-          `Listening to event [${metadata}] on namespace [${namespacePath}]`
+          `Listening to event [${route}] on namespace [${namespacePath}]`
         );
 
         namespace.on("connection", (socket: MetaRouteSocket) => {
@@ -39,7 +42,7 @@ export class EventRouter<T extends Function> extends Router<T> {
           );
 
           this.handleConnection(controller, socket);
-          this.registerEvent(socket, metadata, controller, key, server);
+          this.registerEvent(socket, route, controller, key, server);
         });
 
         namespace.on("disconnect", (socket: MetaRouteSocket) => {
@@ -60,7 +63,7 @@ export class EventRouter<T extends Function> extends Router<T> {
           ON_CONNECT_METADATA_KEY,
           controller[key as keyof Function]
         );
-        onConnectMethod && onConnectMethod.bind(controller)(socket);
+        onConnectMethod?.bind(controller)(socket);
       }
     );
   }
@@ -72,7 +75,7 @@ export class EventRouter<T extends Function> extends Router<T> {
           ON_DISCONNECT_METADATA_KEY,
           controller[key as keyof Function]
         );
-        onDisconnectMethod && onDisconnectMethod.bind(controller)(socket);
+        onDisconnectMethod?.bind(controller)(socket);
       }
     );
   }
@@ -84,8 +87,8 @@ export class EventRouter<T extends Function> extends Router<T> {
     key: string,
     io: MetaRouteSocketServer
   ): void {
-    socket.on(event, async (data: any) => {
-      const result = await controller[key as keyof Function].bind(controller)(
+    socket.on(event, (data: any) => {
+      const result = controller[key as keyof Function].bind(controller)(
         data,
         socket,
         io

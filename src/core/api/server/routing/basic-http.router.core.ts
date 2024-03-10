@@ -1,7 +1,6 @@
 import { HttpMethod } from "../../enums/http.method";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
-import { Route, UnifiedMiddleware } from "../types";
 import { MiddlewareHandler } from "../middleware-handler.core";
 import { RouteRegistry } from "./route-registry.core";
 import { HttpStatus } from "../../enums/http.status";
@@ -9,6 +8,7 @@ import { MetaRouteRequest } from "../interfaces/meta-route.request";
 import { MetaRouteResponse } from "../interfaces/meta-route.response";
 import { getClientIp } from "../../../common/functions/get-client-ip.function";
 import { Scope } from "../../../common/enums/scope.enum";
+import { Route, UnifiedMiddleware } from "../../types";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteRouter {
@@ -33,7 +33,7 @@ export class MetaRouteRouter {
       this._middlewareHandler.middleware,
       req,
       res,
-      () => {
+      async (err?: Error) => {
         if (route === undefined) {
           this.logger.debug(`Resource not found on path: ${req.url}`);
           res.status(HttpStatus.NOT_FOUND).send({
@@ -58,7 +58,7 @@ export class MetaRouteRouter {
       req,
       res,
       async () => {
-        route.handler(req, res, (err?: Error) => {
+        route.handler(req, res, async (err?: Error) => {
           const errorMiddleware = this._middlewareHandler.middleware.filter(
             (m) => m.length === 4
           );
@@ -66,7 +66,7 @@ export class MetaRouteRouter {
             errorMiddleware as UnifiedMiddleware[],
             req,
             res,
-            () => {
+            async (err?: Error) => {
               res
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .send(err ? err.message : "Internal Server Error");
@@ -84,7 +84,7 @@ export class MetaRouteRouter {
     const { route, pathParams, queryParams } = this._routeRegistry.getRoute(
       method,
       req.url || "",
-      req.headers.host || ""
+      req.headers.host ?? ""
     );
 
     this.logger.debug(

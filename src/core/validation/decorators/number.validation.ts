@@ -7,7 +7,7 @@ export function IsNumber(defaultError?: string): PropertyDecorator {
     metadata.push({
       key: propertyKey,
       validate: MetaRouteValidators.number.validate,
-      defaultError: defaultError ? defaultError : "Value must be a number.",
+      defaultError: defaultError ?? "Value must be a number.",
     });
     Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };

@@ -14,7 +14,7 @@ describe("ParseDatePipe", () => {
 
   it("should throw an error for non-date strings", () => {
     expect(() => pipe.transform("not a date")).toThrow(
-      "Validation failed: value is not a number"
+      "Validation failed: value is not a valid date"
     );
   });
 });

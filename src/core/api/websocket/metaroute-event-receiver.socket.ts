@@ -1,7 +1,7 @@
 import { MetaRouteFrameHandler } from "./metaroute-frame-handler.socket";
 import { Injectable } from "../../common/decorators/injectable.decorator";
 import { Scope } from "../../common/enums/scope.enum";
-import { OpCode } from "../enums/op-codes";
+import { OpCode } from "./enums/op-codes.enum";
 import { MetaRouteEvent } from "./interfaces";
 
 @Injectable({ scope: Scope.SINGLETON })

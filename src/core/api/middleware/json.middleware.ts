@@ -1,13 +1,17 @@
+import { HttpStatus } from "../enums";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
-import { NextFunction } from "../server/types";
+import { NextFunction } from "../types";
 
-export function JsonMiddleware(
+export async function JsonMiddleware(
   req: MetaRouteRequest,
   res: MetaRouteResponse,
   next: NextFunction
 ) {
-  if (req.headers["content-type"] === "application/json" && req.method !== "GET") {
+  if (
+    req.headers["content-type"] === "application/json" &&
+    req.method !== "GET"
+  ) {
     let data = "";
     req.on("data", (chunk) => {
       data += chunk;
@@ -18,10 +22,13 @@ export function JsonMiddleware(
         next();
       } catch (e) {
         res.statusCode = 400;
-        res.end("Invalid JSON");
+        res.send({
+          status: HttpStatus.BAD_REQUEST,
+          message: "Invalid JSON",
+        });
       }
     });
   } else {
-    next();
+    await next();
   }
 }

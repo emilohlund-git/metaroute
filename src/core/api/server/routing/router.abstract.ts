@@ -15,11 +15,11 @@ export abstract class Router<T extends Function> {
     return Object.getOwnPropertyNames(Object.getPrototypeOf(controller))
       .map((key) => ({
         key,
-        metadata: Reflect.getMetadata(
+        route: Reflect.getMetadata(
           metadataKey,
           controller[key as keyof Function]
         ),
       }))
-      .filter(({ metadata }) => metadata);
+      .filter(({ route }) => route);
   }
 }

@@ -1,13 +1,16 @@
-import { NextFunction } from "../../api/server/types";
+import { NextFunction } from "../..";
 import { MetaRouteRequest } from "../../api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../../api/server/interfaces/meta-route.response";
 import { CacheOptions } from "../../cache/interfaces/cache-options.interface";
 import { CacheService } from "../../cache/services/cache.service";
 
-export function createCacheMiddleware(options: CacheOptions, key: string) {
+export async function createCacheMiddleware(
+  options: CacheOptions,
+  key: string
+) {
   const caches: { [key: string]: CacheService } = {};
 
-  return (
+  return async (
     req: MetaRouteRequest,
     res: MetaRouteResponse,
     next: NextFunction

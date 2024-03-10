@@ -40,7 +40,7 @@ export class MetaRouteSocketServer extends EventEmitter {
   ) {
     const metaRouteSocket = this.upgrade(request, socket, head);
 
-    const namespacePath = request.url || "/";
+    const namespacePath = request.url ?? "/";
     const namespace = this.namespace(namespacePath);
     metaRouteSocket.join(namespace);
 

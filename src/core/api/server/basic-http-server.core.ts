@@ -5,11 +5,11 @@ import { MetaRouteRouter } from "./routing/basic-http.router.core";
 import { HttpMethod } from "../enums/http.method";
 import { createMetaRouteRequest } from "./functions/create-meta-route-request.function";
 import { createMetaRouteResponse } from "./functions/create-meta-route-response.function";
-import { RequestHandler, UnifiedMiddleware } from "./types";
 import { AppConfiguration } from "../../common/interfaces/app-configuration.interface";
 import { Scope } from "../../common/enums/scope.enum";
 import { MetaRouteSocketServer } from "../websocket/metaroute-socket-server.socket";
 import internal from "stream";
+import { RequestHandler, UnifiedMiddleware } from "../types";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MetaRouteServer {

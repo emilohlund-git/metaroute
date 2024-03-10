@@ -11,7 +11,7 @@ export function IsPattern(
       key: propertyKey,
       validate: (value: string) =>
         MetaRouteValidators.pattern.validate(value, pattern, defaultError),
-      defaultError: defaultError ? defaultError : "Pattern is not valid.",
+      defaultError: defaultError ?? "Pattern is not valid.",
     });
     Reflect.defineMetadata(VALIDATION_METADATA_KEY, metadata, target);
   };

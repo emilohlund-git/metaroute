@@ -4,9 +4,9 @@ import { HttpStatus } from "../enums";
 import { HttpMethod } from "../enums/http.method";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
-import { NextFunction } from "../server/types";
+import { NextFunction } from "../types";
 
-export function CorsMiddleware(
+export async function CorsMiddleware(
   req: MetaRouteRequest,
   res: MetaRouteResponse,
   next: NextFunction
@@ -14,7 +14,7 @@ export function CorsMiddleware(
   const configService = MetaRoute.get(ConfigService);
   const origin = req.headers.origin!;
   const allowedOrigins = configService.get("ALLOWED_ORIGINS");
-  if (allowedOrigins.includes(origin)) {
+  if (allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader(
       "Access-Control-Allow-Methods",

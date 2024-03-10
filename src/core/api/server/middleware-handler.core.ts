@@ -1,14 +1,13 @@
-import { Scope } from "../../common/enums/scope.enum";
-import { Injectable } from "../../common/decorators/injectable.decorator";
-import { ConsoleLogger } from "../../common/services/console-logger.service";
-import { MetaRouteRequest } from "./interfaces/meta-route.request";
-import { MetaRouteResponse } from "./interfaces/meta-route.response";
+import { MetaRouteResponse, MetaRouteRequest } from "./interfaces";
 import {
   ErrorMiddleware,
   Middleware,
   NextFunction,
   UnifiedMiddleware,
-} from "./types";
+} from "../types";
+import { Scope } from "../../common/enums/scope.enum";
+import { Injectable } from "../../common/decorators/injectable.decorator";
+import { ConsoleLogger } from "../../common/services/console-logger.service";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class MiddlewareHandler {
@@ -22,7 +21,7 @@ export class MiddlewareHandler {
     middlewareList: Middleware[] | ErrorMiddleware[],
     req: MetaRouteRequest,
     res: MetaRouteResponse,
-    next: () => void,
+    next: NextFunction,
     error?: Error
   ) {
     if (middlewareList.length === 0) {
@@ -50,7 +49,7 @@ export class MiddlewareHandler {
     next: NextFunction,
     i: number,
     _error?: Error
-  ) {
+  ): (err?: Error) => Promise<void> {
     return async (err?: Error) => {
       if (i < middlewareList.length) {
         const middleware = middlewareList[i++];
@@ -76,7 +75,7 @@ export class MiddlewareHandler {
           await nextMiddleware(err);
         }
       } else {
-        next(err);
+        await next(err);
       }
     };
   }

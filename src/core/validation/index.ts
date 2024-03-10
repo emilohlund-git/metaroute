@@ -3,3 +3,4 @@ export * from "./functions";
 export * from "./guards";
 export * from "./constants";
 export * from "./types";
+export * from "./pipes";

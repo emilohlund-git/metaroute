@@ -1,9 +1,9 @@
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
-import { NextFunction } from "../server/types";
+import { NextFunction } from "../types";
 
-export function LoggingMiddleware(
+export async function LoggingMiddleware(
   req: MetaRouteRequest,
   res: MetaRouteResponse,
   next: NextFunction
@@ -19,5 +19,5 @@ export function LoggingMiddleware(
     }
   });
 
-  next();
+  await next();
 }
