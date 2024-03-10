@@ -33,9 +33,9 @@ export async function StaticFileMiddleware(
 
       const fileContent = fs.readFileSync(filePath);
       res.setHeader("Content-Type", contentType);
-      return res.status(200).end(fileContent);
+      res.status(200).end(fileContent);
     } else {
-      return res.status(404).send("Not found");
+      res.status(404).send("Not found");
     }
   } else {
     await next();
