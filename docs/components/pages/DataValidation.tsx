@@ -18,18 +18,18 @@ export default function Validation() {
           Data Validation within MetaRoute ensures that incoming data adheres to
           predefined rules and constraints, safeguarding your application from
           incorrect or harmful data. This feature facilitates the verification
-          of data integrity before it's processed further, enhancing security
-          and data quality.
+          of data integrity before it&apos;s processed further, enhancing
+          security and data quality.
         </DocsPageParagraph>
       </DocsSection>
 
       <DocsSection>
         <DocsHeader text="How it Works" />
         <DocsPageParagraph>
-          Utilizing validation decorators, MetaRoute's Data Validation allows
-          for seamless annotation of your data models. These decorators automate
-          the validation process against your rules when receiving input data,
-          ensuring compliance and consistency.
+          Utilizing validation decorators, MetaRoute&apos;s Data Validation
+          allows for seamless annotation of your data models. These decorators
+          automate the validation process against your rules when receiving
+          input data, ensuring compliance and consistency.
         </DocsPageParagraph>
         <DocsPageParagraph>
           In the event of validation failure, MetaRoute responds with a
