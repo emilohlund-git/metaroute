@@ -17,14 +17,4 @@ export enum Scope {
    * where each consumer needs a separate instance.
    */
   TRANSIENT = 2,
-
-  /**
-   * MEMORY_POLICY scope is a group name for all classes that are used to manage memory in the application.
-   */
-  MEMORY_POLICY = 3,
-
-  /**
-   * CONFIGURATOR scope is a group name for all classes that are used to configure the application.
-   */
-  CONFIGURATOR = 4,
 }

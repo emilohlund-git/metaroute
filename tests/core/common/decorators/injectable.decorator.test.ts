@@ -14,11 +14,11 @@ describe("Injectable Decorator", () => {
   });
 
   it("should define metadata", () => {
-    @Injectable({ scope: Scope.CONFIGURATOR })
+    @Injectable({ scope: Scope.SINGLETON })
     class TestClass {}
 
     expect(Reflect.getMetadata(INJECTABLE_METADATA_KEY, TestClass)).toEqual({
-      scope: Scope.CONFIGURATOR,
+      scope: Scope.SINGLETON,
     });
   });
 

@@ -5,7 +5,7 @@ import { ConfigService } from "../../common/services/config.service";
 import { Injectable } from "../../common/decorators/injectable.decorator";
 import { Scope } from "../../common/enums/scope.enum";
 
-@Injectable({ scope: Scope.MEMORY_POLICY })
+@Injectable({ scope: Scope.SINGLETON })
 export class RapidIncreaseRule extends MetaRouteMemoryPolicy {
   private readonly logger = new ConsoleLogger(RapidIncreaseRule.name);
 
@@ -17,8 +17,9 @@ export class RapidIncreaseRule extends MetaRouteMemoryPolicy {
   private thresholdIncreaseInMB: number; // Define your threshold
 
   setup() {
-    this.thresholdIncreaseInMB = parseInt(
-      this.configService.get("MEMORY_INCREASE_THRESHOLD")
+    this.thresholdIncreaseInMB = this.configService.getInteger(
+      "MEMORY_INCREASE_THRESHOLD",
+      200
     );
   }
 

@@ -57,16 +57,6 @@ describe("MetaRoute", () => {
     expect(() => MetaRoute.get(UnregisteredClass)).toThrow();
   });
 
-  it("should get all instances by scope", () => {
-    const singletonInstances = MetaRoute.getAllByScope(Scope.SINGLETON);
-    expect(singletonInstances).toHaveLength(4);
-    expect(singletonInstances[0]).toBeInstanceOf(SingletonClass);
-
-    const transientInstances = MetaRoute.getAllByScope(Scope.TRANSIENT);
-    expect(transientInstances).toHaveLength(2);
-    expect(transientInstances[0]).toBeInstanceOf(TransientClass);
-  });
-
   it("should resolve a class", () => {
     const instance = MetaRoute.resolve(SingletonClass);
     expect(instance).toBeInstanceOf(SingletonClass);

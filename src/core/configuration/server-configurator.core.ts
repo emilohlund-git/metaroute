@@ -12,9 +12,13 @@ import { Injectable } from "../common/decorators/injectable.decorator";
 import { Scope } from "../common/enums/scope.enum";
 import { MetaRouteSocketServer } from "../api/websocket/metaroute-socket-server.socket";
 import { ErrorMiddleware, Middleware, UnifiedMiddleware } from "../api";
-import { CONTROLLER_METADATA_KEY, DATABASE_METADATA_KEY, METAROUTE_SOCKET_SERVER_METADATA_KEY } from "../common";
+import {
+  CONTROLLER_METADATA_KEY,
+  DATABASE_METADATA_KEY,
+  METAROUTE_SOCKET_SERVER_METADATA_KEY,
+} from "../common";
 
-@Injectable({ scope: Scope.CONFIGURATOR })
+@Injectable({ scope: Scope.SINGLETON })
 export class ServerConfigurator implements Initializable {
   constructor(
     private readonly configService: ConfigService,
