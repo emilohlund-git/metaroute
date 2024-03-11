@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  JsonMiddleware,
   MetaRouteRequest,
   Post,
   Req,
@@ -10,7 +11,9 @@ import { WebHook } from "@metaroute/api/webhooks/decorators/webhook.decorator";
 import { GithubWebhookProvider } from "@metaroute/api/webhooks/providers/github-webhook.provider";
 import { App, Application } from "@metaroute/configuration";
 
-@App({})
+@App({
+  middleware: [JsonMiddleware],
+})
 export class TestApp extends Application {}
 
 @Controller("/")
