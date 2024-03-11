@@ -80,6 +80,7 @@
     }
   },
   "exports": {
+    ".": "./dist/index.js",
     "./api": "./dist/api/index.js",
     "./auth": "./dist/auth/index.js",
     "./cache": "./dist/cache/index.js",
