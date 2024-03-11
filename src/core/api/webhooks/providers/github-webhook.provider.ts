@@ -13,6 +13,8 @@ export class GithubWebhookProvider implements WebhookProvider {
 
     console.log("GithubWebhookProvider - Created hmac", hmac);
 
+    console.log("GithubWebhookProvider - Request body", req.body);
+
     const payload = JSON.stringify(req.body);
     hmac.update(payload);
 
