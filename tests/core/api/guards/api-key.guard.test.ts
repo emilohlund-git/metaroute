@@ -12,7 +12,9 @@ describe("ApiKey Guard", () => {
       headers: {},
       parseCookies: () => ({}),
     };
-    res = {};
+    res = {
+      status: (num: number) => res,
+    };
     process.env.API_KEY = "test";
   });
 
@@ -41,12 +43,7 @@ describe("ApiKey Guard", () => {
     req.headers["x-api-key"] = process.env.API_KEY;
 
     const mockObject = {
-      mockMethod: async (
-        _target: any,
-        _propertyKey: any,
-        _req: MetaRouteRequest,
-        _res: MetaRouteResponse
-      ) => {},
+      mockMethod: async (_req: MetaRouteRequest, _res: MetaRouteResponse) => {},
     };
 
     const descriptor = {
@@ -58,7 +55,7 @@ describe("ApiKey Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, null, req, res);
+    const result = await mockObject.mockMethod(req, res);
 
     expect(result).toBeUndefined();
   });

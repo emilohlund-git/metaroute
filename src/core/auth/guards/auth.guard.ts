@@ -4,27 +4,25 @@ import { Guard } from "../../api/types";
 import { ResponseEntity } from "../../api/entities/response.entity";
 
 export const Auth: Guard = () => {
-  return createInterceptor(
-    async (target, propertyKey, descriptor, req, res) => {
-      if (!req) return ResponseEntity.unauthorized();
-      const token = JwtService.extractToken(req.headers.authorization);
-      if (!token) {
-        return ResponseEntity.unauthorized();
-      }
+  return createInterceptor(async (req, res) => {
+    if (!req) return ResponseEntity.unauthorized();
+    const token = JwtService.extractToken(req.headers.authorization);
+    if (!token) {
+      return ResponseEntity.unauthorized();
+    }
 
-      try {
-        const user = await JwtService.verifyTokenAsync(
-          token,
-          process.env.JWT_SECRET!
-        );
-        req.user = user;
-      } catch (err: any) {
-        if (err.name === "TokenExpiredError") {
-          return ResponseEntity.unauthorized();
-        } else {
-          return ResponseEntity.forbidden();
-        }
+    try {
+      const user = await JwtService.verifyTokenAsync(
+        token,
+        process.env.JWT_SECRET!
+      );
+      req.user = user;
+    } catch (err: any) {
+      if (err.name === "TokenExpiredException") {
+        return ResponseEntity.unauthorized();
+      } else {
+        return ResponseEntity.forbidden();
       }
     }
-  );
+  });
 };

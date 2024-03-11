@@ -40,12 +40,7 @@ describe("Validate Guard", () => {
 
   it("should return bad request if validation fails", async () => {
     const mockObject = {
-      mockMethod: async (
-        _target: any,
-        _propertyKey: any,
-        _req: MetaRouteRequest,
-        _res: MetaRouteResponse
-      ) => {},
+      mockMethod: async (_req: MetaRouteRequest, _res: MetaRouteResponse) => {},
     };
 
     const descriptor = {
@@ -57,7 +52,7 @@ describe("Validate Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(0, 0, req, res);
+    const result = await mockObject.mockMethod(req, res);
     const errors = validator(data, MockSchema);
     expect(result).toEqual(ResponseEntity.badRequest(errors));
   });
@@ -67,12 +62,7 @@ describe("Validate Guard", () => {
     data.age = 12;
 
     const mockObject = {
-      mockMethod: async (
-        _target: any,
-        _propertyKey: any,
-        _req: MetaRouteRequest,
-        _res: MetaRouteResponse
-      ) => {},
+      mockMethod: async (_req: MetaRouteRequest, _res: MetaRouteResponse) => {},
     };
 
     const descriptor = {
@@ -88,7 +78,7 @@ describe("Validate Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, null, req, res);
+    const result = await mockObject.mockMethod(req, res);
 
     expect(result).toBeUndefined();
   });

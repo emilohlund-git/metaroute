@@ -36,11 +36,8 @@ export type Route = {
 };
 
 export type CheckFunction = (
-  target: Function,
-  propertyKey: string,
-  descriptor: PropertyDescriptor,
-  req?: MetaRouteRequest,
-  res?: MetaRouteResponse
+  req: MetaRouteRequest,
+  res: MetaRouteResponse
 ) => Promise<any>;
 export type MetaApiResponse<T> = Promise<ResponseEntity<T>>;
 export type GuardFunction = (

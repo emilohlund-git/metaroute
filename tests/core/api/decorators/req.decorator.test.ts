@@ -17,7 +17,7 @@ describe("Req decorator", () => {
   });
 
   it("should throw an error if used outside a method", () => {
-    expect(() => Req()(TestClass.prototype, undefined, 0)).toThrowError(
+    expect(() => Req()(TestClass.prototype, undefined, 0)).toThrow(
       "Req decorator must be used in a method"
     );
   });
