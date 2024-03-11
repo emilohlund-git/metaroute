@@ -40,6 +40,7 @@ export class MemoryManager implements Initializable {
       };
 
       for (const policy of this.policies) {
+        console.log(policy);
         if (policy.check(memoryUsage)) {
           this.logger.warn(
             `[${policy.constructor.name}]: Memory usage exceeded for rule with policy ${policy.constructor.name}`
