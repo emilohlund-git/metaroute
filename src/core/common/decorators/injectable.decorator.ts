@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { INJECTABLE_METADATA_KEY } from "../constants/metadata-keys.constants";
 import { InjectableOptions } from "../interfaces/injectable-options.interface";
 import { MetaRoute } from "../meta-route.container";
 import { ServiceIdentifier } from "../types";
+import { INJECTABLE_METADATA_KEY } from "../constants";
 
 export function Injectable(options?: InjectableOptions): ClassDecorator {
   return (target: Function) => {

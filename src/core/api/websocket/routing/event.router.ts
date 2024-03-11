@@ -1,15 +1,15 @@
-import {
-  METAROUTE_SOCKET_SERVER_METADATA_KEY,
-  ON_CONNECT_METADATA_KEY,
-  ON_DISCONNECT_METADATA_KEY,
-  ON_MESSAGE_METADATA_KEY,
-} from "../../../common/constants/metadata-keys.constants";
 import { Router } from "../../server/routing/router.abstract";
 import { ConsoleLogger } from "../../../common/services/console-logger.service";
 import { Injectable } from "../../../common/decorators/injectable.decorator";
 import { Scope } from "../../../common/enums/scope.enum";
 import { MetaRouteSocketServer } from "../metaroute-socket-server.socket";
 import { MetaRouteSocket } from "../interfaces/meta-route.socket";
+import {
+  METAROUTE_SOCKET_SERVER_METADATA_KEY,
+  ON_CONNECT_METADATA_KEY,
+  ON_DISCONNECT_METADATA_KEY,
+  ON_MESSAGE_METADATA_KEY,
+} from "../../../common/constants";
 
 @Injectable({ scope: Scope.SINGLETON })
 export class EventRouter<T extends Function> extends Router<T> {

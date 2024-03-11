@@ -1,5 +1,5 @@
 import { ConsoleLogger } from "../common/services/console-logger.service";
-import { Initializable } from "../common/interfaces/initializable.interface";
+import { Initializable } from "../configuration/interfaces/initializable.interface";
 import { MetaRoute } from "../common/meta-route.container";
 import { MetaRouteMemoryPolicy } from "./policies/memory-policy.abstract";
 import { Scope } from "../common/enums/scope.enum";

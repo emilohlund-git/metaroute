@@ -1,5 +1,7 @@
 import "reflect-metadata";
-import { IsEnum, VALIDATION_METADATA_KEY, validator } from "src";
+import { IsEnum } from "@validation/decorators";
+import { VALIDATION_METADATA_KEY } from "@common/constants";
+import { validator } from "@validation/functions";
 
 describe("IsEnum", () => {
   enum TestEnum {

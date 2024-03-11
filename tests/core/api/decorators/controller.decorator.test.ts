@@ -1,9 +1,9 @@
 import "reflect-metadata";
 
-import { CONTROLLER_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import { MetaRoute } from "@core/common/meta-route.container";
 import TestClass from "tests/utils/test-class.util";
-import { Controller } from "src";
+import { CONTROLLER_METADATA_KEY } from "@core/common/constants";
+import { Controller } from "@api/decorators/controller.decorator";
 
 describe("Controller Decorator", () => {
   it("should set metadata for a class and call MetaRoute.register", () => {

@@ -3,30 +3,34 @@ import { Node } from "./entities/node.entity";
 import { NodeType } from "./enums/node-type.enum";
 import * as path from "path";
 import { EvaluatorException } from "./exceptions/evaluator.exception";
-import { MetaEngine } from "./meta.engine";
+import { Engine } from "./engine.abstract";
 
 /**
  * Evaluates an abstract syntax tree (AST) to produce the final output.
  * @class MetaEvaluator
- * 
+ *
  * @description
  * This class provides methods to evaluate an abstract syntax tree (AST) representing the structure
  * of the template. It handles different types of nodes such as HTML, template conditionals, loops,
  * interpolations, identifiers, and partials. It also handles expressions, which are references to
  * data properties or values that are injected into the template.
- * 
+ *
  * @author Emil Ölund
  */
 export class MetaEvaluator {
   private readonly logger = new ConsoleLogger(MetaEvaluator.name);
-  constructor(private ast: Node, private data: object) {}
+  constructor(
+    private ast: Node,
+    private data: object,
+    private engine: Engine
+  ) {}
 
   /**
    * Evaluates the abstract syntax tree (AST) with the provided data.
-   * 
+   *
    * @returns {string} The rendered HTML content.
    * @throws {EvaluatorException} If there are errors in the AST or data is missing.
-   * 
+   *
    * @description
    * This method evaluates the abstract syntax tree (AST) with the provided data to produce the final
    * output. It handles different types of nodes such as HTML, template conditionals, loops, interpolations,
@@ -57,12 +61,15 @@ export class MetaEvaluator {
       case NodeType.PARTIAL:
         return this.evaluatePartialNode(node);
       default:
-        throw new EvaluatorException(`Node type ${node.type} is not supported for evaluation`);
+        throw new EvaluatorException(
+          `Node type ${node.type} is not supported for evaluation`
+        );
     }
   }
 
   private evaluateExpressionNode(node: Node, context: any): string {
-    const removeBrackets = (value: string) => value.replace("{{", "").replace("}}", "");
+    const removeBrackets = (value: string) =>
+      value.replace("{{", "").replace("}}", "");
 
     if (node.type === NodeType.INTERPOLATION) {
       return context[removeBrackets(node.value) as keyof object];
@@ -83,28 +90,37 @@ export class MetaEvaluator {
   private evaluateIfStatementNode(node: Node, context: any): string {
     const condition = node.children[0].value;
     if (this.data[condition as keyof object]) {
-      return node.children.slice(1).map((child) => this.evaluateNode(child)).join("");
+      return node.children
+        .slice(1)
+        .map((child) => this.evaluateNode(child))
+        .join("");
     } else {
       return "";
     }
   }
 
   private evaluateEachStatementNode(node: Node, context: any): string {
-    const identifierNode = node.children.find((child) => child.type === NodeType.IDENTIFIER);
+    const identifierNode = node.children.find(
+      (child) => child.type === NodeType.IDENTIFIER
+    );
     if (!identifierNode) {
-      throw new EvaluatorException(`EachStatement node does not have an Identifier child node`);
+      throw new EvaluatorException(
+        `EachStatement node does not have an Identifier child node`
+      );
     }
     const key = identifierNode.value;
     const items = context[key as keyof object] as any[];
     if (!items) {
       throw new EvaluatorException(`Key ${key} not found in data`);
     }
-    return items.map((item) =>
-      node.children
-        .filter((child) => child.type !== NodeType.IDENTIFIER)
-        .map((child) => this.evaluateNode(child, item))
-        .join("")
-    ).join("");
+    return items
+      .map((item) =>
+        node.children
+          .filter((child) => child.type !== NodeType.IDENTIFIER)
+          .map((child) => this.evaluateNode(child, item))
+          .join("")
+      )
+      .join("");
   }
 
   private evaluateElseStatementNode(node: Node, context: any): string {
@@ -116,8 +132,7 @@ export class MetaEvaluator {
   }
 
   private evaluatePartialNode(node: Node): string {
-    const templateEngine = new MetaEngine();
-    return templateEngine.render(
+    return this.engine.render(
       path.join(process.cwd(), "public", node.value + ".html"),
       this.data
     );

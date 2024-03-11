@@ -1,12 +1,10 @@
+import { ErrorMiddleware, Middleware, UnifiedMiddleware } from "@api/types";
 import {
-  ConsoleLogger,
-  ErrorMiddleware,
   MetaRouteRequest,
   MetaRouteResponse,
-  Middleware,
   MiddlewareHandler,
-  UnifiedMiddleware,
-} from "src";
+} from "@api/server";
+import { ConsoleLogger } from "@common/services";
 
 describe("MiddlewareHandler", () => {
   let middlewareHandler: MiddlewareHandler;

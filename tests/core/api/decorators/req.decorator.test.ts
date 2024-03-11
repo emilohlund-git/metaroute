@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
 import { Req } from "@core/api/decorators/req.decorator";
-import { REQ_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
+import { REQ_METADATA_KEY } from "@common/constants";
 
 describe("Req decorator", () => {
   it("should set metadata for a method parameter", () => {

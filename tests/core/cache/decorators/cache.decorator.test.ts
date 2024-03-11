@@ -1,7 +1,7 @@
 import { Cache } from '@core/cache/decorators/cache.decorator';
 import { CacheOptions } from '@core/cache/interfaces/cache-options.interface';
-import { CACHE_METADATA_KEY } from '@core/common/constants/metadata-keys.constants';
 import 'reflect-metadata';
+import { CACHE_METADATA_KEY } from '@common/constants';
 
 describe('Cache decorator', () => {
     it('should define metadata for the target with the given options', () => {

@@ -40,7 +40,7 @@ export class MetaEngine extends Engine {
     // Read template file content
     const html = fs.readFileSync(template, "utf8");
 
-     // Tokenize the template HTML
+    // Tokenize the template HTML
     const lexer = new MetaTokenizer();
     const tokens = lexer.tokenize(html);
 
@@ -54,7 +54,7 @@ export class MetaEngine extends Engine {
     const ast = parser.parse();
 
     // Evaluate the AST with provided data
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, this);
     const node = evaluator.evaluate();
 
     // Return the rendered HTML content

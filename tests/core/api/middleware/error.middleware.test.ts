@@ -1,4 +1,8 @@
-import { ConsoleLogger, LogErrorMiddleware, LogLevel, MetaRoute, MetaRouteRequest, MetaRouteResponse } from "src";
+import { MetaRouteRequest, MetaRouteResponse } from "@api/server";
+import { ConsoleLogger } from "@common/services";
+import { MetaRoute } from "@common/meta-route.container";
+import { LogErrorMiddleware } from "@api/middleware";
+import { LogLevel } from "@common/enums";
 
 describe("ErrorMiddleware", () => {
   let req: Partial<MetaRouteRequest>;

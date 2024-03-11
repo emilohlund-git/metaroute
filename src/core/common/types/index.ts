@@ -1,5 +1,5 @@
 import { Scope } from "../enums/scope.enum";
-import { Application } from "../interfaces/application.interface";
+import { Application } from "../../configuration/application.abstract";
 
 export type Entity = new () => any;
 export type ServiceIdentifier<T> = new (...args: any[]) => T;

@@ -2,7 +2,7 @@ import { createRateLimiterMiddleware } from "@core/api/middleware/functions/crea
 import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
 import { TokenBucket } from "@core/api/services/token-bucket.service";
-import { RateLimiterOptions } from "@core/common/interfaces/rate-limiter.interface";
+import { RateLimiterOptions } from "@api/interfaces";
 
 jest.mock("@core/api/services/token-bucket.service");
 

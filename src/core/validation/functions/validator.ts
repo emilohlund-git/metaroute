@@ -1,4 +1,4 @@
-import { VALIDATION_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { VALIDATION_METADATA_KEY } from "../..";
 import { ConsoleLogger } from "../../common/services/console-logger.service";
 import { ErrorResult, ValidationResult } from "../types";
 

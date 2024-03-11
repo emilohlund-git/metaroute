@@ -1,4 +1,11 @@
-import { IsBoolean, IsDate, IsEnum, IsNumber, IsString, validator } from "src";
+import {
+  IsBoolean,
+  IsDate,
+  IsEnum,
+  IsNumber,
+  IsString,
+} from "@validation/decorators";
+import { validator } from "@validation/functions";
 
 enum TestEnum {
   Option1 = "option1",

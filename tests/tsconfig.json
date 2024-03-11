@@ -6,6 +6,9 @@
     "paths": {
       "@core/*": ["./src/core/*"],
       "@api/*": ["./src/core/api/*"],
+      "@server/*": ["./src/core/api/server/*"],
+      "@websocket/*": ["./src/core/api/websocket/*"],
+      "@configuration/*": ["./src/core/configuration/*"],
       "@auth/*": ["./src/core/auth/*"],
       "@code-first/*": ["./src/core/code-first/*"],
       "@common/*": ["./src/core/common/*"],
@@ -15,6 +18,6 @@
       "@validation/*": ["./src/core/validation/*"]
     }
   },
-  "include": ["../src/**/*.ts", "./**/*.ts"],
+  "include": ["./src/**/*.ts", "./**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

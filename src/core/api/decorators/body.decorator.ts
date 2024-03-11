@@ -1,4 +1,4 @@
-  import { BODY_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { BODY_METADATA_KEY } from "../..";
 
   export function Body(): ParameterDecorator {
     return (

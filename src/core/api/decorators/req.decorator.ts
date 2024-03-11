@@ -1,4 +1,4 @@
-import { REQ_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { REQ_METADATA_KEY } from "../../common/constants";
 
 export function Req(): ParameterDecorator {
   return (

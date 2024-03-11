@@ -1,19 +1,19 @@
 import { mock, instance } from "ts-mockito";
 import * as http from "http";
 import * as https from "https";
+import { EventEmitter } from "events";
+import * as responseCreator from "src/core/api/server/functions/create-meta-route-response.function";
 import {
-  AppConfiguration,
-  ConsoleLogger,
   HttpMethod,
-  MetaEngine,
   MetaRouteRouter,
   MetaRouteServer,
   MetaRouteSocketServer,
   MiddlewareHandler,
   RouteRegistry,
-} from "src";
-import { EventEmitter } from "events";
-import * as responseCreator from "src/core/api/server/functions/create-meta-route-response.function";
+} from "@core/api";
+import { AppConfiguration } from "@core/configuration";
+import { ConsoleLogger } from "@core/common";
+import { MetaEngine } from "@core/engine";
 
 jest.mock("https", () => ({
   createServer: jest.fn().mockReturnValue({

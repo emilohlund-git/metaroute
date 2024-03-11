@@ -1,19 +1,24 @@
 import { Node } from "@core/engine/entities/node.entity";
 import { NodeType } from "@core/engine/enums/node-type.enum";
 import { MetaEvaluator } from "@core/engine/meta-evaluator.engine";
+import { Engine, MetaEngine } from "@core/engine";
+import { mock } from "ts-mockito";
 
 describe("MetaEvaluator", () => {
   let evaluator: MetaEvaluator;
   let ast: Node;
   let data: object;
+  let engine: Engine;
 
   beforeEach(() => {
     ast = new Node(NodeType.ROOT, "", [
       new Node(NodeType.HTML, "<div>Test</div>"),
     ]);
 
+    engine = mock(MetaEngine);
+
     data = {};
-    evaluator = new MetaEvaluator(ast, data);
+    evaluator = new MetaEvaluator(ast, data, engine);
   });
 
   test("should create an instance", () => {
@@ -32,7 +37,7 @@ describe("MetaEvaluator", () => {
     ]);
     const ast = new Node(NodeType.ROOT, "", [ifNode]);
     const data = { condition: true };
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     const result = evaluator.evaluate();
     expect(result).toBe("<div>Condition is true</div>");
@@ -45,7 +50,7 @@ describe("MetaEvaluator", () => {
     ]);
     const ast = new Node(NodeType.ROOT, "", [eachNode]);
     const data = { items: [1, 2, 3] };
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     const result = evaluator.evaluate();
     expect(result).toBe(
@@ -57,7 +62,7 @@ describe("MetaEvaluator", () => {
     const interpolationNode = new Node(NodeType.INTERPOLATION, "{{name}}");
     const ast = new Node(NodeType.ROOT, "", [interpolationNode]);
     const data = { name: "John Doe" };
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     const result = evaluator.evaluate();
     expect(result).toBe("John Doe");
@@ -67,7 +72,7 @@ describe("MetaEvaluator", () => {
     const expressionNode = new Node(NodeType.EXPRESSION, "this.name");
     const ast = new Node(NodeType.ROOT, "", [expressionNode]);
     const data = { name: "John Doe" };
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     const result = evaluator.evaluate();
     expect(result).toBe("John Doe");
@@ -77,7 +82,7 @@ describe("MetaEvaluator", () => {
     const unsupportedNode = new Node("UNSUPPORTED" as NodeType, "unsupported");
     const ast = new Node(NodeType.ROOT, "", [unsupportedNode]);
     const data = {};
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     expect(() => evaluator.evaluate()).toThrow(
       "Node type UNSUPPORTED is not supported for evaluation"
@@ -97,11 +102,35 @@ describe("MetaEvaluator", () => {
     const data = {
       outerItems: [{ innerItems: [1, 2] }, { innerItems: [3, 4] }],
     };
-    const evaluator = new MetaEvaluator(ast, data);
+    const evaluator = new MetaEvaluator(ast, data, engine);
 
     const result = evaluator.evaluate();
     expect(result).toBe(
       "<div>This is an inner item</div><div>This is an inner item</div><div>This is an inner item</div><div>This is an inner item</div>"
     );
+  });
+
+  test("evaluateNode should return correct value for NodeType.ELSE_STATEMENT", () => {
+    const elseNode = new Node(NodeType.ELSE_STATEMENT, "", [
+      new Node(NodeType.HTML, "<div>Condition is false</div>"),
+    ]);
+    const ast = new Node(NodeType.ROOT, "", [elseNode]);
+    const data = { condition: false };
+    const evaluator = new MetaEvaluator(ast, data, engine);
+
+    const result = evaluator.evaluate();
+    expect(result).toBe("<div>Condition is false</div>");
+  });
+
+  test("evaluateNode should return correct value for NodeType.PARTIAL", () => {
+    engine.render = jest.fn().mockReturnValue("<div>Partial content</div>");
+
+    const partialNode = new Node(NodeType.PARTIAL, "partial");
+    const ast = new Node(NodeType.ROOT, "", [partialNode]);
+    const data = { partial: "<div>Partial content</div>" };
+    const evaluator = new MetaEvaluator(ast, data, engine);
+
+    const result = evaluator.evaluate();
+    expect(result).toBe("<div>Partial content</div>");
   });
 });

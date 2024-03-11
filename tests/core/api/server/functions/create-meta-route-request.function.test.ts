@@ -1,5 +1,5 @@
 import { IncomingMessage } from "http";
-import { createMetaRouteRequest } from "src";
+import { createMetaRouteRequest } from "@api/server/functions/create-meta-route-request.function";
 
 describe("createMetaRouteRequest", () => {
   it("should create a MetaRouteRequest with parseCookies method", () => {

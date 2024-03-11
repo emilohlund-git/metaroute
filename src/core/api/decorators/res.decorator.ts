@@ -1,4 +1,4 @@
-import { RES_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { RES_METADATA_KEY } from "../../common/constants";
 
 export function Res(): ParameterDecorator {
   return (

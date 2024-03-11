@@ -1,7 +1,7 @@
+import { LogLevel, MetaRoute } from "@core/common";
 import { ConsoleLogger } from "@core/common/services/console-logger.service";
 import { MemoryUsage } from "@core/memory/dtos/memory.usage.dto";
 import { PrintMemoryUsageRule } from "@core/memory/policies/print-memory-usage.policy";
-import { LogLevel, MetaRoute } from "src";
 
 describe("PrintMemoryUsageRule", () => {
   let printMemoryUsageRule: PrintMemoryUsageRule;

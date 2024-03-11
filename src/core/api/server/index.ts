@@ -3,4 +3,3 @@ export * from "./functions";
 export * from "./routing";
 export * from "./basic-http-server.core";
 export * from "./middleware-handler.core";
-export * from "../websocket/metaroute-socket-server.socket";

@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { MetaRouteValidators } from "@core/validation/constants/metaroute-validator.constant";
-import { IsBoolean, VALIDATION_METADATA_KEY, validator } from "src";
+import { IsBoolean } from "@validation/decorators";
+import { VALIDATION_METADATA_KEY } from "@common/constants";
+import { validator } from "@validation/functions";
 
 describe("IsBoolean", () => {
   it("should define metadata for the target with the property key and type", () => {

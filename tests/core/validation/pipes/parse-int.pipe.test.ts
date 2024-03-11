@@ -1,4 +1,4 @@
-import { ParseIntPipe } from "src";
+import { ParseIntPipe } from "@validation/pipes";
 
 describe("ParseIntPipe", () => {
   let pipe: ParseIntPipe;
@@ -16,13 +16,13 @@ describe("ParseIntPipe", () => {
   });
 
   it("should throw an error for non-integer strings", () => {
-    expect(() => pipe.transform("not a number")).toThrowError(
+    expect(() => pipe.transform("not a number")).toThrow(
       "Validation failed: value is not a number"
     );
   });
 
   it("should throw an error for non-integer values", () => {
-    expect(() => pipe.transform({})).toThrowError(
+    expect(() => pipe.transform({})).toThrow(
       "Validation failed: value is not a number"
     );
   });

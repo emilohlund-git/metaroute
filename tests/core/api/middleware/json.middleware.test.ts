@@ -1,10 +1,7 @@
-import {
-  HttpStatus,
-  JsonMiddleware,
-  MetaRouteRequest,
-  MetaRouteResponse,
-  NextFunction,
-} from "src";
+import { HttpStatus } from "@api/enums";
+import { JsonMiddleware } from "@api/middleware";
+import { MetaRouteRequest, MetaRouteResponse } from "@api/server";
+import { NextFunction } from "@api/types";
 
 describe("JsonMiddleware", () => {
   let req: Partial<MetaRouteRequest>;

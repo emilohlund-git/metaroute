@@ -1,4 +1,4 @@
-import { ParseBooleanPipe } from "src";
+import { ParseBooleanPipe } from "@validation/pipes";
 
 describe("ParseBooleanPipe", () => {
   let pipe: ParseBooleanPipe;
@@ -24,7 +24,7 @@ describe("ParseBooleanPipe", () => {
   });
 
   it("should throw an error for non-boolean values", () => {
-    expect(() => pipe.transform("not a boolean")).toThrowError(
+    expect(() => pipe.transform("not a boolean")).toThrow(
       "Validation failed: value is not a boolean"
     );
   });
