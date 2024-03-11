@@ -11,7 +11,7 @@ export function Headers(key?: string): ParameterDecorator {
     }
     const existingHeadersParameters: { [key: string]: number | null } =
       Reflect.getMetadata(HEADERS_METADATA_KEY, target, propertyKey) || {};
-    existingHeadersParameters[key || "all"] = parameterIndex;
+    existingHeadersParameters[key ?? "all"] = parameterIndex;
     Reflect.defineMetadata(
       HEADERS_METADATA_KEY,
       existingHeadersParameters,

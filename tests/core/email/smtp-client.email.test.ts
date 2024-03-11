@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import * as tls from "tls";
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import {
   Email,
   EmailParseException,

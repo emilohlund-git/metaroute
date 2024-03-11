@@ -1,3 +1,5 @@
+import { ServiceIdentifier } from "@metaroute/common";
+import { WebhookProvider } from "../../../api/webhooks/interfaces/webhook-provider.interface";
 import { IncomingMessage } from "http";
 
 export interface MetaRouteRequest extends IncomingMessage {
@@ -12,4 +14,9 @@ export interface MetaRouteRequest extends IncomingMessage {
   parseCookies: (cookieHeader: string | undefined) => { [key: string]: string };
   setHeader: (key: string, value: string) => void;
   user?: any;
+  webhookMetadata: {
+    provider: ServiceIdentifier<WebhookProvider>;
+    options: any;
+    payload?: any;
+  };
 }

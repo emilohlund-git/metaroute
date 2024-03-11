@@ -30,7 +30,7 @@ export function createInterceptor(check: CheckFunction): GuardFunction {
     descriptor.value = async function (...args: any[]) {
       const [req, res] = extractReqRes(args);
 
-      const result = await check(target, propertyKey, req, res);
+      const result = await check(target, propertyKey, descriptor, req, res);
       if (result) {
         return result;
       }
