@@ -30,17 +30,24 @@ export function WebHook(
     descriptor: PropertyDescriptor
   ) {
     const originalMethod = descriptor.value;
-
     descriptor.value = async function (...args: any[]) {
+      console.log("Webhook Decorator - Received request");
       const [req, _] = extractReqRes(args);
 
       if (!req) return originalMethod.apply(this, args);
 
+      console.log("Webhook Decorator - Extracted request");
+
       const webhookProvider = new provider();
 
       try {
+        console.log("Webhook Decorator - Verifying request");
         webhookProvider.verifyRequest(req, options);
       } catch (error: any) {
+        console.log(
+          "Webhook Decorator - Error verifying request",
+          error.message
+        );
         return ResponseEntity.badRequest({
           success: false,
           message: "Error verifying webhook request",
