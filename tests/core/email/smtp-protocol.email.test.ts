@@ -1,4 +1,7 @@
-import { Email, SmtpCodes, SmtpOptions, SmtpProtocol } from "src";
+import "reflect-metadata";
+import { SmtpOptions, SmtpProtocol } from "@core/email";
+import { Email } from "@email/entities";
+import { SmtpCodes } from "@email/enums";
 import * as tls from "tls";
 
 class ConcreteSmtpProtocol extends SmtpProtocol {

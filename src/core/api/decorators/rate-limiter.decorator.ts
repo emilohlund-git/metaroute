@@ -1,5 +1,5 @@
-import { RATE_LIMITER_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
-import { RateLimiterOptions } from "../../common/interfaces/rate-limiter.interface";
+import { RATE_LIMITER_METADATA_KEY } from "../../common/constants";
+import { RateLimiterOptions } from "../interfaces/rate-limiter.interface";
 
 export function RateLimit(options: RateLimiterOptions): MethodDecorator {
   return (

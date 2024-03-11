@@ -1,5 +1,5 @@
 import { createInterceptor } from "@core/common/functions/create-interceptor.function";
-import { MetaRouteSocketServer } from "src";
+import { MetaRouteSocketServer } from "@core/api/websocket";
 import { instance } from "ts-mockito";
 
 describe("createInterceptor", () => {
@@ -19,7 +19,11 @@ describe("createInterceptor", () => {
     const descriptor = { value: originalMethod };
     const interceptor = createInterceptor(check);
     interceptor({}, "test", descriptor);
-    const result = await descriptor.value(["req", "res", instance(MetaRouteSocketServer)]);
+    const result = await descriptor.value([
+      "req",
+      "res",
+      instance(MetaRouteSocketServer),
+    ]);
     expect(originalMethod).not.toHaveBeenCalled();
     expect(result).toBeTruthy();
   });

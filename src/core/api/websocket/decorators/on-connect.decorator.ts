@@ -1,4 +1,4 @@
-import { ON_CONNECT_METADATA_KEY } from "../../../common/constants/metadata-keys.constants";
+import { ON_CONNECT_METADATA_KEY } from "../../../common/constants";
 
 export function OnConnect(): MethodDecorator {
   return function (

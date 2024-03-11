@@ -1,7 +1,7 @@
 import { createServer, Server } from "http";
 import path from "path";
 import * as fs from "fs";
-import { createMetaRouteResponse } from "src";
+import { createMetaRouteResponse } from "@api/server/functions/create-meta-route-response.function";
 import request from "supertest";
 
 describe("createMetaRouteResponse", () => {
@@ -9,7 +9,7 @@ describe("createMetaRouteResponse", () => {
 
   beforeEach(() => {
     server = createServer((req, res) => {
-      const metaRes = createMetaRouteResponse(res);
+      createMetaRouteResponse(res);
     });
   });
 

@@ -1,6 +1,6 @@
 import { MetaRoute } from "../../common/meta-route.container";
 import { ConfigService } from "../../common/services/config.service";
-import { HttpStatus } from "../enums";
+import { HttpStatus } from "../enums/http.status";
 import { HttpMethod } from "../enums/http.method";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";

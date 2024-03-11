@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { QUERY_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
 import { Query } from "@core/api/decorators/query.decorator";
+import { QUERY_METADATA_KEY } from "@common/constants";
 
 describe("Query decorator", () => {
   it("should set metadata for a method parameter", () => {

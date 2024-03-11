@@ -1,4 +1,4 @@
-import { CACHE_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { CACHE_METADATA_KEY } from "../..";
 import { CacheOptions } from "../interfaces/cache-options.interface";
 
 export function Cache(options: CacheOptions): MethodDecorator {

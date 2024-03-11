@@ -29,6 +29,13 @@ export class MetaRoute {
     any
   >();
 
+  /**
+   * @property resolving
+   * 
+   * @type {Set<ServiceIdentifier<any>>}
+   * 
+   * @description A set of resolving instances
+   */
   private static resolving: Set<ServiceIdentifier<any>> = new Set();
 
   /**
@@ -46,14 +53,14 @@ export class MetaRoute {
   ): void {
     const metadata = Reflect.getMetadata(
       INJECTABLE_METADATA_KEY,
-      useClass || target
+      useClass ?? target
     );
 
     if (!metadata) {
       return;
     }
 
-    const instance = MetaRoute.createInstance(useClass || target);
+    const instance = MetaRoute.createInstance(useClass ?? target);
     const key = MetaRoute.getKey(target, metadata.scope);
     MetaRoute.instances.set(key, instance);
   }
@@ -75,7 +82,7 @@ export class MetaRoute {
       );
     }
 
-    const scope = metadata && metadata.scope ? metadata.scope : Scope.TRANSIENT;
+    const scope = metadata.scope ? metadata.scope : Scope.TRANSIENT;
     const key = MetaRoute.getKey(target, scope);
 
     if (scope === Scope.TRANSIENT) {

@@ -3,11 +3,11 @@ import { MetaRouteResponse } from "../../api/server/interfaces/meta-route.respon
 import { CheckFunction, GuardFunction } from "../../api/types";
 
 function isMetaRouteRequest(arg: any): arg is MetaRouteRequest {
-  return arg && arg.headers && typeof arg.parseCookies === "function";
+  return arg?.headers && typeof arg?.parseCookies === "function";
 }
 
 function isMetaRouteResponse(arg: any): arg is MetaRouteResponse {
-  return arg && typeof arg.status === "number";
+  return typeof arg?.status === "number";
 }
 
 function extractReqRes(

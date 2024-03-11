@@ -2,7 +2,7 @@ import { createCacheMiddleware } from "@core/cache/functions/create-cache-middle
 import { CacheOptions } from "@core/cache/interfaces/cache-options.interface";
 import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
-import { NextFunction } from "src";
+import { NextFunction } from "@core/api";
 
 jest.mock("@core/cache/services/cache.service", () => {
   let cache: number | null = null;

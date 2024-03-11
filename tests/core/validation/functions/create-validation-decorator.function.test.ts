@@ -1,6 +1,7 @@
 import { createValidationDecorator } from "@core/validation/functions/create-validation-decorator.function";
 import "reflect-metadata";
-import { VALIDATION_METADATA_KEY, validator } from "src";
+import { VALIDATION_METADATA_KEY } from "@common/constants";
+import { validator } from "@validation/functions";
 
 describe("createValidationDecorator", () => {
   it("should define metadata for the target object", () => {

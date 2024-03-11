@@ -1,6 +1,7 @@
-import { IsPattern } from "@core/validation/decorators/pattern.validation";
 import "reflect-metadata";
-import { VALIDATION_METADATA_KEY, validator } from "src";
+import { IsPattern } from "@validation/decorators";
+import { VALIDATION_METADATA_KEY } from "@common/constants";
+import { validator } from "@validation/functions";
 
 describe("IsPattern", () => {
   it("should define metadata for the target with the property key and type", () => {

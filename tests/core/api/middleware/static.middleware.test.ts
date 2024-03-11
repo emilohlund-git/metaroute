@@ -1,11 +1,8 @@
 import fs from "fs";
 import path from "path";
-import {
-  MetaRouteRequest,
-  MetaRouteResponse,
-  NextFunction,
-  StaticFileMiddleware,
-} from "src";
+import { MetaRouteRequest, MetaRouteResponse } from "@api/server";
+import { StaticFileMiddleware } from "@api/middleware";
+import { NextFunction } from "@api/types";
 
 jest.mock("fs");
 

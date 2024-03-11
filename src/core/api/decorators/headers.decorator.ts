@@ -1,4 +1,4 @@
-import { HEADERS_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { HEADERS_METADATA_KEY } from "../../common/constants";
 
 export function Headers(key?: string): ParameterDecorator {
   return (

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
 import { Body } from "@core/api/decorators/body.decorator";
-import { BODY_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
+import { BODY_METADATA_KEY } from "@core/common/constants";
 
 describe("Body Decorator", () => {
   it("should set metadata for a method parameter", () => {
@@ -17,7 +17,7 @@ describe("Body Decorator", () => {
   });
 
   it("should throw an error if used outside a method", () => {
-    expect(() => Body()(TestClass.prototype, undefined, 0)).toThrowError(
+    expect(() => Body()(TestClass.prototype, undefined, 0)).toThrow(
       "Body decorator must be used in a method"
     );
   });

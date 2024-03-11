@@ -16,12 +16,13 @@
     "noLib": false,
     "baseUrl": ".",
     "paths": {
-      "@metaroute/core/*": ["./src/core/*"],
+      "@metaroute/*": ["./src/core/*"],
       "@metaroute/api/*": ["./src/core/api/*"],
       "@metaroute/auth/*": ["./src/core/auth/*"],
       "@metaroute/code-first/*": ["./src/core/code-first/*"],
       "@metaroute/common/*": ["./src/core/common/*"],
       "@metaroute/database/*": ["./src/core/database/*"],
+      "@metaroute/configuration/*": ["./src/core/configuration/*"],
       "@metaroute/email/*": ["./src/core/email/*"],
       "@metaroute/memory/*": ["./src/core/memory/*"],
       "@metaroute/validation/*": ["./src/core/validation/*"]

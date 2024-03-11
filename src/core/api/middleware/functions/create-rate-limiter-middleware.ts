@@ -1,5 +1,5 @@
 import { TokenBucket } from "../../services/token-bucket.service";
-import { RateLimiterOptions } from "../../../common/interfaces/rate-limiter.interface";
+import { RateLimiterOptions } from "../../interfaces/rate-limiter.interface";
 import { ResponseEntity } from "../../entities/response.entity";
 import { MetaRouteRequest } from "../../../api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "../../../api/server/interfaces/meta-route.response";

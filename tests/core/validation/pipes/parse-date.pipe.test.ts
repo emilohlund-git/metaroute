@@ -1,4 +1,4 @@
-import { ParseDatePipe } from "src";
+import { ParseDatePipe } from "@validation/pipes";
 
 describe("ParseDatePipe", () => {
   let pipe: ParseDatePipe;

@@ -1,4 +1,4 @@
-import { getClientIp } from "@core/common/functions/get-client-ip.function";
+import { getClientIp } from "@core/api/functions";
 
 describe("getClientIp", () => {
   it("should return IP from X_FORWARDED_FOR header if present", () => {

@@ -1,4 +1,4 @@
-import { ConfigService, EnvironmentStore } from "src";
+import { ConfigService, EnvironmentStore } from "@core/common";
 import { instance, mock, verify, when } from "ts-mockito";
 
 describe("ConfigService", () => {

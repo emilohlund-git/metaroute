@@ -1,4 +1,4 @@
-import { VALIDATION_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { VALIDATION_METADATA_KEY } from "../../common/constants";
 import { MetaRouteValidators } from "../constants/metaroute-validator.constant";
 
 export function IsString(defaultError?: string): PropertyDecorator {

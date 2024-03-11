@@ -1,6 +1,5 @@
 import { MetaRouteResponse } from "../server/interfaces/meta-route.response";
 import { MetaRouteRequest } from "../server/interfaces/meta-route.request";
-import { DatabaseResponse } from "../../database/interfaces/database-response.interface";
 import { ResponseEntity } from "../entities/response.entity";
 
 export type NextFunction = (err?: any) => Promise<void>;
@@ -42,7 +41,7 @@ export type CheckFunction = (
   req?: MetaRouteRequest,
   res?: MetaRouteResponse
 ) => Promise<any>;
-export type MetaResponse<T> = Promise<ResponseEntity<DatabaseResponse<T>>>;
+export type MetaApiResponse<T> = Promise<ResponseEntity<T>>;
 export type GuardFunction = (
   target: any,
   propertyKey: string,

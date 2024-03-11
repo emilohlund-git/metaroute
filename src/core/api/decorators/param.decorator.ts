@@ -1,4 +1,4 @@
-import { PARAM_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { PARAM_METADATA_KEY } from "../../common/constants";
 
 export function Param(
   key?: string,

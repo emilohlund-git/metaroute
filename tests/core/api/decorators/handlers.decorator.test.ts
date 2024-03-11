@@ -6,8 +6,8 @@ import {
   Patch,
   Delete,
 } from "@core/api/decorators/handlers.decorator";
-import { ROUTE_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
+import { ROUTE_METADATA_KEY } from "@core/common/constants";
 
 describe("Route decorators", () => {
   it.each([

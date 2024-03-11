@@ -1,4 +1,4 @@
-import { INJECTABLE_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
+import { INJECTABLE_METADATA_KEY } from "@core/common";
 import { Injectable } from "@core/common/decorators/injectable.decorator";
 import { Scope } from "@core/common/enums/scope.enum";
 import { MetaRoute } from "@core/common/meta-route.container";

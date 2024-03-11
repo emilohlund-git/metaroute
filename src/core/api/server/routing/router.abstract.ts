@@ -1,4 +1,4 @@
-import { ControllerMethod } from "../../../common/interfaces/controller-method.interface";
+import { ControllerMethod } from "../../interfaces/controller-method.interface";
 import { MetaRouteServer } from "../basic-http-server.core";
 import { MetaRouteSocketServer } from "../../websocket/metaroute-socket-server.socket";
 

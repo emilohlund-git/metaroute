@@ -1,10 +1,10 @@
+import "reflect-metadata";
 import { ResponseEntity } from "@core/api/entities/response.entity";
 import { Validate } from "@core/validation/guards/validator.guard";
 import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request";
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
 import { validator } from "@core/validation/functions/validator";
-import "reflect-metadata";
-import { IsNumber, IsString } from "src";
+import { IsNumber, IsString } from "@validation/decorators";
 
 class MockSchema {
   @IsString()

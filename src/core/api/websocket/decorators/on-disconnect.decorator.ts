@@ -1,4 +1,4 @@
-import { ON_DISCONNECT_METADATA_KEY } from "../../../common/constants/metadata-keys.constants";
+import { ON_DISCONNECT_METADATA_KEY } from "../../../common/constants";
 
 export function OnDisconnect(): MethodDecorator {
   return function (

@@ -1,4 +1,4 @@
-import { ROUTE_METADATA_KEY } from "../../common/constants/metadata-keys.constants";
+import { ROUTE_METADATA_KEY } from "../../common/constants";
 import { HttpMethod } from "../enums/http.method";
 
 const createRouteDecorator =

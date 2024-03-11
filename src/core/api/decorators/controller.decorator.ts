@@ -2,8 +2,8 @@ import { MetaRoute } from "../../common/meta-route.container";
 import {
   CONTROLLER_METADATA_KEY,
   INJECTABLE_METADATA_KEY,
-} from "../../common/constants/metadata-keys.constants";
-import { ServiceIdentifier } from "../../common";
+} from "../../common/constants";
+import { ServiceIdentifier } from "../../common/types";
 
 export function Controller(path: string) {
   return function (target: Function) {

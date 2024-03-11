@@ -4,7 +4,7 @@ import { MetaRouteRequest } from "@core/api/server/interfaces/meta-route.request
 import { MetaRouteResponse } from "@core/api/server/interfaces/meta-route.response";
 import { MetaRoute } from "@core/common/meta-route.container";
 import { ConfigService } from "@core/common/services/config.service";
-import { HttpStatus } from "src";
+import { HttpStatus } from "@api/enums";
 
 jest.mock("@core/common/meta-route.container");
 

@@ -1,12 +1,13 @@
+import "reflect-metadata";
 import * as tls from "tls";
+import EventEmitter from "events";
 import {
   Email,
   EmailParseException,
   SmtpClient,
   SmtpCommands,
   SmtpOptions,
-} from "src";
-import EventEmitter from "events";
+} from "@core/email";
 
 jest.mock("tls");
 

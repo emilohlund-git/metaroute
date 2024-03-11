@@ -1,6 +1,6 @@
 import { ServerResponse } from "http";
 import httpMocks from "node-mocks-http";
-import { createMetaRouteResponse } from "src";
+import { createMetaRouteResponse } from "@api/server/functions/create-meta-route-response.function";
 
 describe("createMetaRouteResponse", () => {
   let res: ServerResponse;

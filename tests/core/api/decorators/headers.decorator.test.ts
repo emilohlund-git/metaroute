@@ -1,6 +1,6 @@
-import { Headers } from "@core/api/decorators/headers.decorator";
-import { HEADERS_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import "reflect-metadata";
+import { Headers } from "@core/api/decorators/headers.decorator";
+import { HEADERS_METADATA_KEY } from "@core/common/constants";
 import TestClass from "tests/utils/test-class.util";
 
 describe("Headers decorator", () => {

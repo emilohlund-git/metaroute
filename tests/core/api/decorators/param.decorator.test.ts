@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
 import { Param } from "@core/api/decorators/param.decorator";
-import { PARAM_METADATA_KEY } from "@core/common/constants/metadata-keys.constants";
 import TestClass from "tests/utils/test-class.util";
+import { PARAM_METADATA_KEY } from "@common/constants";
 
 describe("Param decorator", () => {
   it("should set metadata for a method parameter", () => {
