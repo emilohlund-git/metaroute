@@ -37,12 +37,20 @@ export function WebHook(
 
       const webhookProvider = new provider();
 
+      let verificationResult;
       try {
-        webhookProvider.verifyRequest(req, options);
+        verificationResult = webhookProvider.verifyRequest(req, options);
       } catch (error: any) {
         return ResponseEntity.badRequest({
           success: false,
           message: "Error verifying webhook request",
+        });
+      }
+
+      if (!verificationResult) {
+        return ResponseEntity.badRequest({
+          success: false,
+          message: "Verification failed",
         });
       }
 

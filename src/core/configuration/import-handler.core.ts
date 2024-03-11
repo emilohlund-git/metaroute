@@ -32,10 +32,14 @@ import { Scope } from "../common/enums/scope.enum";
  */
 @Injectable({ scope: Scope.SINGLETON })
 export class ImportHandler implements Initializable {
-  private readonly logger = new ConsoleLogger(ImportHandler.name);
   private readonly modules = new Map<string, any>();
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly logger: ConsoleLogger
+  ) {
+    this.logger.setContext(ImportHandler.name);
+  }
 
   async setup(): Promise<void> {
     try {
@@ -77,6 +81,7 @@ export class ImportHandler implements Initializable {
     for (const entry of entries) {
       const fullPath = path.join(directory, entry.name);
       if (entry.isDirectory()) {
+        console.log("Importing directory:", fullPath);
         try {
           await this.importFiles(fullPath, fileType);
         } catch (error: any) {
