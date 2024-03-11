@@ -1,4 +1,4 @@
-import { MetaRouteRequest } from "@metaroute/api/server";
+import { MetaRouteRequest } from "../../../api/server";
 
 export interface WebhookProvider {
   verifyRequest: (req: MetaRouteRequest, options: any) => boolean;

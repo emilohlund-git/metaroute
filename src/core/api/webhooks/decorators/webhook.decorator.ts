@@ -1,7 +1,7 @@
-import { ResponseEntity } from "@metaroute/api/entities";
-import { MetaRouteRequest, MetaRouteResponse } from "@metaroute/api/server";
-import { WebhookProvider } from "@metaroute/api/webhooks/interfaces/webhook-provider.interface";
-import { ServiceIdentifier } from "@metaroute/common";
+import { ResponseEntity } from "../../../api/entities";
+import { MetaRouteRequest, MetaRouteResponse } from "../../../api/server";
+import { WebhookProvider } from "../../../api/webhooks/interfaces/webhook-provider.interface";
+import { ServiceIdentifier } from "../../../common";
 
 function isMetaRouteRequest(arg: any): arg is MetaRouteRequest {
   return arg?.headers && typeof arg?.parseCookies === "function";

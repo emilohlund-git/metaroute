@@ -1,4 +1,4 @@
-import { ServiceIdentifier } from "@metaroute/common";
+import { ServiceIdentifier } from "../../../common";
 import { WebhookProvider } from "../../../api/webhooks/interfaces/webhook-provider.interface";
 import { IncomingMessage } from "http";
 

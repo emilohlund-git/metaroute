@@ -1,5 +1,5 @@
-import { MetaRouteRequest } from "@metaroute/api/server";
-import { WebhookProvider } from "@metaroute/api/webhooks/interfaces/webhook-provider.interface";
+import { MetaRouteRequest } from "../../../api/server";
+import { WebhookProvider } from "../../../api/webhooks/interfaces/webhook-provider.interface";
 import * as crypto from "crypto";
 
 export class GithubWebhookProvider implements WebhookProvider {
