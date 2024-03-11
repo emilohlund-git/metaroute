@@ -13,7 +13,9 @@ describe("VerifiedEmail Guard", () => {
       parseCookies: () => ({}),
       headers: {},
     };
-    res = {};
+    res = {
+      status: (value: any) => res,
+    };
   });
 
   it("should return forbidden if user is not verified", async () => {
@@ -40,12 +42,7 @@ describe("VerifiedEmail Guard", () => {
     req.user.verified = true;
 
     const mockObject = {
-      mockMethod: async (
-        _target: any,
-        _propertyKey: any,
-        _req: MetaRouteRequest,
-        _res: MetaRouteResponse
-      ) => {},
+      mockMethod: async (_req: MetaRouteRequest, _res: MetaRouteResponse) => {},
     };
 
     const descriptor = {
@@ -57,7 +54,7 @@ describe("VerifiedEmail Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, null, req, res);
+    const result = await mockObject.mockMethod(req, res);
 
     expect(result).toBeUndefined();
   });

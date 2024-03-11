@@ -9,13 +9,17 @@ class ConcreteSmtpProtocol extends SmtpProtocol {
     return {} as tls.TLSSocket;
   }
 
-  protected listenToClient(client: tls.TLSSocket, email: Email): void {}
+  protected listenToClient(client: tls.TLSSocket, email: Email): void {
+    return;
+  }
 
   protected async handleResponse(
     client: tls.TLSSocket,
     response: string,
     email: Email
-  ): Promise<void> {}
+  ): Promise<void> {
+    return;
+  }
 }
 
 describe("SmtpProtocol", () => {

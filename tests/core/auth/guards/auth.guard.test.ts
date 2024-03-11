@@ -11,7 +11,9 @@ describe("Auth Guard", () => {
       headers: {},
       parseCookies: jest.fn(),
     };
-    res = {};
+    res = {
+      status: (num: number) => res,
+    };
     process.env.JWT_SECRET = "test-jwt-secret";
   });
 
@@ -43,12 +45,7 @@ describe("Auth Guard", () => {
     req.headers.authorization = `Bearer ${validToken}`;
 
     const mockObject = {
-      mockMethod: async (
-        target: any,
-        propertyKey: any,
-        _req: any,
-        _res: any
-      ) => {},
+      mockMethod: async (_req: any, _res: any) => {},
     };
 
     const descriptor = {
@@ -60,16 +57,16 @@ describe("Auth Guard", () => {
 
     mockObject.mockMethod = descriptor.value;
 
-    const result = await mockObject.mockMethod(null, null, req, res);
+    const result = await mockObject.mockMethod(req, res);
 
     expect(result).toBeUndefined();
   });
 
   it("should return unauthorized if the token is expired", async () => {
-    const expiredToken = JwtService.signTokenAsync(
+    const expiredToken = await JwtService.signTokenAsync(
       { userId: 1 },
       process.env.JWT_SECRET!,
-      "-1h"
+      "-1s"
     );
     req.headers.authorization = `Bearer ${expiredToken}`;
 
