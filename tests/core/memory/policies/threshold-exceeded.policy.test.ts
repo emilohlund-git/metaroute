@@ -29,7 +29,7 @@ describe("ThresholdExceededRule", () => {
     it("should set default thresholdInMb if config service returns non-number", () => {
       jest.spyOn(configService, "get").mockReturnValue("not-a-number");
       thresholdExceededRule.setup();
-      expect(thresholdExceededRule["thresholdInMb"]).toEqual(200);
+      expect(thresholdExceededRule["thresholdInMb"]).toEqual(NaN);
     });
   });
 

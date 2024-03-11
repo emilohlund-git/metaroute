@@ -30,7 +30,7 @@ import { Scope } from "../common/enums/scope.enum";
  *
  * @see {@link MetaRouteCore}
  */
-@Injectable({ scope: Scope.CONFIGURATOR })
+@Injectable({ scope: Scope.SINGLETON })
 export class ImportHandler implements Initializable {
   private readonly logger = new ConsoleLogger(ImportHandler.name);
   private readonly modules = new Map<string, any>();

@@ -4,15 +4,31 @@ import { MetaRoute } from "../common/meta-route.container";
 import { MetaRouteMemoryPolicy } from "./policies/memory-policy.abstract";
 import { Scope } from "../common/enums/scope.enum";
 import { Injectable } from "../common/decorators/injectable.decorator";
+import { INJECTABLE_METADATA_KEY } from "../common";
 
-@Injectable({ scope: Scope.CONFIGURATOR })
+@Injectable({ scope: Scope.SINGLETON })
 export class MemoryManager implements Initializable {
   private readonly logger = new ConsoleLogger(MemoryManager.name);
   private intervalId?: NodeJS.Timeout;
   private policies: MetaRouteMemoryPolicy[] = [];
 
   async setup() {
-    this.policies = MetaRoute.getAllByScope(Scope.MEMORY_POLICY);
+    const objects = MetaRoute.getAllInstances();
+
+    for (const object of objects) {
+      const metadata = Reflect.getMetadata(
+        INJECTABLE_METADATA_KEY,
+        object.constructor
+      );
+      if (
+        metadata &&
+        metadata.scope === Scope.SINGLETON &&
+        object instanceof MetaRouteMemoryPolicy
+      ) {
+        object.setup();
+        this.policies.push(object);
+      }
+    }
 
     this.intervalId = setInterval(() => {
       const { rss, heapTotal, heapUsed, external } = process.memoryUsage();
@@ -24,9 +40,10 @@ export class MemoryManager implements Initializable {
       };
 
       for (const policy of this.policies) {
+        console.log(policy);
         if (policy.check(memoryUsage)) {
           this.logger.warn(
-            `${memoryUsage}: Memory usage exceeded for rule with policy ${policy.constructor.name}`
+            `[${policy.constructor.name}]: Memory usage exceeded for rule with policy ${policy.constructor.name}`
           );
           // TODO: Implement violation handling
         }

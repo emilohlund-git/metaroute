@@ -5,7 +5,7 @@ import { ConfigService } from "../../common/services/config.service";
 import { Injectable } from "../../common";
 import { Scope } from "../../common/enums/scope.enum";
 
-@Injectable({ scope: Scope.MEMORY_POLICY })
+@Injectable({ scope: Scope.SINGLETON })
 export class ThresholdExceededRule extends MetaRouteMemoryPolicy {
   private readonly logger = new ConsoleLogger(ThresholdExceededRule.name);
   private thresholdInMb: number;
@@ -15,8 +15,10 @@ export class ThresholdExceededRule extends MetaRouteMemoryPolicy {
   }
 
   setup() {
-    this.thresholdInMb =
-      parseInt(this.configService.get("MEMORY_THRESHOLD_MB")) || 200;
+    this.thresholdInMb = this.configService.getInteger(
+      "MEMORY_THRESHOLD_MB",
+      200
+    );
   }
 
   check(memoryUsage: MemoryUsage): boolean {

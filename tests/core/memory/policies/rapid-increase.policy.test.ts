@@ -19,7 +19,10 @@ describe("RapidIncreaseRule", () => {
     const threshold = "100";
     jest.spyOn(configService, "get").mockReturnValue(threshold);
     rapidIncreaseRule.setup();
-    expect(configService.get).toHaveBeenCalledWith("MEMORY_INCREASE_THRESHOLD");
+    expect(configService.get).toHaveBeenCalledWith(
+      "MEMORY_INCREASE_THRESHOLD",
+      200
+    );
   });
 
   it("should return false if memory usage history is less than 10", () => {

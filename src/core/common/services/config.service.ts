@@ -7,7 +7,7 @@ import { EnvironmentStore } from "./environment-store.service";
 export class ConfigService {
   constructor(private readonly environmentStore: EnvironmentStore) {}
 
-  get(key: string, defaultValue?: string): string {
+  get(key: string, defaultValue?: any): string {
     const value = this.environmentStore.get(key);
 
     if (value !== undefined) {
@@ -21,7 +21,7 @@ export class ConfigService {
     throw new EnvironmentVariableException(key);
   }
 
-  getString(key: string, defaultValue?: string): string {
+  getString(key: string, defaultValue?: any): string {
     const value = this.get(key, defaultValue);
     if (!value && defaultValue) {
       return defaultValue;
@@ -35,7 +35,7 @@ export class ConfigService {
   }
 
   getInteger(key: string, defaultValue?: number): number {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (!value && defaultValue) {
       return defaultValue;
     }
@@ -52,7 +52,7 @@ export class ConfigService {
   }
 
   getFloat(key: string, defaultValue?: number): number {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (!value && defaultValue) {
       return defaultValue;
     }
@@ -69,7 +69,7 @@ export class ConfigService {
   }
 
   getBoolean(key: string, defaultValue?: boolean): boolean {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (value === undefined && defaultValue !== undefined) {
       return defaultValue;
     }
@@ -89,7 +89,7 @@ export class ConfigService {
   }
 
   getArray(key: string, defaultValue?: string[]): string[] {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (value === undefined && defaultValue !== undefined) {
       return defaultValue;
     }
@@ -113,7 +113,7 @@ export class ConfigService {
     key: string,
     defaultValue?: Record<string, unknown>
   ): Record<string, unknown> {
-    const value = this.get(key);
+    const value = this.get(key, defaultValue);
     if (value === undefined && defaultValue !== undefined) {
       return defaultValue;
     }

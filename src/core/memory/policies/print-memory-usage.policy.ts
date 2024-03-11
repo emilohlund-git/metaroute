@@ -5,7 +5,7 @@ import { MemoryManager } from "../memory-manager.core";
 import { Injectable } from "../../common/decorators/injectable.decorator";
 import { Scope } from "../../common/enums/scope.enum";
 
-@Injectable({ scope: Scope.MEMORY_POLICY })
+@Injectable({ scope: Scope.SINGLETON })
 export class PrintMemoryUsageRule extends MetaRouteMemoryPolicy {
   private readonly logger = new ConsoleLogger(MemoryManager.name);
 

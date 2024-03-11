@@ -31,9 +31,9 @@ export class MetaRoute {
 
   /**
    * @property resolving
-   * 
+   *
    * @type {Set<ServiceIdentifier<any>>}
-   * 
+   *
    * @description A set of resolving instances
    */
   private static resolving: Set<ServiceIdentifier<any>> = new Set();
@@ -131,28 +131,6 @@ export class MetaRoute {
    */
   static getAllInstances(): object[] {
     return Array.from(this.instances.values());
-  }
-
-  /**
-   * @function getAllByScope
-   *
-   * @param {Scope} scope
-   * @returns {T[]}
-   *
-   * @description Gets all instances from the container by scope
-   */
-  static getAllByScope<T>(scope: Scope): T[] {
-    const instances = MetaRoute.instances.values();
-
-    const filteredInstances = Array.from(instances).filter((instance) => {
-      const metadata = Reflect.getMetadata(
-        INJECTABLE_METADATA_KEY,
-        instance.constructor
-      );
-      return metadata && metadata.scope === scope;
-    });
-
-    return filteredInstances;
   }
 
   /**

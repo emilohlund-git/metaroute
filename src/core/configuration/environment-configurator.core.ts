@@ -8,7 +8,7 @@ import { Initializable } from "./interfaces/initializable.interface";
 import { Injectable } from "../common/decorators/injectable.decorator";
 import { Scope } from "../common/enums/scope.enum";
 
-@Injectable({ scope: Scope.CONFIGURATOR })
+@Injectable({ scope: Scope.SINGLETON })
 export class EnvironmentConfigurator implements Initializable {
   constructor(private readonly logger: ConsoleLogger) {
     this.logger.setContext(EnvironmentConfigurator.name);
@@ -48,12 +48,11 @@ export class EnvironmentConfigurator implements Initializable {
 
       try {
         const lines = envFile.split("\n");
-        for (let i = 0; i < lines.length; i++) {
-          // Skip comments
-          if (lines[i].startsWith("#")) {
+        for (const element of lines) {
+          if (element.startsWith("#")) {
             continue;
           }
-          const [key, value] = lines[i]
+          const [key, value] = element
             .split("=")
             .map((str) => str.trim().replace(/"/g, ""));
           if (key && value) {
