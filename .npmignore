@@ -10,3 +10,6 @@ key.pem
 docker-compose.yml
 commitlint.config.js
 docs/
+.env.*
+.env
+src/

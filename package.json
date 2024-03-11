@@ -78,5 +78,16 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm test"
     }
+  },
+  "exports": {
+    "./api": "./dist/api/index.js",
+    "./auth": "./dist/auth/index.js",
+    "./cache": "./dist/cache/index.js",
+    "./common": "./dist/common/index.js",
+    "./configuration": "./dist/configuration/index.js",
+    "./email": "./dist/email/index.js",
+    "./engine": "./dist/engine/index.js",
+    "./memory": "./dist/memory/index.js",
+    "./validation": "./dist/validation/index.js"
   }
 }
