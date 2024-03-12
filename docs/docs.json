@@ -121,6 +121,21 @@
       }
     ]
   },
+  "Examples": {
+    "title": "Examples",
+    "content": "This section is for inspiration and can be used to show a real-world and can be used to show a real-world example of how to use the MetaRoute API framework.",
+    "url": "/docs/Examples",
+    "subtitles": [
+      {
+        "title": "Minimum Setup",
+        "url": "/pages/Examples#minimum-setup"
+      },
+      {
+        "title": "WebHooks",
+        "url": "/pages/Examples#webhooks"
+      }
+    ]
+  },
   "LoggingService": {
     "title": "Logging Service",
     "content": "The Logging Service in MetaRoute provides a built-in logging mechanism to log messages and events within your application. It allows you to record important information, errors, and warnings for debugging and monitoring purposes.",
@@ -204,6 +219,10 @@
       {
         "title": "About MetaRoute",
         "url": "/pages/Welcome#about-metaroute"
+      },
+      {
+        "title": "Why use MetaRoute?",
+        "url": "/pages/Welcome#why-use-metaroute"
       },
       {
         "title": "Key Features",

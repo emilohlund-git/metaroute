@@ -26,10 +26,10 @@ export default function Navbar({ versions, setActiveTab }: Props) {
   }
 
   return (
-    <div className="navbar bg-gradient-to-r from-primary-content to-neutral-800 text-base-300 fixed z-20 px-6">
+    <div className="navbar bg-gradient-to-r from-base-100 to-base-200 text-base-300 fixed z-20 px-6">
       <div className="navbar-start">
         <div className="flex-1 flex items-center gap-x-2">
-          <label className="swap swap-rotate text-lg">
+          <label className="swap swap-rotate text-lg text-base-content">
             <input type="checkbox" onChange={toggleDrawer} />
             <span className="swap-off">
               <RxCross2 />
@@ -40,7 +40,7 @@ export default function Navbar({ versions, setActiveTab }: Props) {
           </label>
           <span
             onClick={() => router.push('/')}
-            className="btn btn-ghost cursor-default text-xl font-extrabold items-center"
+            className="btn btn-ghost cursor-default text-xl text-base-content font-extrabold items-center"
           >
             <img className="w-5" src="/favicon-32x32.png" alt="" />
             MetaRoute
@@ -54,7 +54,7 @@ export default function Navbar({ versions, setActiveTab }: Props) {
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">
-        <button className="btn btn-ghost btn-circle">
+        <button className="btn btn-ghost btn-circle text-base-content">
           <Link
             href="https://github.com/emilohlund-git/metaroute"
             target="_blank"
