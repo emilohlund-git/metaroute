@@ -56,10 +56,10 @@ const environmentStore = new EnvironmentStore();
 const configService = new ConfigService(environmentStore);
 
 const apiUrl = configService.get('API_URL');
-const port = configService.get<number>('PORT');
-const isProduction = configService.get<boolean>('IS_PRODUCTION');
-const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGINS');
-const startDate = configService.get<Date>('START_DATE');`}
+const port = configService.getNumber('PORT', 3000); // Default value 3000
+const isProduction = configService.getBoolean('IS_PRODUCTION');
+const allowedOrigins = configService.getArray('ALLOWED_ORIGINS');
+const startDate = configService.getDate('START_DATE');`}
         </DocsCode>
         <DocsPageParagraph>
           You can then use the retrieved configuration settings throughout your

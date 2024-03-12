@@ -1,35 +1,36 @@
-"use client";
+'use client'
 
-import { SyntheticEvent } from "react";
+import { SyntheticEvent } from 'react'
 
 type Props = {
-  href: string;
-  children: React.ReactNode;
-  id: string;
-};
+  href: string
+  children: React.ReactNode
+  id: string
+}
 
 export default function SmoothScrollLink({ href, children, id }: Props) {
-  const [path, hash] = href.split("#");
+  const [path, hash] = href.split('#')
 
   const handleClick = (event: SyntheticEvent) => {
+    console.log(window.location.pathname, path)
     if (
-      window.location.pathname.replaceAll("/", "") === path.replaceAll("/", "")
+      window.location.pathname.replaceAll('/', '') === path.replaceAll('/', '')
     ) {
-      event.preventDefault();
+      event.preventDefault()
 
-      const target = document.getElementById(hash);
+      const target = document.getElementById(hash)
       if (target) {
         window.scrollTo({
           top: target.offsetTop - 100, // adjust the offset here
-          behavior: "smooth",
-        });
+          behavior: 'smooth'
+        })
 
-        history?.pushState(null, "", href);
+        history?.pushState(null, '', href)
       }
     } else {
-      localStorage.setItem("scrollTo", hash);
+      localStorage.setItem('scrollTo', hash)
     }
-  };
+  }
 
   return (
     <>
@@ -44,5 +45,5 @@ export default function SmoothScrollLink({ href, children, id }: Props) {
         {children}
       </a>
     </>
-  );
+  )
 }

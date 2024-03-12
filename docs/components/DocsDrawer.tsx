@@ -1,43 +1,43 @@
-"use client";
+'use client'
 
-import { ReactNode, lazy, useEffect, useRef, useState } from "react";
-import Sidebar from "./Sidebar";
-import { useDrawer } from "@/context/DrawerProvider";
-import { DocsFooter } from "./DocsFooter";
-import Navbar from "./Navbar";
+import { ReactNode, lazy, useEffect, useRef, useState } from 'react'
+import Sidebar from './Sidebar'
+import { useDrawer } from '@/context/DrawerProvider'
+import { DocsFooter } from './DocsFooter'
+import Navbar from './Navbar'
+import { DocsActivePageMenu } from '@/components/DocsActivePageMenu'
 
 type Props = {
-  children: ReactNode;
-  frameworkVersions: any[];
-};
+  children: ReactNode
+  frameworkVersions: any[]
+}
 
 const dynamicImportDocPage = (pageName: string) => {
-  return lazy(() => import(`../components/pages/${pageName}`));
-};
+  return lazy(() => import(`../components/pages/${pageName}`))
+}
 
-const WelcomePage = dynamicImportDocPage("Welcome");
+const WelcomePage = dynamicImportDocPage('Welcome')
 
 export default function DocsDrawer({ children, frameworkVersions }: Props) {
-  const [activeTab, setActiveTab] = useState("Welcome");
-  const [ActivePage, setActivePage] = useState(() => WelcomePage);
-  const { isDrawerOpen, setDrawerOpen } = useDrawer();
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState('Welcome')
+  const [ActivePage, setActivePage] = useState(() => WelcomePage)
+  const { isDrawerOpen, setDrawerOpen } = useDrawer()
+  const sidebarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Dynamically import the active tab's component
     const loadActivePage = async () => {
-      const ImportedPage = dynamicImportDocPage(activeTab);
-      setActivePage(() => ImportedPage);
-    };
+      const ImportedPage = dynamicImportDocPage(activeTab)
+      setActivePage(() => ImportedPage)
+    }
 
-    loadActivePage();
-  }, [activeTab]);
+    loadActivePage()
+  }, [activeTab])
 
   return (
     <>
       <Navbar setActiveTab={setActiveTab} versions={frameworkVersions} />
       <div
-        className={`drawer bg-base-200 ${isDrawerOpen ? "drawer-open" : ""}`}
+        className={`drawer bg-base-200 ${isDrawerOpen ? 'drawer-open' : ''}`}
       >
         <input
           id="sidebar-drawer"
@@ -49,6 +49,7 @@ export default function DocsDrawer({ children, frameworkVersions }: Props) {
         <div className="drawer-content w-full bg-base-200 flex flex-col items-center">
           <div role="tablist" className="flex h-full overflow-hidden mt-16">
             <ActivePage />
+            <DocsActivePageMenu activeTab={activeTab} />
           </div>
           <DocsFooter />
         </div>
@@ -59,5 +60,5 @@ export default function DocsDrawer({ children, frameworkVersions }: Props) {
         </div>
       </div>
     </>
-  );
+  )
 }
