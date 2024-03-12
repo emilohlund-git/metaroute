@@ -1,6 +1,8 @@
+import { MetaRoute } from "@core/common";
 import {
   AppConfiguration,
   EnvironmentConfigurator,
+  ImportHandler,
   MetaRouteCore,
   ServerConfigurator,
 } from "@core/configuration";
@@ -32,5 +34,31 @@ describe("MetaRouteCore", () => {
     verify(serverConfigurator.setup(instance(appConfiguration))).once();
 
     await metaRouteCore.setup(instance(appConfiguration));
+  });
+
+  it("should call setup on ImportHandler if it is in the initializers", async () => {
+    const mockImportHandler = { setup: jest.fn() };
+    jest.spyOn(MetaRoute, "resolve").mockReturnValue(mockImportHandler);
+
+    const appConfigurationWithImportHandler: AppConfiguration = {
+      initializers: [{ name: ImportHandler.name } as any],
+    };
+
+    await metaRouteCore.setup(appConfigurationWithImportHandler);
+
+    expect(mockImportHandler.setup).toHaveBeenCalled();
+  });
+
+  it("should call setup on other configurators if they are in the initializers", async () => {
+    const mockConfigurator = { setup: jest.fn() };
+    jest.spyOn(MetaRoute, "resolve").mockReturnValue(mockConfigurator);
+
+    const appConfigurationWithOtherConfigurator: AppConfiguration = {
+      initializers: [{ name: "OtherConfigurator" } as any],
+    };
+
+    await metaRouteCore.setup(appConfigurationWithOtherConfigurator);
+
+    expect(mockConfigurator.setup).toHaveBeenCalled();
   });
 });

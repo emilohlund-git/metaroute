@@ -2,7 +2,7 @@ import { EventRouter, MetaRouteSocketServer } from "@core/api";
 import { MetaRouteServer } from "@core/api/server/basic-http-server.core";
 import { MetaRouteRouter } from "@core/api/server/routing/basic-http.router.core";
 import { ControllerHandler } from "@core/api/server/routing/controller-handler.core";
-import { ConsoleLogger } from "@core/common";
+import { ConsoleLogger, MetaRoute } from "@core/common";
 import { ConfigService } from "@core/common/services/config.service";
 import { AppConfiguration, ServerConfigurator } from "@core/configuration";
 import { mock } from "ts-mockito";
@@ -62,5 +62,78 @@ describe("ServerConfigurator", () => {
     expect(spyRegisterMiddlewares).toHaveBeenCalledTimes(2);
     expect(spyRegisterRoutes).toHaveBeenCalled();
     expect(spyStartServer).toHaveBeenCalled();
+  });
+
+  it("should register routes correctly", async () => {
+    const spyRegisterStrategy = jest.spyOn(
+      serverConfigurator,
+      "registerStrategy" as any
+    );
+    spyRegisterStrategy.mockImplementation(() => Promise.resolve());
+
+    await (serverConfigurator as any).registerRoutes();
+
+    expect(spyRegisterStrategy).toHaveBeenCalledTimes(3);
+  });
+
+  it("should register strategy correctly", async () => {
+    const mockInstance = { constructor: {} };
+    const mockAction = jest.fn().mockResolvedValue(undefined);
+    const mockMetadataKey = Symbol("test");
+
+    jest.spyOn(MetaRoute, "getAllInstances").mockReturnValue([mockInstance]);
+    Reflect.defineMetadata(mockMetadataKey, true, mockInstance.constructor);
+
+    await (serverConfigurator as any).registerStrategy(
+      mockMetadataKey,
+      mockAction
+    );
+
+    expect(mockAction).toHaveBeenCalledWith(mockInstance);
+  });
+
+  it("should start server correctly", () => {
+    const mockPort = 3000;
+    const mockConfig: AppConfiguration = {
+      errorMiddleware: [],
+      middleware: [],
+      port: mockPort,
+    };
+
+    jest.spyOn(configService, "getInteger").mockReturnValue(mockPort);
+    jest
+      .spyOn(server, "listen")
+      .mockImplementation((port, config, callback) => {
+        callback();
+      });
+    const warnSpy = jest.spyOn(logger, "warn");
+    const successSpy = jest.spyOn(logger, "success");
+
+    (serverConfigurator as any).startServer(mockConfig);
+
+    expect(configService.getInteger).toHaveBeenCalledWith("PORT");
+    expect(server.listen).toHaveBeenCalledWith(
+      mockPort,
+      mockConfig,
+      expect.any(Function)
+    );
+    expect(warnSpy).not.toHaveBeenCalled();
+    expect(successSpy).toHaveBeenCalledWith(
+      `[HTTP] - 🚀 Server running on port ${mockPort}`
+    );
+  });
+
+  it("should register middlewares correctly", () => {
+    const mockMiddleware = jest.fn();
+    const mockErrorMiddleware = jest.fn();
+    const mockMiddlewares = [mockMiddleware, mockErrorMiddleware];
+
+    jest.spyOn(server, "use");
+
+    (serverConfigurator as any).registerMiddlewares(mockMiddlewares);
+
+    expect(server.use).toHaveBeenCalledTimes(mockMiddlewares.length);
+    expect(server.use).toHaveBeenNthCalledWith(1, mockMiddleware);
+    expect(server.use).toHaveBeenNthCalledWith(2, mockErrorMiddleware);
   });
 });
