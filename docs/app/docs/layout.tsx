@@ -1,44 +1,43 @@
-import "../globals.css";
-import Navbar from "@/components/Navbar";
-import DocsDrawer from "@/components/DocsDrawer";
-import { DrawerProvider } from "@/context/DrawerProvider";
-import { Metadata } from "next";
+import '../globals.css'
+import DocsDrawer from '@/components/DocsDrawer'
+import { DrawerProvider } from '@/context/DrawerProvider'
+import { Metadata } from 'next'
 
 async function getFrameworkVersions(): Promise<
   {
-    name: string;
-    url: string;
+    name: string
+    url: string
   }[]
 > {
   const response = await fetch(
-    "https://api.github.com/repos/emilohlund-git/metaroute/tags"
-  );
-  const data = await response.json();
+    'https://api.github.com/repos/emilohlund-git/metaroute/tags'
+  )
+  const data = await response.json()
   const versions = data.map(
     (tag: { name: string; commit: { url: string } }) => ({
       name: tag.name,
-      url: `https://github.com/emilohlund-git/metaroute/releases/tag/${tag.name}`,
+      url: `https://github.com/emilohlund-git/metaroute/releases/tag/${tag.name}`
     })
-  );
+  )
 
-  return versions;
+  return versions
 }
 
 export const metadata: Metadata = {
-  title: "MetaRoute - API Documentation",
-  description: "API framework",
-  manifest: "/site.webmanifest",
-};
+  title: 'MetaRoute - API Documentation',
+  description: 'API framework',
+  manifest: '/site.webmanifest'
+}
 
 export default async function DrawerLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  const frameworkVersions = await getFrameworkVersions();
+  const frameworkVersions = await getFrameworkVersions()
   return (
     <html lang="en">
-      <body>
+      <body className="font-mono">
         <DrawerProvider>
           <DocsDrawer frameworkVersions={frameworkVersions}>
             {children}
@@ -46,5 +45,5 @@ export default async function DrawerLayout({
         </DrawerProvider>
       </body>
     </html>
-  );
+  )
 }

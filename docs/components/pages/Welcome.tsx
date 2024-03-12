@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import DocsCode from "@/components/DocsCode";
-import DocsCodeSnippet from "@/components/DocsCodeSnippet";
-import DocsContainer from "@/components/DocsContainer";
-import DocsHeader from "@/components/DocsHeader";
-import DocsList from "@/components/DocsList";
-import { DocsPageParagraph } from "@/components/DocsPageParagraph";
-import { DocsPageTitle } from "@/components/DocsPageTitle";
-import DocsSection from "@/components/DocsSection";
-import ScrollToAnchor from "@/components/ScrollToAnchor";
-import React from "react";
+import DocsCode from '@/components/DocsCode'
+import DocsCodeSnippet from '@/components/DocsCodeSnippet'
+import DocsContainer from '@/components/DocsContainer'
+import DocsHeader from '@/components/DocsHeader'
+import DocsList from '@/components/DocsList'
+import { DocsPageParagraph } from '@/components/DocsPageParagraph'
+import { DocsPageTitle } from '@/components/DocsPageTitle'
+import DocsSection from '@/components/DocsSection'
+import ScrollToAnchor from '@/components/ScrollToAnchor'
+import React from 'react'
 
 export default function Docs() {
   return (
     <DocsContainer>
       <ScrollToAnchor />
       <DocsSection id="welcome">
-        <DocsPageTitle title="Welcome" />
+        <DocsPageTitle emoji={'👋'} title="Welcome" />
         <DocsPageParagraph color="text-neutral-400" italic>
           This documentation is designed to be comprehensive and user-friendly,
           guiding you through every step of using MetaRoute. Whether you&apos;re
@@ -32,8 +32,23 @@ export default function Docs() {
           MetaRoute is a passion project aimed at simplifying API development.
           It&apos;s a lightweight, fully-featured API framework that leverages
           decorators for a clean and intuitive coding experience. Built with
-          minimalism in mind, MetaRoute requires only one dependency:
-          reflect-metadata for TypeScript metadata reflection.
+          minimalism in mind, MetaRoute requires only one dependency{' '}
+          <DocsCodeSnippet snippet="reflect-metadata" /> for TypeScript metadata
+          reflection.
+        </DocsPageParagraph>
+      </DocsSection>
+
+      <DocsSection id="why-metaroute">
+        <DocsHeader text="Why use MetaRoute?" level={2} />
+        <DocsPageParagraph>
+          Who is this Framework for? MetaRoute is designed for developers who
+          are looking for a simple, yet powerful API framework that is easy to
+          use. The framework is ideal for fast prototyping and MVP development,
+          as well as for building production-ready applications. The whole idea
+          behind MetaRoute is to provide a minimalistic, yet fully-featured API
+          framework that allows developers to focus on building their
+          applications, rather than spending time on boilerplate code and
+          complex configurations.
         </DocsPageParagraph>
       </DocsSection>
 
@@ -41,13 +56,13 @@ export default function Docs() {
         <DocsHeader text="Key Features" />
         <DocsList
           items={[
-            "Minimalistic design with nearly zero dependencies",
-            "Support for real-time applications with a custom WebSocket implementation",
-            "Easy-to-use decorator-based configuration",
-            "Built-in support for both HTTP and HTTPS servers",
-            "Flexible middleware integration",
-            "Customizable error handling",
-            "Simple, yet powerful routing",
+            '⭐ Minimalistic design with nearly zero dependencies',
+            '⭐ Support for real-time applications with a custom WebSocket implementation',
+            '⭐ Easy-to-use decorator-based configuration',
+            '⭐ Built-in support for both HTTP and HTTPS servers',
+            '⭐ Flexible middleware integration',
+            '⭐ Customizable error handling',
+            '⭐ Simple, yet powerful routing'
           ]}
         />
       </DocsSection>
@@ -61,8 +76,8 @@ export default function Docs() {
         <DocsPageParagraph>Or, if you&apos;re using Yarn:</DocsPageParagraph>
         <DocsCode language="bash">yarn add metaroute-ts</DocsCode>
         <DocsPageParagraph>
-          Start building your API by decorating a class with the{" "}
-          <DocsCodeSnippet snippet="@App" /> decorator and extending the{" "}
+          Start building your API by decorating a class with the{' '}
+          <DocsCodeSnippet snippet="@App" /> decorator and extending the{' '}
           <DocsCodeSnippet snippet="Application" /> class.
         </DocsPageParagraph>
         <DocsCode>
@@ -75,7 +90,7 @@ export class MetaApp extends Application {}`}
         <DocsHeader text="App Configuration" />
         <DocsPageParagraph>
           Configure your MetaRoute application by providing an object that
-          implements the <DocsCodeSnippet snippet="AppConfiguration" />{" "}
+          implements the <DocsCodeSnippet snippet="AppConfiguration" />{' '}
           interface. This object can contain the following properties:
         </DocsPageParagraph>
 
@@ -99,12 +114,13 @@ export class MetaApp extends Application {}`}
       <DocsSection id="contributing">
         <DocsHeader text="Contributing" />
         <DocsPageParagraph color="text-neutral-400" italic>
-          MetaRoute is an open-source project, and contributions are warmly
-          welcomed. If you have suggestions, bug reports, or contributions,
-          please feel free to open an issue or pull request on our GitHub
-          repository. Your input helps make MetaRoute better for everyone.
+          MetaRoute is an open-source project, and built with collaboration in
+          mind. We welcome contributions from the community, and encourage you
+          to get involved. If you&apos;d like to contribute to the project,
+          check out our CONTRIBUTING.md file for more information. Or just open
+          a pull request on GitHub!
         </DocsPageParagraph>
       </DocsSection>
     </DocsContainer>
-  );
+  )
 }

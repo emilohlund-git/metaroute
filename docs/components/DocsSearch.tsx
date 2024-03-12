@@ -1,79 +1,79 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect, useRef } from "react";
-import docs from "../docs.json";
+import React, { useState, useEffect, useRef } from 'react'
+import docs from '../docs.json'
 
 type Doc = {
-  title: string;
-  content: string;
-  url: string;
-  subtitles: { title: string; url: string }[];
-};
+  title: string
+  content: string
+  url: string
+  subtitles: { title: string; url: string }[]
+}
 
 type Docs = {
-  [key: string]: Doc;
-};
+  [key: string]: Doc
+}
 
 function searchDoc(docs: Docs, query: string) {
-  let results: Doc[] = [];
+  let results: Doc[] = []
 
   if (query.trim().length >= 3) {
-    const lowerCaseQuery = query.toLowerCase();
+    const lowerCaseQuery = query.toLowerCase()
 
     for (let docKey in docs) {
-      let doc = docs[docKey];
+      let doc = docs[docKey]
       let isMatch =
         doc.title.toLowerCase().includes(lowerCaseQuery) ||
-        doc.content.toLowerCase().includes(lowerCaseQuery);
+        doc.content.toLowerCase().includes(lowerCaseQuery)
 
       // Check subtitles for matches
       if (doc.subtitles) {
         for (let subtitle of doc.subtitles) {
           if (subtitle.title.toLowerCase().includes(lowerCaseQuery)) {
-            isMatch = true;
-            break;
+            isMatch = true
+            break
           }
         }
       }
 
       if (isMatch) {
-        results.push(doc);
+        results.push(doc)
       }
     }
   }
 
-  return results;
+  return results
 }
 
 function DocItem({
   doc,
   setActiveTab,
   setIsOpen,
-  level = 0,
+  level = 0
 }: {
-  doc: Doc;
+  doc: Doc
   setActiveTab: {
-    (id: string): void;
-  };
+    (id: string): void
+  }
   setIsOpen: {
-    (isOpen: boolean): void;
-  };
-  level?: number;
+    (isOpen: boolean): void
+  }
+  level?: number
 }) {
   return (
     <div
       key={doc.url}
       className={`rounded-l-lg px-4 py-2 text-base-content my-2 ${
-        level > 0 ? "border-l-4 border-base-300 pl-4" : ""
+        level > 0 ? 'border-l-4 border-base-300 pl-4' : ''
       }`}
     >
       <div className="hover:bg-base-300 curosr-p p-4 rounded-2xl transition-all">
         <div
           className="cursor-pointer"
-          id={doc.title.replace(/ /g, "-").toLowerCase()}
+          id={doc.title.replace(/ /g, '-').toLowerCase()}
           onClick={() => {
-            setActiveTab(doc.title.replace(/ /g, ""));
-            setIsOpen(false);
+            setActiveTab(doc.title.replace(/ /g, ''))
+            setIsOpen(false)
           }}
         >
           <h2 className="font-bold">{doc.title}</h2>
@@ -81,53 +81,53 @@ function DocItem({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function DocsSearch({
-  setActiveTab,
+  setActiveTab
 }: {
-  setActiveTab: (id: string) => void;
+  setActiveTab: (id: string) => void
 }) {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Doc[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 3;
-  const searchRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<Doc[]>([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const resultsPerPage = 3
+  const searchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (event.target && event.target instanceof Node) {
         if (searchRef.current && !searchRef.current.contains(event.target)) {
-          setIsOpen(false);
+          setIsOpen(false)
         }
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [searchRef]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [searchRef])
 
   useEffect(() => {
-    const results = searchDoc(docs, query);
+    const results = searchDoc(docs, query)
     if (results) {
-      const start = (currentPage - 1) * resultsPerPage;
-      const end = start + resultsPerPage;
-      setResults(results.slice(start, end));
+      const start = (currentPage - 1) * resultsPerPage
+      const end = start + resultsPerPage
+      setResults(results.slice(start, end))
     }
-  }, [query, currentPage]);
+  }, [query, currentPage])
 
-  const totalPages = Math.ceil(searchDoc(docs, query).length / resultsPerPage);
+  const totalPages = Math.ceil(searchDoc(docs, query).length / resultsPerPage)
 
   const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
+    setCurrentPage(page)
+  }
 
   return (
-    <div ref={searchRef}>
+    <div className="text-base-content" ref={searchRef}>
       <label className="input input-bordered outline-none ring-0 bg-transparent flex items-center gap-2">
         <input
           type="text"
@@ -135,11 +135,11 @@ export function DocsSearch({
           placeholder="Search"
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
+            setQuery(e.target.value)
             if (e.target.value.length >= 3) {
-              setIsOpen(true);
+              setIsOpen(true)
             } else {
-              setIsOpen(false);
+              setIsOpen(false)
             }
           }}
         />
@@ -162,7 +162,11 @@ export function DocsSearch({
             <>
               {results.map((doc, index) => (
                 <React.Fragment key={index}>
-                  <DocItem setIsOpen={setIsOpen} setActiveTab={setActiveTab} doc={doc} />
+                  <DocItem
+                    setIsOpen={setIsOpen}
+                    setActiveTab={setActiveTab}
+                    doc={doc}
+                  />
                   {index < results.length - 1 && (
                     <div className="divider opacity-50 px-4"></div>
                   )}
@@ -173,7 +177,7 @@ export function DocsSearch({
                   <button
                     key={i}
                     className={`join-item btn ${
-                      currentPage === i + 1 ? "btn-active" : ""
+                      currentPage === i + 1 ? 'btn-active' : ''
                     }`}
                     onClick={() => goToPage(i + 1)}
                   >
@@ -188,5 +192,5 @@ export function DocsSearch({
         </div>
       )}
     </div>
-  );
+  )
 }

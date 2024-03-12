@@ -1,18 +1,18 @@
 type Props = {
   versions: {
-    name: string;
-    url: string;
-  }[];
-};
+    name: string
+    url: string
+  }[]
+}
 
 export default function DocsVersionDropdown({ versions }: Props) {
-  const filteredVersions = versions.filter(version => {
-    const [major, minor, patch] = version.name.split('.');
-    return patch === '0';
-  });
-  
+  const filteredVersions = versions.filter((version) => {
+    const [major, minor, patch] = version.name.split('.')
+    return patch === '0'
+  })
+
   return (
-    <div className="dropdown">
+    <div className="dropdown text-base-content">
       <div
         tabIndex={1}
         className="badge badge-outline cursor-pointer select-none"
@@ -33,8 +33,8 @@ export default function DocsVersionDropdown({ versions }: Props) {
                 </a>
               </li>
             ))
-          : "No other versions available"}
+          : 'No other versions available'}
       </ul>
     </div>
-  );
+  )
 }
