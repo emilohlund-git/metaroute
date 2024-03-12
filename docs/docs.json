@@ -54,7 +54,7 @@
   },
   "DataValidation": {
     "title": "Data Validation",
-    "content": "The Data Validation feature in MetaRoute allows you to validate incoming data against predefined rules and constraints. It ensures that the data meets the required criteria before processing it further in your application.",
+    "content": "Data Validation within MetaRoute ensures that incoming data adheres to predefined rules and constraints, safeguarding your application from incorrect or harmful data. This feature facilitates the verification of data integrity before it's processed further, enhancing security and data quality.",
     "url": "/docs/DataValidation",
     "subtitles": [
       {
@@ -64,6 +64,14 @@
       {
         "title": "Usage",
         "url": "/pages/DataValidation#usage"
+      },
+      {
+        "title": "Creating Custom Validation Decorators",
+        "url": "/pages/DataValidation#creating-custom-validation-decorators"
+      },
+      {
+        "title": "Validation Error Messages",
+        "url": "/pages/DataValidation#validation-error-messages"
       }
     ]
   },
@@ -91,22 +99,6 @@
       {
         "title": "Resolving a Class",
         "url": "/pages/DependencyInjection#resolving-a-class"
-      },
-      {
-        "title": "Advanced Usage",
-        "url": "/pages/DependencyInjection#advanced-usage"
-      },
-      {
-        "title": "Custom Initializers",
-        "url": "/pages/DependencyInjection#custom-initializers"
-      },
-      {
-        "title": "Handling Circular Dependencies",
-        "url": "/pages/DependencyInjection#handling-circular-dependencies"
-      },
-      {
-        "title": "Clearing the Container",
-        "url": "/pages/DependencyInjection#clearing-the-container"
       },
       {
         "title": "Conclusion",
