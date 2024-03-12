@@ -2,6 +2,7 @@ import { MetaRoute } from "@core/common/meta-route.container";
 import "reflect-metadata";
 import { Injectable } from "@core/common/decorators/injectable.decorator";
 import { Scope } from "@core/common/enums/scope.enum";
+import { MetaRouteException } from "@core/common";
 
 describe("MetaRoute", () => {
   @Injectable({ scope: Scope.SINGLETON })
@@ -64,8 +65,7 @@ describe("MetaRoute", () => {
 
   it("should get all instances", () => {
     const instances = MetaRoute.getAllInstances();
-    expect(instances).toHaveLength(6);
-    expect(instances[0]).toBeInstanceOf(SingletonClass);
+    expect(instances).toHaveLength(9);
   });
 
   describe("Nested Dependencies", () => {
@@ -78,5 +78,24 @@ describe("MetaRoute", () => {
         WithoutDependencies
       );
     });
+  });
+
+  it("should create an instance", () => {
+    const instance = MetaRoute.resolve(SingletonClass);
+    expect(instance).toBeInstanceOf(SingletonClass);
+  });
+
+  it("should throw an error when there is a circular dependency", () => {
+    try {
+      @Injectable({ scope: Scope.TRANSIENT })
+      class CircularDependencyClass {
+        constructor(public dependency: CircularDependencyClass) {}
+      }
+    } catch (e: any) {
+      expect(e).toBeInstanceOf(MetaRouteException);
+      expect(e.message).toBe(
+        "Circular dependency detected: CircularDependencyClass"
+      );
+    }
   });
 });

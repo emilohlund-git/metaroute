@@ -1,4 +1,8 @@
-import { ConfigService, EnvironmentStore } from "@core/common";
+import {
+  ConfigService,
+  EnvironmentStore,
+  EnvironmentVariableException,
+} from "@core/common";
 import { instance, mock, verify, when } from "ts-mockito";
 
 describe("ConfigService", () => {
@@ -74,5 +78,44 @@ describe("ConfigService", () => {
 
     expect(result).toEqual(value);
     verify(environmentStore.get(key)).once();
+  });
+
+  it("should return the string value when the key exists", () => {
+    const key = "testKey";
+    const value = "testValue";
+    when(environmentStore.get(key)).thenReturn(value);
+
+    const result = configService.getString(key);
+
+    expect(result).toEqual(value);
+    verify(environmentStore.get(key)).once();
+  });
+
+  it("should return the default value when the key does not exist", () => {
+    const key = "testKey";
+    const defaultValue = "defaultValue";
+    when(environmentStore.get(key)).thenReturn(undefined);
+
+    const result = configService.get(key, defaultValue);
+
+    expect(result).toEqual(defaultValue);
+    verify(environmentStore.get(key)).once();
+  });
+
+  it("should throw an exception when the key does not exist and no default value is provided", () => {
+    const key = "testKey";
+    when(environmentStore.get(key)).thenReturn(undefined);
+
+    expect(() => configService.get(key)).toThrow(EnvironmentVariableException);
+    verify(environmentStore.get(key)).once();
+  });
+
+  it("should set the value of a key", () => {
+    const key = "testKey";
+    const value = "testValue";
+
+    configService.set(key, value);
+
+    verify(environmentStore.set(key, value)).once();
   });
 });
